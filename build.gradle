@@ -1,14 +1,40 @@
 apply plugin: 'java'
 
-ext.junitVersion = '4.12'
 ext.commonsLang3Version = '3.4'
-ext.springVersion = '4.2.5.RELEASE'
+
+//test
+ext.junitVersion = '4.12'
+
+//spring
+ext.springBootVersion = '2.0.1.RELEASE'
+ext.springFoxVersion = '2.9.2'
+
+//Logging
+ext.slf4jVersion = "1.7.32"
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'eclipse'
 
     repositories {
         mavenCentral()
+    }
+}
+
+buildscript {
+    ext {
+        springBootGradlePluginVersion = '2.0.1.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootGradlePluginVersion"
     }
 }

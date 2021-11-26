@@ -1,9 +1,18 @@
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
 dependencies {
     compile project (':eatsyAppService:eatsyAppService-domain')
 
     compile "org.apache.commons:commons-lang3:$commonsLang3Version"
 
-    compile "org.springframework:spring-context:$springVersion"
+    //Spring
+    compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
+    compile "io.springfox:springfox-swagger2:$springFoxVersion"
+
+    //logging
+    compile "org.slf4j:slf4j-api:$slf4jVersion"
 
     // Test dependencies
     testCompile "junit:junit:$junitVersion"
