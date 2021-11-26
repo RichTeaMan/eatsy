@@ -1,0 +1,10 @@
+dependencies {
+    compile project (':eatsyAppService:eatsyAppService-domain')
+
+    compile "org.apache.commons:commons-lang3:$commonsLang3Version"
+
+    compile "org.springframework:spring-context:$springVersion"
+
+    // Test dependencies
+    testCompile "junit:junit:$junitVersion"
+}

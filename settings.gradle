@@ -1,0 +1,3 @@
+include 'eatsyAppService'
+include 'eatsyAppService:eatsyAppService-domain'
+include 'eatsyAppService:eatsyAppService-controller'

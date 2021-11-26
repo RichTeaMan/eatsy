@@ -1,0 +1,14 @@
+apply plugin: 'java'
+
+ext.junitVersion = '4.12'
+ext.commonsLang3Version = '3.4'
+ext.springVersion = '4.2.5.RELEASE'
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+
+    repositories {
+        mavenCentral()
+    }
+}
