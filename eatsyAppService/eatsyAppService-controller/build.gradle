@@ -9,9 +9,8 @@ dependencies {
     //Spring boot
     implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     implementation "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
-    //Spring swagger
-    implementation "io.springfox:springfox-swagger2:$springFoxVersion"
-    implementation "io.springfox:springfox-swagger-ui:$springFoxVersion"
+    //Spring swagger spec and ui
+    implementation "io.springfox:springfox-boot-starter:$springFoxVersion"
 
     //logging
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
