@@ -6,10 +6,12 @@ dependencies {
 
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
 
-    //Spring
+    //Spring boot
     implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     implementation "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
+    //Spring swagger
     implementation "io.springfox:springfox-swagger2:$springFoxVersion"
+    implementation "io.springfox:springfox-swagger-ui:$springFoxVersion"
 
     //logging
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
