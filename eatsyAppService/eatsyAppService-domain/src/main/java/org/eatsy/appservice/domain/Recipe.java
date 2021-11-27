@@ -13,7 +13,7 @@ public final class Recipe {
     //Recipe name.
     private final String name;
 
-    public Recipe(String name){
+    public Recipe(String name) {
         this.name = name;
     }
 

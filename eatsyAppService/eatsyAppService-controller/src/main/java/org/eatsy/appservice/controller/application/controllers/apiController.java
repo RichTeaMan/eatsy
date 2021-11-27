@@ -30,11 +30,9 @@ public class apiController {
     @RequestMapping(value = "/add", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public Recipe addRecipe(final String recipeName) {
-//        logger.trace("A TRACE Message");
-//        logger.debug("A DEBUG Message");
-        logger.info("An INFO Message. newRecipe " + recipeName);
-//        logger.warn("A WARN Message");
-//        logger.error("An ERROR Message");
+
+        logger.debug("A new recipe has been created called " + recipeName);
+
         Recipe newRecipe = new Recipe(recipeName);
         return newRecipe;
     }

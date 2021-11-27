@@ -2,7 +2,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 dependencies {
-    implementation project (':eatsyAppService:eatsyAppService-domain')
+    implementation project(':eatsyAppService:eatsyAppService-domain')
 
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
 
@@ -13,6 +13,7 @@ dependencies {
 
     //logging
     implementation "org.slf4j:slf4j-api:$slf4jVersion"
+    implementation "ch.qos.logback:logback-classic:$logbackVersion"
 
     // Test dependencies
     testImplementation "junit:junit:$junitVersion"
