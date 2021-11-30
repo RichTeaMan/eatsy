@@ -1,12 +1,12 @@
 package org.eatsy.appservice.controller.application;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.VendorExtension;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -14,11 +14,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 
 /**
- * Swagger configuration
+ * Swagger and Spring dependency injection configuration
+ * Define base packages for Spring DI bean configuration
  */
 @EnableSwagger2
 @Configuration
-public class SpringFoxConfig {
+@ComponentScan(basePackages = {"org.eatsy.appservice"})
+public class SpringConfig {
 
     @Bean
     public Docket api() {

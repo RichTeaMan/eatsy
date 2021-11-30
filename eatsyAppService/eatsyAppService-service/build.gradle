@@ -1,0 +1,11 @@
+dependencies {
+    implementation project(':eatsyAppService:eatsyAppService-domain')
+
+    //logging
+    implementation "org.slf4j:slf4j-api:$slf4jVersion"
+    implementation "ch.qos.logback:logback-classic:$logbackVersion"
+
+    //dependency injection
+    implementation "org.springframework:spring-context:$springContextVersion"
+    
+}

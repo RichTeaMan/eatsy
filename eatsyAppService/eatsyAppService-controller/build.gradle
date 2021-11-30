@@ -3,12 +3,14 @@ apply plugin: 'io.spring.dependency-management'
 
 dependencies {
     implementation project(':eatsyAppService:eatsyAppService-domain')
+    implementation project(':eatsyAppService:eatsyAppService-service')
 
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
 
     //Spring boot
     implementation "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
     implementation "org.springframework.boot:spring-boot-starter-actuator:$springBootVersion"
+
     //Spring swagger spec and ui
     implementation "io.springfox:springfox-boot-starter:$springFoxVersion"
 

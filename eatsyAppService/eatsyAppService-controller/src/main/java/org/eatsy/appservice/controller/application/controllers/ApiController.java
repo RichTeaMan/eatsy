@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.eatsy.appservice.domain.Recipe;
+import org.eatsy.appservice.service.RecipeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -13,32 +14,42 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 /**
  * API Controller. All handling methods on this controller are relative to the /api path.
  */
 @RestController
 @RequestMapping("/api")
 @EnableAutoConfiguration
-public class apiController {
+public class ApiController {
 
-    private static final Logger logger = LoggerFactory.getLogger(apiController.class);
+    //logger
+    private static final Logger logger = LoggerFactory.getLogger(ApiController.class);
+
+    //Interface for recipe operations
+    private RecipeFactory recipeFactoryHandler;
+
+    //Inject the dependency of the recipeFactory implementation into the api controller during instantiation.
+    public ApiController(RecipeFactory recipeFactoryHandler) {
+        this.recipeFactoryHandler = recipeFactoryHandler;
+    }
 
 
     /**
-     * TODO This is a test method to validate the spring boot service runs.
+     * "Returns a new recipe with the information provided in the request"
      *
      * @param recipeName The name of the recipe the user is adding.
      * @return the recipe object that has been created.
      */
     @ApiOperation("Returns a new recipe with the information provided in the request")
-    @ApiResponses({ @ApiResponse(code = 200, message = "Successfully created new recipe.") })
+    @ApiResponses({@ApiResponse(code = 200, message = "Successfully created new recipe.")})
     @RequestMapping(value = "/add", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public Recipe addRecipe(@ApiParam("The recipe name.") final String recipeName) {
 
-        logger.debug("A new recipe has been created called " + recipeName);
+        logger.debug("A new request has been made to create a recipe called " + recipeName);
 
-        Recipe newRecipe = new Recipe(recipeName);
+        Recipe newRecipe = recipeFactoryHandler.createRecipe(recipeName);
         return newRecipe;
     }
 
