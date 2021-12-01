@@ -48,12 +48,9 @@ public class ApiController {
     public Recipe addRecipe(@ApiParam("The recipe name.") final String recipeName) {
 
         logger.debug("A new request has been made to create a recipe called " + recipeName);
-        logger.info("A new request has been made to create a recipe called " + recipeName);
-        logger.warn("A new request has been made to create a recipe called " + recipeName);
-        logger.error("A new request has been made to create a recipe called " + recipeName);
-        logger.fatal("A new request has been made to create a recipe called " + recipeName);
 
         Recipe newRecipe = recipeFactoryHandler.createRecipe(recipeName);
+        //TODO make the API return a model rather than the domain object
         return newRecipe;
     }
 

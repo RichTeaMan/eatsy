@@ -25,10 +25,6 @@ public class RecipeFactoryHandler implements RecipeFactory {
     public Recipe createRecipe(String recipeName) {
 
         logger.debug("Creating a new recipe called " + recipeName);
-        logger.info("Creating a new recipe called " + recipeName);
-        logger.warn("Creating a new recipe called " + recipeName);
-        logger.error("Creating a new recipe called " + recipeName);
-        logger.fatal("Creating a new recipe called " + recipeName);
 
         Recipe recipe = new Recipe(recipeName);
         return recipe;
