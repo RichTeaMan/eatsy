@@ -1,8 +1,8 @@
 package org.eatsy.appservice.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.Recipe;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class RecipeFactoryHandler implements RecipeFactory {
 
     //logger
-    private static final Logger logger = LoggerFactory.getLogger(RecipeFactoryHandler.class);
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Creates a new recipe object
@@ -25,6 +25,10 @@ public class RecipeFactoryHandler implements RecipeFactory {
     public Recipe createRecipe(String recipeName) {
 
         logger.debug("Creating a new recipe called " + recipeName);
+        logger.info("Creating a new recipe called " + recipeName);
+        logger.warn("Creating a new recipe called " + recipeName);
+        logger.error("Creating a new recipe called " + recipeName);
+        logger.fatal("Creating a new recipe called " + recipeName);
 
         Recipe recipe = new Recipe(recipeName);
         return recipe;

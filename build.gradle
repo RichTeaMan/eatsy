@@ -13,8 +13,8 @@ ext.springFoxVersion = '3.0.0'
 ext.springContextVersion = '5.3.13'
 
 //Logging
-ext.slf4jVersion = "1.7.32"
-ext.logbackVersion = "1.2.7"
+ext.log4jCoreVersion = '2.14.1'
+ext.log4jApiVersion = '2.14.1'
 
 allprojects {
     repositories {

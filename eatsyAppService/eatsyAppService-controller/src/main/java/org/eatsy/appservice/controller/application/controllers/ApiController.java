@@ -4,10 +4,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.service.RecipeFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ApiController {
 
     //logger
-    private static final Logger logger = LoggerFactory.getLogger(ApiController.class);
+    private static final Logger logger = LogManager.getLogger(ApiController.class);
 
     //Interface for recipe operations
     private RecipeFactory recipeFactoryHandler;
@@ -48,6 +48,10 @@ public class ApiController {
     public Recipe addRecipe(@ApiParam("The recipe name.") final String recipeName) {
 
         logger.debug("A new request has been made to create a recipe called " + recipeName);
+        logger.info("A new request has been made to create a recipe called " + recipeName);
+        logger.warn("A new request has been made to create a recipe called " + recipeName);
+        logger.error("A new request has been made to create a recipe called " + recipeName);
+        logger.fatal("A new request has been made to create a recipe called " + recipeName);
 
         Recipe newRecipe = recipeFactoryHandler.createRecipe(recipeName);
         return newRecipe;
