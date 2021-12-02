@@ -6,13 +6,12 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.eatsy.appservice.domain.Recipe;
+import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.service.RecipeFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -38,20 +37,21 @@ public class ApiController {
     /**
      * "Returns a new recipe with the information provided in the request"
      *
-     * @param recipeName The name of the recipe the user is adding.
-     * @return the recipe object that has been created.
+     * @param recipeModel The recipe the user is adding.
+     * @return the recipe model object that has been created.
      */
     @ApiOperation("Returns a new recipe with the information provided in the request")
     @ApiResponses({@ApiResponse(code = 200, message = "Successfully created new recipe.")})
-    @RequestMapping(value = "/add", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ResponseBody
-    public Recipe addRecipe(@ApiParam("The recipe name.") final String recipeName) {
+    public ResponseEntity<RecipeModel> addRecipe(
+            @ApiParam("The recipe to be created.") @RequestBody final RecipeModel recipeModel) {
 
-        logger.debug("A new request has been made to create a recipe called " + recipeName);
+        logger.debug("A new request has been made to create a recipe called " + recipeModel.getName());
+        RecipeModel newRecipeModel = recipeFactoryHandler.createRecipe(recipeModel);
 
-        Recipe newRecipe = recipeFactoryHandler.createRecipe(recipeName);
-        //TODO make the API return a model rather than the domain object
-        return newRecipe;
+        final ResponseEntity<RecipeModel> response = new ResponseEntity<RecipeModel>(newRecipeModel, HttpStatus.OK);
+        return response;
     }
 
 

@@ -1,5 +1,7 @@
-package org.eatsy.appservice.domain;
+package org.eatsy.appservice.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -8,49 +10,53 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * The domain object for a Recipe to hold its information such as method, ingredients and name.
+ * Model for the recipe object
  */
-public final class Recipe {
+@ApiModel(description = "Stores and transports recipe data")
+public class RecipeModel {
 
-    //Recipe name.
-    private final String name;
+    @ApiModelProperty("Recipe name.")
+    private String name;
 
-    //The list of ingredients for the recipe
+    @ApiModelProperty("The list of ingredients for the recipe.")
     private Set<String> ingredientSet;
 
-    //The method for creating the recipe from the ingredients
+    @ApiModelProperty("The method for creating the recipe from the ingredients.")
     private Map<Integer, String> method;
 
-    //Constructor
-    public Recipe(String name, Set<String> ingredientSet, Map<Integer, String> method) {
-        this.name = name;
-        this.ingredientSet = ingredientSet;
-        this.method = method;
-    }
-
-    //Getters
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Set<String> getIngredientSet() {
         return ingredientSet;
     }
 
+    public void setIngredientSet(Set<String> ingredientSet) {
+        this.ingredientSet = ingredientSet;
+    }
+
     public Map<Integer, String> getMethod() {
         return method;
     }
 
-    //Equals, HashCode toString methods
+    public void setMethod(Map<Integer, String> method) {
+        this.method = method;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
 
         if (o == null || getClass() != o.getClass()) return false;
 
-        Recipe recipe = (Recipe) o;
+        RecipeModel that = (RecipeModel) o;
 
-        return new EqualsBuilder().append(name, recipe.name).append(ingredientSet, recipe.ingredientSet).append(method, recipe.method).isEquals();
+        return new EqualsBuilder().append(name, that.name).append(ingredientSet, that.ingredientSet).append(method, that.method).isEquals();
     }
 
     @Override

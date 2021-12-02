@@ -3,31 +3,40 @@ package org.eatsy.appservice.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.Recipe;
-import org.springframework.stereotype.Service;
+import org.eatsy.appservice.model.RecipeModel;
+import org.eatsy.appservice.model.mappers.RecipeMapper;
+import org.springframework.stereotype.Component;
 
 /**
  * Recipe Factory implementation
- * Tagged with @Service for dependency injection
+ * Tagged with @Component for dependency injection
  */
-@Service
+@Component
 public class RecipeFactoryHandler implements RecipeFactory {
 
     //logger
     private static final Logger logger = LogManager.getLogger();
 
+    private RecipeMapper recipeMapperHandler;
+
+    //Inject the dependency of the recipeMapper implementation into the RecipeFactoryHandler during instantiation.
+    public RecipeFactoryHandler(RecipeMapper recipeMapperHandler) {
+        this.recipeMapperHandler = recipeMapperHandler;
+    }
+
     /**
-     * Creates a new recipe object
+     * Creates a new recipe model object
      *
-     * @param recipeName the name of the recipe being created
-     * @return the new recipe object that has been created
+     * @param recipeModel the recipe model that will be used to create a recipe domain object
+     * @return a recipe model object containing the data from the newly created recipe domain object
      */
     @Override
-    public Recipe createRecipe(String recipeName) {
+    public RecipeModel createRecipe(RecipeModel recipeModel) {
 
-        logger.debug("Creating a new recipe called " + recipeName);
+        logger.debug("Creating a new recipe domain object called " + recipeModel.getName());
 
-        Recipe recipe = new Recipe(recipeName);
-        return recipe;
-
+        Recipe recipe = new Recipe(recipeModel.getName(), recipeModel.getIngredientSet(), recipeModel.getMethod());
+        RecipeModel newRecipeModel = recipeMapperHandler.mapToModel(recipe);
+        return newRecipeModel;
     }
 }

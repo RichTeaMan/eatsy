@@ -1,6 +1,7 @@
 package org.eatsy.appservice.service;
 
-import org.eatsy.appservice.domain.Recipe;
+
+import org.eatsy.appservice.model.RecipeModel;
 
 /**
  * Interface for interacting with recipes
@@ -8,11 +9,11 @@ import org.eatsy.appservice.domain.Recipe;
 public interface RecipeFactory {
 
     /**
-     * Creates a new recipe object
+     * Creates a new recipe model object
      *
-     * @param recipeName the name of the recipe being created
-     * @return the new recipe object that has been created
+     * @param recipeModel the recipe model that will be used to create a recipe domain object
+     * @return a recipe model object containing the data from the newly created recipe domain object
      */
-    Recipe createRecipe(String recipeName);
+    RecipeModel createRecipe(RecipeModel recipeModel);
 
 }

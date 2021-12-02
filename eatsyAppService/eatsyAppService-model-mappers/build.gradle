@@ -1,13 +1,9 @@
 dependencies {
+
     implementation project(':eatsyAppService:eatsyAppService-model')
-    implementation project(':eatsyAppService:eatsyAppService-model-mappers')
     implementation project(':eatsyAppService:eatsyAppService-domain')
 
     //dependency injection
     implementation "org.springframework:spring-context:$springContextVersion"
-
-    //logging
-    implementation "org.apache.logging.log4j:log4j-core:$log4jCoreVersion"
-    implementation "org.apache.logging.log4j:log4j-api:$log4jApiVersion"
 
 }
