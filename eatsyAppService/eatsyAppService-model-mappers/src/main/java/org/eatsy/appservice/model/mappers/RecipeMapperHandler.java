@@ -1,5 +1,7 @@
 package org.eatsy.appservice.model.mappers;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,8 @@ import java.util.HashSet;
 @Component
 public class RecipeMapperHandler implements RecipeMapper {
 
+    private static final Logger logger = LogManager.getLogger(RecipeMapperHandler.class);
+
     /**
      * Map the recipe domain object to a recipe model object.
      *
@@ -21,6 +25,8 @@ public class RecipeMapperHandler implements RecipeMapper {
      */
     @Override
     public RecipeModel mapToModel(Recipe recipe) {
+
+        logger.debug("Mapping domain object " + recipe.getName() + " to a recipeModel object");
 
         RecipeModel recipeModel = new RecipeModel();
 
