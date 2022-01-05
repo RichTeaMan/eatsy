@@ -6,7 +6,7 @@ ext.commonsLang3Version = '3.12.0'
 ext.junitVersion = '4.13.2'
 
 //spring
-ext.springBootVersion = '2.6.2'
+ext.springBootVersion = '2.5.8'
 ext.springFoxVersion = '3.0.0'
 
 //Spring/Dependency Injection
@@ -32,7 +32,7 @@ subprojects {
 
 buildscript {
     ext {
-        springBootGradlePluginVersion = '2.6.2'
+        springBootGradlePluginVersion = '2.5.8'
     }
     repositories {
         mavenCentral()
