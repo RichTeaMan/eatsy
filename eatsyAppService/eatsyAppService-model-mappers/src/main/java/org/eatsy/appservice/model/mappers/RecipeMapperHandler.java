@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 /**
  * Recipe Mapper Handler to map between recipe domain and model objects.
@@ -26,28 +27,33 @@ public class RecipeMapperHandler implements RecipeMapper {
     @Override
     public RecipeModel mapToModel(Recipe recipe) {
 
-        logger.debug("Mapping domain object " + recipe.getName() + " to a recipeModel object");
+        RecipeModel recipeModel = null;
 
-        RecipeModel recipeModel = new RecipeModel();
+        if (null != recipe) {
 
-        //Map name.
-        recipeModel.setName(recipe.getName());
+            logger.debug("Mapping domain object " + recipe.getName() + " to a recipeModel object");
 
-        //Map set of ingredients.
-        recipeModel.setIngredientSet(new HashSet<>());
-        for (final String ingredient : recipe.getIngredientSet()) {
+            recipeModel = new RecipeModel();
 
-            recipeModel.getIngredientSet().add(ingredient);
+            //Map name.
+            recipeModel.setName(recipe.getName());
+
+            //Map set of ingredients.
+            recipeModel.setIngredientSet(new HashSet<>());
+            for (final String ingredient : recipe.getIngredientSet()) {
+
+                recipeModel.getIngredientSet().add(ingredient);
+
+            }
+
+            //Map method.
+            recipeModel.setMethod(new HashMap<>());
+
+            for (Map.Entry<Integer, String> entry : recipe.getMethod().entrySet()) {
+                recipeModel.getMethod().put(entry.getKey(), entry.getValue());
+            }
 
         }
-
-        //Map method.
-        recipeModel.setMethod(new HashMap<>());
-        recipe.getMethod().forEach((k, v) ->
-                recipeModel.getMethod().put(k, v)
-        );
-
-
         return recipeModel;
 
     }
