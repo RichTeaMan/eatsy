@@ -25,6 +25,4 @@ dependencies {
     //Spring swagger spec and ui
     implementation "io.springfox:springfox-boot-starter:$springFoxVersion"
 
-    // Test dependencies
-    testImplementation "junit:junit:$junitVersion"
 }
