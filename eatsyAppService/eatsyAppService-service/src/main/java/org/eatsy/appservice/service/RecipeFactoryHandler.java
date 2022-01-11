@@ -1,5 +1,6 @@
 package org.eatsy.appservice.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.Recipe;
@@ -33,10 +34,16 @@ public class RecipeFactoryHandler implements RecipeFactory {
     @Override
     public RecipeModel createRecipe(RecipeModel recipeModel) {
 
-        logger.debug("Creating a new recipe domain object called " + recipeModel.getName());
+        RecipeModel newRecipeModel = null;
 
-        Recipe recipe = new Recipe(recipeModel.getName(), recipeModel.getIngredientSet(), recipeModel.getMethod());
-        RecipeModel newRecipeModel = recipeMapperHandler.mapToModel(recipe);
+        //The recipeModel to create a Recipe object must not be null and the recipeModel must have a recipeName.
+        if (null != recipeModel && StringUtils.isNotEmpty(recipeModel.getName().trim())) {
+
+            logger.debug("Creating a new recipe domain object called " + recipeModel.getName());
+
+            Recipe recipe = new Recipe(recipeModel.getName(), recipeModel.getIngredientSet(), recipeModel.getMethod());
+            newRecipeModel = recipeMapperHandler.mapToModel(recipe);
+        }
         return newRecipeModel;
     }
 }

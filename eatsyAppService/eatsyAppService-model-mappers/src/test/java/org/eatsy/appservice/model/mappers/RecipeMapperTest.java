@@ -26,7 +26,9 @@ public class RecipeMapperTest {
         recipeMapper = new RecipeMapperHandler();
     }
 
-
+    /**
+     * This test checks the Recipe object is correctly mapped to a Recipe Model object.
+     */
     @Test
     public void checkMapToModel() {
         //Setup
@@ -54,6 +56,10 @@ public class RecipeMapperTest {
 
     }
 
+    /**
+     * Check the Recipe Mapper gracefully deals with null being
+     * passed to the service.
+     */
     @Test
     public void checkMapToModelWithNull() {
 
@@ -68,6 +74,9 @@ public class RecipeMapperTest {
 
     }
 
+    /**
+     * Check the Recipe Mapper can map a Recipe with an empty ingredient set.
+     */
     @Test
     public void checkMapToModelWithEmptyIngredientList() {
 
@@ -92,6 +101,9 @@ public class RecipeMapperTest {
 
     }
 
+    /**
+     * Check the Recipe Mapper can map a Recipe with an empty method.
+     */
     @Test
     public void checkMapToModelWithEmptyMethod() {
 
@@ -118,6 +130,9 @@ public class RecipeMapperTest {
 
     }
 
+    /**
+     * Check the Recipe Mapper cannot map a recipe with an empty recipeName.
+     */
     @Test
     public void checkCantMapModelWithEmptyName() {
 
@@ -142,6 +157,5 @@ public class RecipeMapperTest {
         Assert.assertEquals(expectedRecipeModel, actualRecipeModel);
 
     }
-
 
 }
