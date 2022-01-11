@@ -3,6 +3,8 @@ dependencies {
     implementation project(':eatsyAppService:eatsyAppService-model')
     implementation project(':eatsyAppService:eatsyAppService-domain')
 
+    implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
+
     //dependency injection
     implementation "org.springframework:spring-context:$springContextVersion"
 

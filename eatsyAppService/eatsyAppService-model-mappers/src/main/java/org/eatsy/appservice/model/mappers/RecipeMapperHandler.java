@@ -1,5 +1,6 @@
 package org.eatsy.appservice.model.mappers;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.Recipe;
@@ -28,8 +29,8 @@ public class RecipeMapperHandler implements RecipeMapper {
     public RecipeModel mapToModel(Recipe recipe) {
 
         RecipeModel recipeModel = null;
-
-        if (null != recipe) {
+        //The recipe to be mapped must not be null and the recipe must have a name.
+        if (null != recipe && StringUtils.isNotEmpty(recipe.getName().trim())) {
 
             logger.debug("Mapping domain object " + recipe.getName() + " to a recipeModel object");
 
