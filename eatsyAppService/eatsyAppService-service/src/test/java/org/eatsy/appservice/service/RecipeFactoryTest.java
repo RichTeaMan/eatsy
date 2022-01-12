@@ -3,9 +3,10 @@ package org.eatsy.appservice.service;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.model.mappers.RecipeMapperHandler;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +16,8 @@ import java.util.Set;
 /**
  * Recipe Factory unit tests
  */
+//Define lifecycle of tests to be per class rather than per method default. Allows use of @BeforeAll
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RecipeFactoryTest {
 
     /**
@@ -25,7 +28,7 @@ public class RecipeFactoryTest {
     //RecipeFactory dependent on RecipeMapper
     private RecipeMapper recipeMapper;
 
-    @Before
+    @BeforeAll
     public void setup() {
         recipeMapper = new RecipeMapperHandler();
         recipeFactory = new RecipeFactoryHandler(recipeMapper);
@@ -59,7 +62,7 @@ public class RecipeFactoryTest {
         //Test
         RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
         //Assert - check the returned model matches the request model used to create the recipe domain object.
-        Assert.assertEquals(inputRecipeModel, actualRecipeModel);
+        Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
 
     }
 
@@ -77,7 +80,7 @@ public class RecipeFactoryTest {
         final RecipeModel actualRecipeModel = recipeFactory.createRecipe(null);
 
         //Assert
-        Assert.assertEquals(expectedRecipeModel, actualRecipeModel);
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
 
     }
 
@@ -105,7 +108,7 @@ public class RecipeFactoryTest {
         RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
 
         //Assert
-        Assert.assertEquals(inputRecipeModel, actualRecipeModel);
+        Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
     }
 
     /**
@@ -132,7 +135,7 @@ public class RecipeFactoryTest {
         RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
 
         //Assert
-        Assert.assertEquals(inputRecipeModel, actualRecipeModel);
+        Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
 
     }
 
@@ -164,7 +167,7 @@ public class RecipeFactoryTest {
         RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
 
         //Assert
-        Assert.assertEquals(expectedRecipeModel, actualRecipeModel);
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
     }
 
 }

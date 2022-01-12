@@ -3,7 +3,7 @@ apply plugin: 'java'
 ext.commonsLang3Version = '3.12.0'
 
 //test
-ext.junitVersion = '4.13.2'
+ext.junitVersion = '5.8.2'
 
 //spring
 ext.springBootVersion = '2.5.8'
@@ -28,6 +28,14 @@ subprojects {
     repositories {
         mavenCentral()
     }
+
+    test {
+        useJUnitPlatform()
+        testLogging {
+            events "PASSED", "SKIPPED", "FAILED"
+        }
+    }
+
 }
 
 buildscript {

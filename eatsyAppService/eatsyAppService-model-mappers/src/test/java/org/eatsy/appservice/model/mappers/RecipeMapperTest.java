@@ -2,9 +2,10 @@ package org.eatsy.appservice.model.mappers;
 
 import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -14,6 +15,8 @@ import java.util.Set;
 /**
  * Recipe Mapper unit tests
  */
+//Define lifecycle of tests to be per class rather than per method default. Allows use of @BeforeAll
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RecipeMapperTest {
 
     /**
@@ -21,7 +24,7 @@ public class RecipeMapperTest {
      */
     private RecipeMapper recipeMapper;
 
-    @Before
+    @BeforeAll
     public void setup() {
         recipeMapper = new RecipeMapperHandler();
     }
@@ -52,7 +55,7 @@ public class RecipeMapperTest {
         final RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipe);
 
         //Actual
-        Assert.assertEquals(expectedRecipeModel, actualRecipeModel);
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
 
     }
 
@@ -70,7 +73,7 @@ public class RecipeMapperTest {
         final RecipeModel actualRecipeModel = recipeMapper.mapToModel(null);
 
         //Assert
-        Assert.assertEquals(expectedRecipeModel, actualRecipeModel);
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
 
     }
 
@@ -97,7 +100,7 @@ public class RecipeMapperTest {
         RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipe);
 
         //Assert
-        Assert.assertEquals(expectedRecipeModel, actualRecipeModel);
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
 
     }
 
@@ -126,7 +129,7 @@ public class RecipeMapperTest {
         RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipe);
 
         //Assert
-        Assert.assertEquals(expectedRecipeModel, actualRecipeModel);
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
 
     }
 
@@ -154,7 +157,7 @@ public class RecipeMapperTest {
         RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipe);
 
         //Assert
-        Assert.assertEquals(expectedRecipeModel, actualRecipeModel);
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
 
     }
 
