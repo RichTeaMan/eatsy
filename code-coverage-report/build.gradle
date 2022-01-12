@@ -1,0 +1,13 @@
+plugins {
+    id 'myproject.jacoco-aggregation'
+}
+
+dependencies {
+
+    implementation project(':eatsyAppService:eatsyAppService-model')
+    implementation project(':eatsyAppService:eatsyAppService-service')
+    implementation project(':eatsyAppService:eatsyAppService-domain')
+    implementation project(':eatsyAppService:eatsyAppService-controller')
+    implementation project(':eatsyAppService:eatsyAppService-model-mappers')
+
+}
