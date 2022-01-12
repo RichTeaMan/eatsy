@@ -1,3 +1,5 @@
+apply plugin: 'myproject.java-conventions'
+
 dependencies {
     implementation project(':eatsyAppService:eatsyAppService-model')
     implementation project(':eatsyAppService:eatsyAppService-model-mappers')
