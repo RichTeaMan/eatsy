@@ -52,13 +52,8 @@ def codeCoverageReport = tasks.register('codeCoverageReport', JacocoReport) {
     executionData(coverageDataPath.incoming.artifactView { lenient(true) }.files.filter { it.exists() })
 
     reports {
-        // xml is usually used to integrate code coverage with
-        // other tools like SonarQube, Coveralls or Codecov
-        xml.required = true
-
-        // HTML reports can be used to see code coverage
-        // without any external tools
-        html.required = true
+        xml.required = true //Coveralls plugin (and other tools depend on the xml format
+        html.required = true //Human readable
     }
 }
 

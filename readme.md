@@ -2,6 +2,8 @@
 
 A REST API and java service to create, edit and store your favourite recipes.
 
+[![Coverage Status](https://coveralls.io/repos/github/DM1st/eatsy/badge.svg?branch=develop)](https://coveralls.io/github/DM1st/eatsy?branch=develop)
+
 ## Getting started
 
 This Java project uses [The Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
@@ -11,7 +13,7 @@ The below sections provide the necessary information to run the application loca
 The server is run locally as a Sprint Boot application. This can be done from a bash terminal:
 
 ```
-./gradlew build bootrun
+./gradlew clean build bootrun
 ```
 
 Once the server is running navigate to http://localhost:8080/swagger-ui/
@@ -42,7 +44,7 @@ Logs for all Gradle sub-projects write to 'logfile.log' located in the Controlle
 \eatsyAppService\eatsyAppService-controller\logs
 ```
 
-Logging levels for the logfile(e.g. DEBUG) can be changed in log4j2.properties file.
+Logging levels for the logfile can be changed in log4j2.properties file.
 
 ## API Documentation
 
@@ -51,6 +53,9 @@ A JSON Swagger spec can be found at '/v2/api-docs'. Locally this will be 'http:/
 A UI version can be seen using the [Swagger UI page](http://localhost:8080/swagger-ui/).
 
 ## Validation of successful local deployment
+
+This service has unit tests with test coverage displayed on the coverage badge in this ReadMe. However, to test the
+service manually see the below example:
 
 * Once the service is running navigate to the [Swagger UI page](http://localhost:8080/swagger-ui/).
 * Select the 'Api Controller'
