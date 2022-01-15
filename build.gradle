@@ -1,4 +1,6 @@
 apply plugin: 'java'
+apply plugin: 'com.github.kt3k.coveralls'
+apply plugin: 'jacoco'
 
 //Java utilities/helper libraries
 ext.commonsLang3Version = '3.12.0'
@@ -28,6 +30,7 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: 'jacoco' //needed?
 
     repositories {
         mavenCentral()
@@ -48,9 +51,53 @@ buildscript {
     }
     repositories {
         mavenCentral()
+        gradlePluginPortal()
     }
 
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootGradlePluginVersion"
+        classpath "gradle.plugin.org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.12.0"
     }
+}
+
+//JaCoCo and coveralls configuration
+
+def allTestCoverageFile = "$buildDir/jacoco/allTestCoverage.exec"
+def devProjects = subprojects.findAll { it.path != 'test' } //Exclude test code projects
+
+task jacocoMerge(type: JacocoMerge) {
+    devProjects.each { subproject ->
+        executionData subproject.tasks.withType(Test)
+    }
+    doFirst {
+        executionData = files(executionData.findAll { it.exists() })
+    }
+    destinationFile = file(allTestCoverageFile)
+}
+
+task jacocoRootReport(type: JacocoReport, group: 'Coverage reports') {
+    description = 'Generates an aggregate report from all subprojects'
+    dependsOn devProjects.test, jacocoMerge
+
+    getAdditionalSourceDirs().setFrom(files(devProjects.sourceSets.main.allSource.srcDirs))
+    getSourceDirectories().setFrom(files(devProjects.sourceSets.main.allSource.srcDirs))
+    getClassDirectories().setFrom(files(devProjects.sourceSets.main.output))
+    executionData jacocoMerge.destinationFile
+
+    reports {
+        html.enabled = true // human readable
+        xml.enabled = true // required by coveralls
+    }
+}
+
+coveralls {
+    sourceDirs = devProjects.sourceSets.main.allSource.srcDirs.flatten()
+    jacocoReportPath = "${buildDir}/reports/jacoco/jacocoRootReport/jacocoRootReport.xml"
+}
+
+tasks.coveralls {
+    group = 'Coverage reports'
+    description = 'Uploads the aggregated coverage report to Coveralls'
+
+    dependsOn jacocoRootReport
 }

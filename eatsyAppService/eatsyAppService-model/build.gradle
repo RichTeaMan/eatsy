@@ -1,7 +1,6 @@
-apply plugin: 'myproject.java-conventions'
-
 dependencies {
 
+    //Java utilities/helper libraries
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
 
     //Spring swagger spec and ui

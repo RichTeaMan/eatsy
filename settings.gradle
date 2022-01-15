@@ -1,3 +1,4 @@
+//Umbrella pject
 include 'eatsyAppService'
 //Code sub-projects
 include 'eatsyAppService:eatsyAppService-domain'
@@ -5,6 +6,3 @@ include 'eatsyAppService:eatsyAppService-controller'
 include 'eatsyAppService:eatsyAppService-service'
 include 'eatsyAppService:eatsyAppService-model'
 include 'eatsyAppService:eatsyAppService-model-mappers'
-
-//Reporting utility projects
-include 'code-coverage-report'
