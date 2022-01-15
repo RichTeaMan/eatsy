@@ -14,6 +14,16 @@ jobs:
     steps:
       - checkout
 
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - gradle-{{ checksum "build.gradle" }}
+ 
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: gradle-{{ checksum "build.gradle" }}
+
       - run:
           name: Run tests
           #Give gradlew execution permissions (chmod=+x) via git for this to work
