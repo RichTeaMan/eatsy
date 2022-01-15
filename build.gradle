@@ -61,7 +61,6 @@ buildscript {
 }
 
 //JaCoCo and coveralls configuration
-
 def allTestCoverageFile = "$buildDir/jacoco/allTestCoverage.exec"
 def devProjects = subprojects.findAll { it.path != 'test' } //Exclude test code projects
 

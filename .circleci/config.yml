@@ -10,7 +10,6 @@ jobs:
       branches:
         only: # list of branches to build
           - develop
-    environment:
 
     steps:
       - checkout
