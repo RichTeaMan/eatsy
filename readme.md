@@ -2,6 +2,7 @@
 
 A REST API and java service to create, edit and store your favourite recipes.
 
+[![CircleCI](https://circleci.com/gh/DM1st/eatsy/tree/develop.svg?style=shield)](https://circleci.com/gh/DM1st/eatsy/tree/develop)
 [![Coverage Status](https://coveralls.io/repos/github/DM1st/eatsy/badge.svg?branch=develop)](https://coveralls.io/github/DM1st/eatsy?branch=develop)
 
 ## Getting started

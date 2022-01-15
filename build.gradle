@@ -30,7 +30,7 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'jacoco' //needed?
+    apply plugin: 'jacoco'
 
     repositories {
         mavenCentral()
@@ -85,8 +85,8 @@ task jacocoRootReport(type: JacocoReport, group: 'Coverage reports') {
     executionData jacocoMerge.destinationFile
 
     reports {
-        html.enabled = true // human readable
-        xml.enabled = true // required by coveralls
+        html.required = true // human readable
+        xml.required = true // required by coveralls
     }
 }
 
@@ -98,6 +98,5 @@ coveralls {
 tasks.coveralls {
     group = 'Coverage reports'
     description = 'Uploads the aggregated coverage report to Coveralls'
-
     dependsOn jacocoRootReport
 }

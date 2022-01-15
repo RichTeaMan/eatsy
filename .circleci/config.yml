@@ -1,0 +1,21 @@
+version: 2.0
+jobs:
+  build:
+
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/eatsy
+
+    general:
+      branches:
+        only: # list of branches to build
+          - develop
+    environment:
+
+    steps:
+      - checkout
+
+      - run:
+          name: Run tests
+          #Give gradlew execution permissions (chmod=+x) via git for this to work
+          command: ./gradlew coveralls
