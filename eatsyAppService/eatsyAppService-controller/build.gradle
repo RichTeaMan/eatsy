@@ -1,6 +1,5 @@
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
-apply plugin: 'myproject.java-conventions'
 
 //To use Log4J2 in spring boot projects you must exclude the default dependency of the Spring Boot starter on
 // Logback classic and instead include the Spring Boot starter dependency on Lg4J2
@@ -13,6 +12,7 @@ dependencies {
     implementation project(':eatsyAppService:eatsyAppService-model')
     implementation project(':eatsyAppService:eatsyAppService-service')
 
+    //Java utilities/helper libraries
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
 
     //Spring boot  - if using the spring boot starter module with log4j2 in other gradle project then exclude the default logback logging using configurations

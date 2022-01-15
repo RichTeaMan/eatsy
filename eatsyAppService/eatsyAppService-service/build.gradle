@@ -1,10 +1,9 @@
-apply plugin: 'myproject.java-conventions'
-
 dependencies {
     implementation project(':eatsyAppService:eatsyAppService-model')
     implementation project(':eatsyAppService:eatsyAppService-model-mappers')
     implementation project(':eatsyAppService:eatsyAppService-domain')
 
+    //Java utilities/helper libraries
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
 
     //dependency injection
