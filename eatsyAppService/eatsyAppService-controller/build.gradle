@@ -26,4 +26,13 @@ dependencies {
     //Spring swagger spec and ui
     implementation "io.springfox:springfox-boot-starter:$springFoxVersion"
 
+    //Mockito testing
+    testImplementation "org.mockito:mockito-inline:$mockitoversion"
+    testImplementation "org.mockito:mockito-junit-jupiter:$mockitoversion"
+    testImplementation "org.springframework:spring-test:$springTestVersion"
+    testImplementation "org.springframework.boot:spring-boot-test-autoconfigure:$springBootTestAutoConfigure"
+    //(In JUnit 5 the API is separated from the runtime)
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+
 }

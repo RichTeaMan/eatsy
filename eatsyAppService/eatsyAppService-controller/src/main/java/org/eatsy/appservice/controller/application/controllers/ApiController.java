@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * API Controller. All handling methods on this controller are relative to the /api path.
  */
-@RestController
+@RestController //Inform the DispatcherServlet that this class contains request mapping methods.
 @RequestMapping("/api")
 @EnableAutoConfiguration
 public class ApiController {
