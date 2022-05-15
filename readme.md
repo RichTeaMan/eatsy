@@ -49,9 +49,9 @@ Logging levels for the logfile can be changed in log4j2.properties file.
 
 ## API Documentation
 
-A JSON Swagger spec can be found at '/v2/api-docs'. Locally this will be 'http://localhost:8080/v2/api-docs'.
+A JSON Swagger spec can be found at '/v3/api-docs'. Locally this will be 'http://localhost:8080/v3/api-docs'.
 
-A UI version can be seen using the [Swagger UI page](http://localhost:8080/swagger-ui/).
+A UI version can be seen using the [Swagger UI page](http://localhost:8080/swagger-ui.html).
 
 ## Validation of successful local deployment
 
