@@ -29,9 +29,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class ApiControllerTest {
 
+    //mockMvc auto-configured and part of the dependencies directly loaded for this test class
     @Autowired
     MockMvc mockMvc;
 
+    //ObjectMapper auto-configured and part of the dependencies directly loaded for this test class
     @Autowired
     ObjectMapper objectMapper;
 
