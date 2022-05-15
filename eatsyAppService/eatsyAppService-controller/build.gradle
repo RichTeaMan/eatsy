@@ -31,6 +31,8 @@ dependencies {
     testImplementation "org.mockito:mockito-junit-jupiter:$mockitoversion"
     testImplementation "org.springframework:spring-test:$springTestVersion"
     testImplementation "org.springframework.boot:spring-boot-test-autoconfigure:$springBootTestAutoConfigure"
+    testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
+    testImplementation "com.jayway.jsonpath:json-path:$jaywayVersion"
     //(In JUnit 5 the API is separated from the runtime)
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
