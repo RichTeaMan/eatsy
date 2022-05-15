@@ -17,7 +17,7 @@ The server is run locally as a Sprint Boot application. This can be done from a 
 ./gradlew clean build bootrun
 ```
 
-Once the server is running navigate to http://localhost:8080/swagger-ui/
+Once the server is running navigate to http://localhost:8080/swagger-ui.html
 
 ### Please note:
 
