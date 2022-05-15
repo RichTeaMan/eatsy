@@ -1,9 +1,9 @@
 package org.eatsy.appservice.controller.application.controllers;
 
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.model.RecipeModel;
@@ -40,12 +40,12 @@ public class ApiController {
      * @param recipeModel The recipe the user is adding.
      * @return the recipe model object that has been created.
      */
-    @ApiOperation("Returns a new recipe with the information provided in the request")
-    @ApiResponses({@ApiResponse(code = 200, message = "Successfully created new recipe.")})
+    @Operation(description = "Returns a new recipe with the information provided in the request")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully created new recipe.")})
     @RequestMapping(value = "/add", method = {RequestMethod.POST})
     @ResponseBody
     public ResponseEntity<RecipeModel> addRecipe(
-            @ApiParam("The recipe to be created.") @RequestBody final RecipeModel recipeModel) {
+            @Parameter(description = "The recipe to be created.") @RequestBody final RecipeModel recipeModel) {
 
         logger.debug("A new request has been made to create a recipe called " + recipeModel.getName());
         RecipeModel newRecipeModel = recipeFactoryHandler.createRecipe(recipeModel);

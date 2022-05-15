@@ -1,7 +1,6 @@
 package org.eatsy.appservice.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -12,16 +11,16 @@ import java.util.Set;
 /**
  * Model for the recipe object
  */
-@ApiModel(description = "Stores and transports recipe data")
+@Schema(description = "Stores and transports recipe data")
 public class RecipeModel {
 
-    @ApiModelProperty("Recipe name.")
+    @Schema(description = "Recipe name.")
     private String name;
 
-    @ApiModelProperty("The list of ingredients for the recipe.")
+    @Schema(description = "The list of ingredients for the recipe.")
     private Set<String> ingredientSet;
 
-    @ApiModelProperty("The method for creating the recipe from the ingredients.")
+    @Schema(description = "The method for creating the recipe from the ingredients.")
     private Map<Integer, String> method;
 
     public String getName() {
