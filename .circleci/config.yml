@@ -24,6 +24,9 @@ jobs:
             - ~/.gradle
           key: gradle-{{ checksum "build.gradle" }}
 
+      - env:
+          - COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+
       - run:
           name: Run tests
           #Give gradlew execution permissions (chmod=+x) via git for this to work
