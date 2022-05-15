@@ -17,7 +17,7 @@ ext.jaywayVersion = "2.2.0"
 
 //spring
 ext.springBootVersion = '2.6.7'
-ext.springFoxVersion = '3.0.0'
+ext.springDocVersion = '1.6.8'
 ext.springTestVersion = '5.3.20'
 
 //Spring/Dependency Injection
