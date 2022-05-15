@@ -10,6 +10,7 @@ jobs:
       branches:
         only: # list of branches to build
           - develop
+          - mockitoRebirth
 
     steps:
       - checkout
@@ -18,7 +19,7 @@ jobs:
       - restore_cache:
           keys:
             - gradle-{{ checksum "build.gradle" }}
- 
+
       - save_cache:
           paths:
             - ~/.gradle
