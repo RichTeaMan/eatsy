@@ -58,7 +58,7 @@ A UI version can be seen using the [Swagger UI page](http://localhost:8080/swagg
 This service has unit tests with test coverage displayed on the coverage badge in this ReadMe. However, to test the
 service manually see the below example:
 
-* Once the service is running navigate to the [Swagger UI page](http://localhost:8080/swagger-ui/).
+* Once the service is running navigate to the [Swagger UI page](http://localhost:8080/swagger-ui.html).
 * Select the 'Api Controller'
 * Select the 'POST' request for adding a new recipe.
 * Select "Try it out" and enter a request body of your choice as a test. E.g.
