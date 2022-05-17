@@ -56,6 +56,14 @@ public class ApiController {
         return response;
     }
 
+    /**
+     * Retrieves all recipe model objects.
+     * @return The model object that has been created detailing all recipes.
+     */
+    @Operation(description = "Returns all recipes and their associated unique ids that have been created.")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully returned all recipes.")})
+    @RequestMapping(value = "/retrieveAllRecipes", method = {RequestMethod.GET})
+    @ResponseBody
     public Map<String, RecipeModel> retrieveAllRecipes() {
         return recipeFactoryHandler.retrieveAllRecipes();
     }
