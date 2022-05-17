@@ -48,7 +48,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
             Recipe recipe = new Recipe(recipeModel.getName(), recipeModel.getIngredientSet(), recipeModel.getMethod());
             newRecipeModel = recipeMapperHandler.mapToModel(recipe);
-
+            //TODO, swap these two lines around, read better.
             recipeCache.put(recipe.getKey(), recipe);
         }
         return newRecipeModel;
@@ -56,6 +56,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
     /**
      * Retrieves all recipe model objects.
+     *
      * @return The model object that has been created detailing all recipes.
      */
     @Override
@@ -65,7 +66,8 @@ public class RecipeFactoryHandler implements RecipeFactory {
         for (final Recipe currentRecipe : recipeCache.values()) {
             allRecipesModel.put(currentRecipe.getKey(), recipeMapperHandler.mapToModel(currentRecipe));
         }
-        //TODO Map all keys to model object
+        //TODO Map all keys to model object. ^Fix key assignment so it all comes from model
+        //TODO update unit tests
         return allRecipesModel;
 
     }
