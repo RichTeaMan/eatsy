@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 /**
  * The domain object for a Recipe to hold its information such as method, ingredients and name.
@@ -19,6 +20,9 @@ import java.util.Set;
 @EqualsAndHashCode
 public final class Recipe {
 
+    //Unique identifier for recipe object
+    private final String key;
+
     //Recipe name.
     private final String name;
 
@@ -29,10 +33,13 @@ public final class Recipe {
     private final Map<Integer, String> method;
 
     //Constructor
-    public Recipe(String name, Set<String> ingredientSet, Map<Integer, String> method) {
+    public Recipe(final String name, final Set<String> ingredientSet, final Map<Integer, String> method) {
+        this.key = UUID.randomUUID().toString();
         this.name = name;
         this.ingredientSet = ingredientSet;
         this.method = method;
     }
+
+
 
 }
