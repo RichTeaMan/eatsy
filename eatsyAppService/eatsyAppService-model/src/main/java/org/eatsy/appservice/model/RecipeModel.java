@@ -20,6 +20,9 @@ import java.util.Set;
 @Schema(description = "Stores and transports recipe data")
 public class RecipeModel {
 
+    @Schema(description = "unique identifier.")
+    private String key;
+
     @Schema(description = "Recipe name.")
     private String name;
 

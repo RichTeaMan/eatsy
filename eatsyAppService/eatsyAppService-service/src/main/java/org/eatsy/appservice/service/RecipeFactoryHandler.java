@@ -54,6 +54,10 @@ public class RecipeFactoryHandler implements RecipeFactory {
         return newRecipeModel;
     }
 
+    /**
+     * Retrieves all recipe model objects.
+     * @return The model object that has been created detailing all recipes.
+     */
     @Override
     public Map<String, RecipeModel> retrieveAllRecipes() {
 
@@ -61,7 +65,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
         for (final Recipe currentRecipe : recipeCache.values()) {
             allRecipesModel.put(currentRecipe.getKey(), recipeMapperHandler.mapToModel(currentRecipe));
         }
-
+        //TODO Map all keys to model object
         return allRecipesModel;
 
     }
