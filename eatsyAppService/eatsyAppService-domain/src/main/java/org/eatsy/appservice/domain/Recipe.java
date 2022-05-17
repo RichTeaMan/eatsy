@@ -1,8 +1,9 @@
 package org.eatsy.appservice.domain;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Map;
 import java.util.Set;
@@ -10,6 +11,12 @@ import java.util.Set;
 /**
  * The domain object for a Recipe to hold its information such as method, ingredients and name.
  */
+
+//Lombok
+@Getter
+@Setter
+@ToString
+@EqualsAndHashCode
 public final class Recipe {
 
     //Recipe name.
@@ -28,42 +35,4 @@ public final class Recipe {
         this.method = method;
     }
 
-    //Getters
-    public String getName() {
-        return name;
-    }
-
-    public Set<String> getIngredientSet() {
-        return ingredientSet;
-    }
-
-    public Map<Integer, String> getMethod() {
-        return method;
-    }
-
-    //Equals, HashCode toString methods
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Recipe recipe = (Recipe) o;
-
-        return new EqualsBuilder().append(name, recipe.name).append(ingredientSet, recipe.ingredientSet).append(method, recipe.method).isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder(17, 37).append(name).append(ingredientSet).append(method).toHashCode();
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("name", name)
-                .append("ingredientSet", ingredientSet)
-                .append("method", method)
-                .toString();
-    }
 }
