@@ -10,6 +10,10 @@ import java.util.Map;
  */
 public interface RecipeFactory {
 
+    /**
+     * Retrieves all recipe model objects.
+     * @return The model object that has been created detailing all recipes.
+     */
     Map<String, RecipeModel> retrieveAllRecipes();
 
     /**
