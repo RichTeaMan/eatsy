@@ -43,7 +43,7 @@ public class ApiControllerTest {
     RecipeFactory recipeFactoryHandler;
 
     @Test
-    public void checkAddRecipeSuccess() throws Exception {
+    public void checkAddRecipeSuccess() {
 
         //Setup - create a recipeModel object for mocking the RecipeFactory service whilst the /add endpoint
         // (in the REST controller) is under test.
@@ -70,15 +70,24 @@ public class ApiControllerTest {
 
         //Executes some code of the class under test. In this case, build the mock request that will hit the
         // "/add" endpoint and trigger the above chain method.
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/add")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(this.objectMapper.writeValueAsString(recipeModel));
+        MockHttpServletRequestBuilder mockRequest;
+        try {
+            mockRequest = MockMvcRequestBuilders.post("/api/add")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(this.objectMapper.writeValueAsString(recipeModel));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         //Execute the test and assert the response is as expected.
-        mockMvc.perform(mockRequest)
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.ingredientSet").exists());
+        try {
+            mockMvc.perform(mockRequest)
+                    .andExpect(status().isOk())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.ingredientSet").exists());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
