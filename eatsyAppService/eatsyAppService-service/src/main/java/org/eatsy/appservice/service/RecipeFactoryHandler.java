@@ -8,6 +8,9 @@ import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Recipe Factory implementation
  * Tagged with @Component for dependency injection
@@ -17,7 +20,9 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
     //logger
     private static final Logger logger = LogManager.getLogger();
-
+    //Cache of recipes
+    private final Map<String, Recipe> recipeCache = new HashMap<>();
+    //Recipe Mapper implementation
     private RecipeMapper recipeMapperHandler;
 
     //Inject the dependency of the recipeMapper implementation into the RecipeFactoryHandler during instantiation.
@@ -43,7 +48,21 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
             Recipe recipe = new Recipe(recipeModel.getName(), recipeModel.getIngredientSet(), recipeModel.getMethod());
             newRecipeModel = recipeMapperHandler.mapToModel(recipe);
+
+            recipeCache.put(recipe.getKey(), recipe);
         }
         return newRecipeModel;
+    }
+
+    @Override
+    public Map<String, RecipeModel> retrieveAllRecipes() {
+
+        Map<String, RecipeModel> allRecipesModel = new HashMap<>();
+        for (final Recipe currentRecipe : recipeCache.values()) {
+            allRecipesModel.put(currentRecipe.getKey(), recipeMapperHandler.mapToModel(currentRecipe));
+        }
+
+        return allRecipesModel;
+
     }
 }

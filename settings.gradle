@@ -1,4 +1,4 @@
-//Umbrella pject
+//Umbrella project
 include 'eatsyAppService'
 //Code sub-projects
 include 'eatsyAppService:eatsyAppService-domain'
