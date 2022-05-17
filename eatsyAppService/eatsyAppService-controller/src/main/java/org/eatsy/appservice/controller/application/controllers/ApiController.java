@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 
 /**
  * API Controller. All handling methods on this controller are relative to the /api path.
@@ -52,6 +54,10 @@ public class ApiController {
 
         final ResponseEntity<RecipeModel> response = new ResponseEntity<RecipeModel>(newRecipeModel, HttpStatus.OK);
         return response;
+    }
+
+    public Map<String, RecipeModel> retrieveAllRecipes() {
+        return recipeFactoryHandler.retrieveAllRecipes();
     }
 
 

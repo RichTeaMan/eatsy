@@ -3,10 +3,14 @@ package org.eatsy.appservice.service;
 
 import org.eatsy.appservice.model.RecipeModel;
 
+import java.util.Map;
+
 /**
  * Interface for interacting with recipes
  */
 public interface RecipeFactory {
+
+    Map<String, RecipeModel> retrieveAllRecipes();
 
     /**
      * Creates a new recipe model object
