@@ -27,14 +27,10 @@ dependencies {
     implementation "org.springdoc:springdoc-openapi-ui:$springDocVersion"
 
     //Mockito testing
-    testImplementation "org.mockito:mockito-inline:$mockitoversion"
-    testImplementation "org.mockito:mockito-junit-jupiter:$mockitoversion"
-    testImplementation "org.springframework:spring-test:$springTestVersion"
-    testImplementation "org.springframework.boot:spring-boot-test-autoconfigure:$springBootTestAutoConfigure"
-    testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
-    testImplementation "com.jayway.jsonpath:json-path:$jaywayVersion"
+    implementation "net.bytebuddy:byte-buddy:$byteBuddyVersion" //compile dependency for Mockito Core
+    testImplementation "org.springframework.boot:spring-boot-starter-test:$springStarterTestVersion"
+    testImplementation "org.mockito:mockito-core:$mockitoCoreVersion"
     //(In JUnit 5 the API is separated from the runtime)
-    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 
 }
