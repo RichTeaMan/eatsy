@@ -2,6 +2,9 @@ dependencies {
 
     //Java utilities/helper libraries
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
+    // https://projectlombok.org
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
     //Spring swagger spec and ui
     implementation "org.springdoc:springdoc-openapi-ui:$springDocVersion"
