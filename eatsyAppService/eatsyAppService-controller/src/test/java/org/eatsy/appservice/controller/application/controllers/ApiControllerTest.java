@@ -32,15 +32,15 @@ public class ApiControllerTest {
 
     //mockMvc auto-configured and part of the dependencies directly loaded for this test class
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     //ObjectMapper auto-configured and part of the dependencies directly loaded for this test class
     @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper objectMapper;
 
     //Tells Mockito to mock the RecipeFactory instance
     @Mock
-    RecipeFactory recipeFactoryHandler;
+    private RecipeFactory recipeFactoryHandler;
 
     @Test
     public void checkAddRecipeSuccess() {

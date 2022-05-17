@@ -23,10 +23,10 @@ public final class Recipe {
     private final String name;
 
     //The list of ingredients for the recipe
-    private Set<String> ingredientSet;
+    private final Set<String> ingredientSet;
 
     //The method for creating the recipe from the ingredients
-    private Map<Integer, String> method;
+    private final Map<Integer, String> method;
 
     //Constructor
     public Recipe(String name, Set<String> ingredientSet, Map<Integer, String> method) {
