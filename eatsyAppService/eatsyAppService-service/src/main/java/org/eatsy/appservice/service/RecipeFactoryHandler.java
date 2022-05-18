@@ -8,7 +8,9 @@ import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,16 +61,16 @@ public class RecipeFactoryHandler implements RecipeFactory {
     /**
      * Retrieves all recipe model objects.
      *
-     * @return The model object that has been created detailing all recipes.
+     * @return The list of all recipe model objects that exist.
      */
     @Override
-    public Map<String, RecipeModel> retrieveAllRecipes() {
+    public List<RecipeModel> retrieveAllRecipes() {
 
-        Map<String, RecipeModel> allRecipesModel = new HashMap<>();
+        List<RecipeModel> allRecipesModel = new ArrayList();
         for (final Recipe currentRecipe : recipeCache.values()) {
-            allRecipesModel.put(currentRecipe.getKey(), recipeMapperHandler.mapToModel(currentRecipe));
+            allRecipesModel.add(recipeMapperHandler.mapToModel(currentRecipe));
         }
-        //TODO Map all keys to model object. ^Fix key assignment so it all comes from model
+
         //TODO update unit tests
         return allRecipesModel;
 
