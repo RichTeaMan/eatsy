@@ -3,7 +3,7 @@ package org.eatsy.appservice.service;
 
 import org.eatsy.appservice.model.RecipeModel;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * Interface for interacting with recipes
@@ -12,9 +12,9 @@ public interface RecipeFactory {
 
     /**
      * Retrieves all recipe model objects.
-     * @return The model object that has been created detailing all recipes.
+     * @return The list of all recipe model objects that exist.
      */
-    Map<String, RecipeModel> retrieveAllRecipes();
+    List<RecipeModel> retrieveAllRecipes();
 
     /**
      * Creates a new recipe model object
