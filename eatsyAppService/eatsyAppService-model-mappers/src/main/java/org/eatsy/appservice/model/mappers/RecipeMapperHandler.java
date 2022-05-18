@@ -36,6 +36,9 @@ public class RecipeMapperHandler implements RecipeMapper {
 
             recipeModel = new RecipeModel();
 
+            //Map key.
+            recipeModel.setKey(recipe.getKey());
+
             //Map name.
             recipeModel.setName(recipe.getName());
 
