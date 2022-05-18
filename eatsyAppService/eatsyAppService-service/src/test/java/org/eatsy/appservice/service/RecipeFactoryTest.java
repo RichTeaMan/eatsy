@@ -38,7 +38,7 @@ public class RecipeFactoryTest {
      * The RecipeModel being returned from the recipeFactory is formed from
      * the newly created recipe domain object.
      * <p>
-     * This test checks the RecipeModel response hae the same content as the
+     * This test checks the RecipeModel response has the same content as the
      * recipeModel initially requested to the Easty App service.
      */
     @Test
@@ -58,9 +58,12 @@ public class RecipeFactoryTest {
         inputRecipeModel.setName(recipeName);
         inputRecipeModel.setIngredientSet(ingredientSet);
         inputRecipeModel.setMethod(method);
+        //Get the UUID and apply to the actual recipeModel so the test doesn't fail on UUID generation
+        String uniqueID = inputRecipeModel.getKey();
 
         //Test
         RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
+        actualRecipeModel.setKey(uniqueID); //So the unique IDs don't cause a fail
         //Assert - check the returned model matches the request model used to create the recipe domain object.
         Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
 
@@ -103,9 +106,13 @@ public class RecipeFactoryTest {
         inputRecipeModel.setName(recipeName);
         inputRecipeModel.setIngredientSet(ingredientSet);
         inputRecipeModel.setMethod(method);
+        //Get the UUID and apply to the actual recipeModel so the test doesn't fail on UUID generation
+        String uniqueID = inputRecipeModel.getKey();
 
         //Test
         RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
+        actualRecipeModel.setKey(uniqueID); //So the unique IDs don't cause a fail
+        //Assert - check the returned model matches the request model used to create the recipe domain object.
 
         //Assert
         Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
@@ -130,9 +137,13 @@ public class RecipeFactoryTest {
         inputRecipeModel.setName(recipeName);
         inputRecipeModel.setIngredientSet(ingredientSet);
         inputRecipeModel.setMethod(method);
+        //Get the UUID and apply to the actual recipeModel so the test doesn't fail on UUID generation
+        String uniqueID = inputRecipeModel.getKey();
 
         //Test
         RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
+        actualRecipeModel.setKey(uniqueID); //So the unique IDs don't cause a fail
+        //Assert - check the returned model matches the request model used to create the recipe domain object.
 
         //Assert
         Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
