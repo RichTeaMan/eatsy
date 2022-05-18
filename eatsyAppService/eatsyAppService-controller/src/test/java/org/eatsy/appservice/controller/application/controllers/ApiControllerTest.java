@@ -15,10 +15,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -60,14 +57,6 @@ public class ApiControllerTest {
         recipeModel.setIngredientSet(ingredientSet);
         recipeModel.setMethod(method);
 
-        //Configure the mock to return the recipeModel when the createRecipeModel is called.
-        //This chain method mocks the createRecipe() method call in the RecipeFactory, so every time the method is
-        // called within the controller (triggered later in this test), it will return the specified value
-        // in the parameter of the thenReturn() method.
-        // In this case it returns the pre-set recipeModel (defined in this test setup), instead of actually calling
-        // the createRecipe() method in the RecipeFactory service.
-        Mockito.when(recipeFactoryHandler.createRecipe(recipeModel)).thenReturn(recipeModel);
-
         //Executes some code of the class under test. In this case, build the mock request that will hit the
         // "/add" endpoint and trigger the above chain method.
         MockHttpServletRequestBuilder mockRequest;
@@ -79,6 +68,21 @@ public class ApiControllerTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        //When the created recipe is returned it will have a UUID.
+        RecipeModel recipeModelToReturn = new RecipeModel();
+        recipeModelToReturn.setKey(UUID.randomUUID().toString());
+        recipeModelToReturn.setName(recipeName);
+        recipeModelToReturn.setIngredientSet(ingredientSet);
+        recipeModelToReturn.setMethod(method);
+
+        //Configure the mock to return the recipeModel when the createRecipeModel is called.
+        //This chain method mocks the createRecipe() method call in the RecipeFactory, so every time the method is
+        // called within the controller (triggered later in this test), it will return the specified value
+        // in the parameter of the thenReturn() method.
+        // In this case it returns the pre-set recipeModel (defined in this test setup), instead of actually calling
+        // the createRecipe() method in the RecipeFactory service.
+        Mockito.when(recipeFactoryHandler.createRecipe(recipeModel)).thenReturn(recipeModel);
 
         //Execute the test and assert the response is as expected.
         try {
