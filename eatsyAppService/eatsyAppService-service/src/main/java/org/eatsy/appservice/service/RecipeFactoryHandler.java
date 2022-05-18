@@ -25,7 +25,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
     //Cache of recipes
     private final Map<String, Recipe> recipeCache = new HashMap<>();
     //Recipe Mapper implementation
-    private RecipeMapper recipeMapperHandler;
+    private final RecipeMapper recipeMapperHandler;
 
     //Inject the dependency of the recipeMapper implementation into the RecipeFactoryHandler during instantiation.
     public RecipeFactoryHandler(RecipeMapper recipeMapperHandler) {
@@ -71,7 +71,6 @@ public class RecipeFactoryHandler implements RecipeFactory {
             allRecipesModel.add(recipeMapperHandler.mapToModel(currentRecipe));
         }
 
-        //TODO update unit tests
         return allRecipesModel;
 
     }
