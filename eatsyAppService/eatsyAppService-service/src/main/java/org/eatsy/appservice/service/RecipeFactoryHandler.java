@@ -47,9 +47,11 @@ public class RecipeFactoryHandler implements RecipeFactory {
             logger.debug("Creating a new recipe domain object called " + recipeModel.getName());
 
             Recipe recipe = new Recipe(recipeModel.getName(), recipeModel.getIngredientSet(), recipeModel.getMethod());
-            newRecipeModel = recipeMapperHandler.mapToModel(recipe);
-            //TODO, swap these two lines around, read better.
+            //Add the new recipe to the cache of recipes
             recipeCache.put(recipe.getKey(), recipe);
+
+            newRecipeModel = recipeMapperHandler.mapToModel(recipe);
+
         }
         return newRecipeModel;
     }
