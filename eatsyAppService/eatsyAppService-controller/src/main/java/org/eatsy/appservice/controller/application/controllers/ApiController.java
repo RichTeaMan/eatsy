@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
 
 /**
@@ -64,7 +64,7 @@ public class ApiController {
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully returned all recipes.")})
     @RequestMapping(value = "/retrieveAllRecipes", method = {RequestMethod.GET})
     @ResponseBody
-    public Map<String, RecipeModel> retrieveAllRecipes() {
+    public List<RecipeModel> retrieveAllRecipes() {
         return recipeFactoryHandler.retrieveAllRecipes();
     }
 
