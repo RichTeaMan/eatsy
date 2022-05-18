@@ -119,8 +119,12 @@ public class RecipeMapperTest {
         Map<Integer, String> method = new HashMap<>();
         Recipe recipe = new Recipe(recipeName, ingredientSet, method);
 
+        //Get this so that the assertion does not fail for different IDs being generated.
+        String uniqueID = recipe.getKey();
+
         //Expectation
         RecipeModel expectedRecipeModel = new RecipeModel();
+        expectedRecipeModel.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeModel.setName(recipeName);
         expectedRecipeModel.setIngredientSet(ingredientSet);
         expectedRecipeModel.setMethod(method);
