@@ -66,6 +66,8 @@ public class RecipeFactoryHandler implements RecipeFactory {
     @Override
     public List<RecipeModel> retrieveAllRecipes() {
 
+        logger.debug("Retrieving all recipes to return to the controller");
+
         List<RecipeModel> allRecipesModel = new ArrayList();
         for (final Recipe currentRecipe : recipeCache.values()) {
             allRecipesModel.add(recipeMapperHandler.mapToModel(currentRecipe));

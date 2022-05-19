@@ -66,6 +66,8 @@ public class ApiController {
     @RequestMapping(value = "/retrieveAllRecipes", method = {RequestMethod.GET})
     @ResponseBody
     public List<RecipeModel> retrieveAllRecipes() {
+
+        logger.debug("A new request has been made to retrieve all recipes");
         return recipeFactoryHandler.retrieveAllRecipes();
     }
 
