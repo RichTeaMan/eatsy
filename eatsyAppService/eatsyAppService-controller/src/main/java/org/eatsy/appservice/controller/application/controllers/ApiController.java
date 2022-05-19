@@ -58,6 +58,7 @@ public class ApiController {
 
     /**
      * Retrieves all recipe model objects.
+     *
      * @return The model object that has been created detailing all recipes.
      */
     @Operation(description = "Returns all recipes and their associated unique ids that have been created.")
