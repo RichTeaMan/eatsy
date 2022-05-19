@@ -39,6 +39,9 @@ public class ApiControllerTest {
     @Mock
     private RecipeFactory recipeFactoryHandler;
 
+    /**
+     * Test the add recipe endpoint
+     */
     @Test
     public void checkAddRecipeSuccess() {
 
@@ -58,7 +61,7 @@ public class ApiControllerTest {
         recipeModel.setMethod(method);
 
         //Executes some code of the class under test. In this case, build the mock request that will hit the
-        // "/add" endpoint and trigger the above chain method.
+        // "/add" endpoint and trigger the below chain method.
         MockHttpServletRequestBuilder mockRequest;
         try {
             mockRequest = MockMvcRequestBuilders.post("/api/add")
@@ -70,7 +73,7 @@ public class ApiControllerTest {
         }
 
         //When the created recipe is returned it will have a UUID.
-        RecipeModel recipeModelToReturn = new RecipeModel();
+        final RecipeModel recipeModelToReturn = new RecipeModel();
         recipeModelToReturn.setKey(UUID.randomUUID().toString());
         recipeModelToReturn.setName(recipeName);
         recipeModelToReturn.setIngredientSet(ingredientSet);
@@ -93,6 +96,82 @@ public class ApiControllerTest {
             throw new RuntimeException(e);
         }
 
+    }
+
+    /**
+     * Test the retrieve all recipes endpoint
+     */
+    @Test
+    public void checkRetrieveAllRecipesSuccess(){
+
+        //Build the mock request that will hit the "/retrieveAllRecipes" endpoint and trigger the above chain method.
+        MockHttpServletRequestBuilder mockRequest;
+        try {
+            mockRequest = MockMvcRequestBuilders.get("/api/retrieveAllRecipes")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        //Create a list of recipes to return in the mock;
+        List<RecipeModel> allRecipes = createRecipeModelList();
+
+        //Configure the mock to return the recipes when the retrieveAllRecipes is called.
+        Mockito.when(recipeFactoryHandler.retrieveAllRecipes()).thenReturn(allRecipes);
+
+        //Execute the test and assert the response is as expected.
+        try {
+            mockMvc.perform(mockRequest)
+                    .andExpect(status().isOk())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.ingredientSet").exists());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    /**
+     * Creates recipe model list consisting of two recipes.
+     * @return list of all recipe models
+     */
+    private List<RecipeModel> createRecipeModelList() {
+
+        List<RecipeModel> allRecipes = new ArrayList<>();
+
+        //First recipe
+        String recipeName = "rice crispies cereal";
+        Set<String> ingredientSet = new HashSet<>();
+        ingredientSet.add("rice crispies");
+        ingredientSet.add("Milk");
+        Map<Integer, String> method = new HashMap<>();
+        method.put(1, "Put ricpe crispies in bowl");
+        method.put(2, "Add milk");
+        method.put(3, "listen for the snap crackle and pop");
+        final RecipeModel recipeModelOne = new RecipeModel();
+        recipeModelOne.setKey(UUID.randomUUID().toString());
+        recipeModelOne.setName(recipeName);
+        recipeModelOne.setIngredientSet(ingredientSet);
+        recipeModelOne.setMethod(method);
+        allRecipes.add(recipeModelOne);
+
+        //Second recipe
+        String recipeNameTwo = "rice crispies cereal";
+        Set<String> ingredientSetTwo = new HashSet<>();
+        ingredientSet.add("rice crispies");
+        ingredientSet.add("Milk");
+        Map<Integer, String> methodTwo = new HashMap<>();
+        method.put(1, "Put ricpe crispies in bowl");
+        method.put(2, "Add milk");
+        method.put(3, "listen for the snap crackle and pop");
+        final RecipeModel recipeModelTwo = new RecipeModel();
+        recipeModelTwo.setKey(UUID.randomUUID().toString());
+        recipeModelTwo.setName(recipeName);
+        recipeModelTwo.setIngredientSet(ingredientSet);
+        recipeModelTwo.setMethod(method);
+        allRecipes.add(recipeModelTwo);
+
+        return allRecipes;
     }
 
 }
