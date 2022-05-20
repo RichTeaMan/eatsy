@@ -12,6 +12,7 @@ public interface RecipeFactory {
 
     /**
      * Retrieves all recipe model objects.
+     *
      * @return The list of all recipe model objects that exist.
      */
     List<RecipeModel> retrieveAllRecipes();
@@ -24,4 +25,11 @@ public interface RecipeFactory {
      */
     RecipeModel createRecipe(RecipeModel recipeModel);
 
+    /**
+     * Deletes the requested recipeModel
+     *
+     * @param recipeModelToDelete the recipe model that will be deleted from the recipe book
+     * @return the list of existing recipe models that will have been updated to remove recipeModelToDelete
+     */
+    List<RecipeModel> deleteRecipe(RecipeModel recipeModelToDelete);
 }
