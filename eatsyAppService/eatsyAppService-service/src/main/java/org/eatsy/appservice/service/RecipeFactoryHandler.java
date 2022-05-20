@@ -78,4 +78,28 @@ public class RecipeFactoryHandler implements RecipeFactory {
         return allRecipesModel;
 
     }
+
+    /**
+     * Deletes the requested recipeModel
+     *
+     * @param recipeKey of the recipe model that will be deleted from the recipe book
+     * @return the list of existing recipe models that will have been updated to remove recipeModelToDelete
+     */
+    @Override
+    public List<RecipeModel> deleteRecipe(String recipeKey) {
+
+        logger.debug("deleting recipe with key : " + recipeKey);
+
+        //Remove the recipe for deletion from the recipe cache.
+        recipeCache.remove(recipeKey);
+
+        //map the updated recipeCache to a recipeModel list to be returned.
+        List<RecipeModel> allRecipesModel = new ArrayList();
+        recipeCache.forEach((key, value) -> {
+                    allRecipesModel.add(recipeMapperHandler.mapToModel(value));
+                }
+        );
+
+        return allRecipesModel;
+    }
 }
