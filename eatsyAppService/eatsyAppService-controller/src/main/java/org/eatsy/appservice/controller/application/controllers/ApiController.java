@@ -71,5 +71,17 @@ public class ApiController {
         return recipeFactoryHandler.retrieveAllRecipes();
     }
 
+    @Operation(description = "Deletes the submitted recipe and returns the updated list of all recipes")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully deleted chosen recipe.")})
+    @RequestMapping(value = "/deleteRecipe", method = {RequestMethod.DELETE})
+    @ResponseBody
+    public List<RecipeModel> deleteRecipe(RecipeModel recipeModelToDelete) {
+
+        logger.debug("A new request has been made to delete recipe: " + recipeModelToDelete.getName());
+        List<RecipeModel> updatedRecipeList = recipeFactoryHandler.deleteRecipe(recipeModelToDelete);
+        return updatedRecipeList;
+
+    }
+
 
 }
