@@ -9,7 +9,7 @@ import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +24,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
     private static final Logger logger = LogManager.getLogger();
 
     //Cache of recipes
-    private final Map<String, Recipe> recipeCache = new HashMap<>();
+    private final Map<String, Recipe> recipeCache = new LinkedHashMap<>();
 
     //Recipe Mapper implementation
     private final RecipeMapper recipeMapperHandler;

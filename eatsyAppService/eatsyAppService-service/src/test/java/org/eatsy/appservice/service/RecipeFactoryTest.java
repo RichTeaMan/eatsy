@@ -4,7 +4,7 @@ import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.model.mappers.RecipeMapperHandler;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -14,7 +14,7 @@ import java.util.*;
  * Recipe Factory unit tests
  */
 //Define lifecycle of tests to be per class rather than per method default. Allows use of @BeforeAll
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class RecipeFactoryTest {
 
     /**
@@ -25,7 +25,7 @@ public class RecipeFactoryTest {
     //RecipeFactory dependent on RecipeMapper
     private RecipeMapper recipeMapper;
 
-    @BeforeAll
+    @BeforeEach
     public void setup() {
         recipeMapper = new RecipeMapperHandler();
         recipeFactory = new RecipeFactoryHandler(recipeMapper);
