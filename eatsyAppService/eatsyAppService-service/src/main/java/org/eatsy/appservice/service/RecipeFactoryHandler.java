@@ -70,10 +70,8 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
         logger.debug("Retrieving all recipes to return to the controller");
 
-        List<RecipeModel> allRecipesModel = new ArrayList();
-        for (final Recipe currentRecipe : recipeCache.values()) {
-            allRecipesModel.add(recipeMapperHandler.mapToModel(currentRecipe));
-        }
+        //map the updated recipeCache to a recipeModel list to be returned.
+        List<RecipeModel> allRecipesModel = getAllRecipeModels();
 
         return allRecipesModel;
 
@@ -94,12 +92,22 @@ public class RecipeFactoryHandler implements RecipeFactory {
         recipeCache.remove(recipeKey);
 
         //map the updated recipeCache to a recipeModel list to be returned.
+        List<RecipeModel> allRecipesModel = getAllRecipeModels();
+
+        return allRecipesModel;
+    }
+
+    /**
+     * Map the updated recipeCache to a recipeModel list to be returned.
+     *
+     * @return all recipe models.
+     */
+    private List<RecipeModel> getAllRecipeModels() {
         List<RecipeModel> allRecipesModel = new ArrayList();
         recipeCache.forEach((key, value) -> {
                     allRecipesModel.add(recipeMapperHandler.mapToModel(value));
                 }
         );
-
         return allRecipesModel;
     }
 }
