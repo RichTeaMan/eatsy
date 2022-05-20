@@ -71,6 +71,12 @@ public class ApiController {
         return recipeFactoryHandler.retrieveAllRecipes();
     }
 
+    /**
+     * Deletes the requested recipe
+     *
+     * @param recipeKey the unique ID of the recipe object requested for deletion.
+     * @return the updated list of all model recipe objects that has had the requested recipe removed.
+     */
     @Operation(description = "Deletes the submitted recipe and returns the updated list of all recipes")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully deleted chosen recipe.")})
     @RequestMapping(value = "/deleteRecipe", method = {RequestMethod.DELETE})
