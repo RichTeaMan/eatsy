@@ -8,10 +8,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Recipe Factory unit tests
@@ -179,6 +176,71 @@ public class RecipeFactoryTest {
 
         //Assert
         Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
+    }
+
+    /**
+     * Check the recipe factory correctly returns all recipes
+     */
+    @Test
+    public void checkRetrieveAllRecipes() {
+
+        //Setup
+
+        //Populate the recipeCache with two recipes
+        List<RecipeModel> expectedRecipeModelList = createRecipeModels();
+        recipeFactory.createRecipe(expectedRecipeModelList.get(0));
+        recipeFactory.createRecipe(expectedRecipeModelList.get(1));
+
+        //Test
+
+        List<RecipeModel> actualRecipeModelsList = recipeFactory.retrieveAllRecipes();
+        //To ensure test doesn't fail on the randomly generated UUIDs
+        expectedRecipeModelList.get(0).setKey(actualRecipeModelsList.get(0).getKey());
+        expectedRecipeModelList.get(1).setKey(actualRecipeModelsList.get(1).getKey());
+
+        //Assert
+        Assertions.assertEquals(expectedRecipeModelList, actualRecipeModelsList);
+
+    }
+
+    /**
+     * Create two recipe model objects. Expected result for the checkRetrieveAllRecipesSuccess test.
+     */
+    private List<RecipeModel> createRecipeModels() {
+        String recipeName = "Ham and cheese panini";
+        Set<String> ingredientSet = new HashSet<>();
+        ingredientSet.add("Ham");
+        ingredientSet.add("Cheese");
+        ingredientSet.add("Panini");
+        Map<Integer, String> method = new HashMap<>();
+        method.put(1, "combine Ham and cheese in the panini");
+        method.put(2, "heat panini to melt cheese");
+
+        final RecipeModel inputRecipeModelOne = new RecipeModel();
+        inputRecipeModelOne.setName(recipeName);
+        inputRecipeModelOne.setIngredientSet(ingredientSet);
+        inputRecipeModelOne.setMethod(method);
+
+        String recipeNameTwo = "Jam and peanut butter sandwich";
+        Set<String> ingredientSetTwo = new HashSet<>();
+        ingredientSetTwo.add("Jam");
+        ingredientSetTwo.add("Peanut butter");
+        ingredientSetTwo.add("Sandwich");
+        Map<Integer, String> methodTwo = new HashMap<>();
+        methodTwo.put(1, "combine Jam and peanut butter in the sandwich");
+        methodTwo.put(2, "Cut the crusts off");
+
+        final RecipeModel inputRecipeModelTwo = new RecipeModel();
+        inputRecipeModelTwo.setName(recipeNameTwo);
+        inputRecipeModelTwo.setIngredientSet(ingredientSetTwo);
+        inputRecipeModelTwo.setMethod(methodTwo);
+
+        List<RecipeModel> recipeModelList = new ArrayList<>();
+        recipeModelList.add(inputRecipeModelOne);
+        recipeModelList.add(inputRecipeModelTwo);
+
+        return recipeModelList;
+
     }
 
 }

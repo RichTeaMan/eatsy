@@ -22,8 +22,10 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
     //logger
     private static final Logger logger = LogManager.getLogger();
+
     //Cache of recipes
     private final Map<String, Recipe> recipeCache = new HashMap<>();
+
     //Recipe Mapper implementation
     private final RecipeMapper recipeMapperHandler;
 
