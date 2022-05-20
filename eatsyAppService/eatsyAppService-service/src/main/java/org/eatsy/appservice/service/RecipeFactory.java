@@ -28,8 +28,8 @@ public interface RecipeFactory {
     /**
      * Deletes the requested recipeModel
      *
-     * @param recipeModelToDelete the recipe model that will be deleted from the recipe book
-     * @return the list of existing recipe models that will have been updated to remove recipeModelToDelete
+     * @param recipeKey the ID for the recipe model that will be deleted from the recipe book
+     * @return the list of existing recipe models that will have been updated to remove recipeKey
      */
-    List<RecipeModel> deleteRecipe(RecipeModel recipeModelToDelete);
+    List<RecipeModel> deleteRecipe(String recipeKey);
 }
