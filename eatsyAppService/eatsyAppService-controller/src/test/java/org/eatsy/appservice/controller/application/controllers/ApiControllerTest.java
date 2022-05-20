@@ -134,6 +134,40 @@ public class ApiControllerTest {
     }
 
     /**
+     * Test the delete recipe endpoint.
+     */
+    @Test
+    public void checkDeleteRecipeEndpointSuccess() {
+
+        //Create a list of recipes to return in the mock;
+        List<RecipeModel> allRecipes = createRecipeModelList();
+        //Configure the mock to return the recipe model list when the deleteRecipe endpoint is called.
+        String key = UUID.randomUUID().toString();
+        Mockito.when(recipeFactoryHandler.deleteRecipe(key)).thenReturn(allRecipes);
+
+        //Build the mock request that will hit the "/deleteRecipe" endpoint and trigger the above chain method.
+        MockHttpServletRequestBuilder mockRequest;
+        try {
+            mockRequest = MockMvcRequestBuilders.delete("/api/deleteRecipe?recipeKey={key}", key)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        //Execute the test and assert the response is as expected.
+        try {
+            mockMvc.perform(mockRequest)
+                    .andExpect(status().isOk())
+                    .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)))
+                    .andExpect(jsonPath("$[1].name", is("rice crispies cereal")));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    /**
      * Creates recipe model list consisting of two recipes.
      *
      * @return list of all recipe models
