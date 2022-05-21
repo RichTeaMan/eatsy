@@ -93,7 +93,7 @@ public class ApiController {
     /**
      * Replaces the existing recipe with the updated version supplied in the PUT request
      *
-     * @param updatedRecipeModel the recipe model with the updated changes to be persisted.
+     * @param recipeModelWithUpdates the recipe model with the updated changes to be persisted.
      * @param recipeKey          the unique ID of the recipe. This will allow the recipe that needs to be
      *                           updated to be identified.
      * @return the updated recipeModel with the new updates/changes applied.
@@ -104,10 +104,11 @@ public class ApiController {
     @ResponseBody
     public RecipeModel editRecipe(
             @Parameter(description = "The recipe with the new information to update the existing recipe")
-            @RequestBody final RecipeModel updatedRecipeModel, @PathVariable final String recipeKey) {
+            @RequestBody final RecipeModel recipeModelWithUpdates, @PathVariable final String recipeKey) {
 
-        return null;
-
+        logger.debug("A new request has been made to update recipe: " + recipeKey);
+        RecipeModel updatedRecipeModel = recipeFactoryHandler.updateRecipe(recipeKey, recipeModelWithUpdates);
+        return updatedRecipeModel;
     }
 
 
