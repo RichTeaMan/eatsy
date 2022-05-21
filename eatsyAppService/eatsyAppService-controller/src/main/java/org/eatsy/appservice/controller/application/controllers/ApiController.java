@@ -100,7 +100,7 @@ public class ApiController {
      */
     @Operation(description = "Replaces the existing recipe with the updated version supplied in the PUT request")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully updated chosen recipe.")})
-    @RequestMapping(value = "/edit", method = {RequestMethod.PUT})
+    @RequestMapping(value = "/edit/{recipeKey}", method = {RequestMethod.PUT})
     @ResponseBody
     public RecipeModel editRecipe(
             @Parameter(description = "The recipe with the new information to update the existing recipe")
