@@ -98,6 +98,36 @@ public class RecipeFactoryHandler implements RecipeFactory {
     }
 
     /**
+     * Replaces the existing recipe with the updated version supplied.
+     *
+     * @param recipeKey              the unique ID of the recipe. This will allow the recipe that needs to be
+     *                               updated to be identified.
+     * @param recipeModelWithUpdates the recipe model with the updated changes to be persisted.
+     * @return the updated recipeModel with the new updates/changes applied.
+     */
+    @Override
+    public RecipeModel updateRecipe(String recipeKey, RecipeModel recipeModelWithUpdates) {
+
+        logger.debug("replacing recipe with key: " + recipeKey + " for the new updated version");
+
+        //Create the updated Recipe domain object
+        Recipe updatedRecipe = new Recipe(recipeModelWithUpdates.getName(), recipeModelWithUpdates.getIngredientSet(), recipeModelWithUpdates.getMethod());
+
+        //replace the outdated recipe with the updated version in the recipeCache.
+        //a straightforward replace method will not suffice as the key in the recipeCache must be updated to reflect the new recipe object key.
+        recipeCache.forEach((key, value) -> {
+                    if (key.equals(recipeKey)) {
+                        recipeCache.put(updatedRecipe.getKey(), updatedRecipe);
+                    }
+                }
+        );
+
+        //Map the updated recipe to a RecipeModel and return.
+        RecipeModel updatedRecipeModel = recipeMapperHandler.mapToModel(updatedRecipe);
+        return updatedRecipeModel;
+    }
+
+    /**
      * Map the updated recipeCache to a recipeModel list to be returned.
      *
      * @return all recipe models.

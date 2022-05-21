@@ -91,11 +91,11 @@ public class ApiController {
     }
 
     /**
-     * Replaces the existing recipe with the updated version supplied in the PUT request
+     * Replaces the existing recipe with the updated version supplied in the PUT request.
      *
      * @param recipeModelWithUpdates the recipe model with the updated changes to be persisted.
-     * @param recipeKey          the unique ID of the recipe. This will allow the recipe that needs to be
-     *                           updated to be identified.
+     * @param recipeKey              the unique ID of the recipe. This will allow the recipe that needs to be
+     *                               updated to be identified.
      * @return the updated recipeModel with the new updates/changes applied.
      */
     @Operation(description = "Replaces the existing recipe with the updated version supplied in the PUT request")
