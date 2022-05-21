@@ -17,7 +17,8 @@ import java.util.List;
 
 
 /**
- * API Controller. All handling methods on this controller are relative to the /api path.
+ * API Controller for creating, editing, deleting and retrieving recipes.
+ * All handling methods on this controller are relative to the /api path.
  */
 @RestController //Inform the DispatcherServlet that this class contains request mapping methods.
 @RequestMapping("/api")
@@ -86,6 +87,26 @@ public class ApiController {
         logger.debug("A new request has been made to delete recipe: " + recipeKey);
         List<RecipeModel> updatedRecipeList = recipeFactoryHandler.deleteRecipe(recipeKey);
         return updatedRecipeList;
+
+    }
+
+    /**
+     * Replaces the existing recipe with the updated version supplied in the PUT request
+     *
+     * @param updatedRecipeModel the recipe model with the updated changes to be persisted.
+     * @param recipeKey          the unique ID of the recipe. This will allow the recipe that needs to be
+     *                           updated to be identified.
+     * @return the updated recipeModel with the new updates/changes applied.
+     */
+    @Operation(description = "Replaces the existing recipe with the updated version supplied in the PUT request")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully updated chosen recipe.")})
+    @RequestMapping(value = "/edit", method = {RequestMethod.PUT})
+    @ResponseBody
+    public RecipeModel editRecipe(
+            @Parameter(description = "The recipe with the new information to update the existing recipe")
+            @RequestBody final RecipeModel updatedRecipeModel, @PathVariable final String recipeKey) {
+
+        return null;
 
     }
 
