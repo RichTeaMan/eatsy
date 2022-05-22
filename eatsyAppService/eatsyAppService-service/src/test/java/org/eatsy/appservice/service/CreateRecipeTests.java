@@ -4,13 +4,12 @@ import com.github.javafaker.Faker;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.model.mappers.RecipeMapperHandler;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Recipe Factory unit tests for the Create Recipe Method
@@ -52,9 +51,17 @@ public class CreateRecipeTests {
     public void checkCreateRecipe() {
 
         //Setup
-        //Create an input recipe model
+        //Create an input recipe model - this will also be the expected output from the method under test.
         RecipeModel inputRecipeModel = generateRandomRecipeModel();
 
+        //Test
+        RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
+        //Take the randomly generated key out of the assertion
+        //Recipe key randomly generated, so they will never match and one wasn't assigned to the inputRecipeModel
+        inputRecipeModel.setKey(actualRecipeModel.getKey());
+        
+        //Assert - check the returned model matches the request model used to create the recipe domain object.
+        Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
     }
 
     /**
@@ -64,16 +71,40 @@ public class CreateRecipeTests {
      */
     private RecipeModel generateRandomRecipeModel() {
 
+        //Setup
         Faker faker = new Faker();
         RecipeModel recipeModel = new RecipeModel();
-
         //Generate recipe name
         String recipeName = faker.food().dish();
-
         //Generate a set of ingredients for the recipe.
         Set<String> generatedIngredientSet = generateIngredientSet(faker);
+        //Generate a map of method steps.
+        Map<Integer, String> generatedMethodMap = generateMethodMap(faker);
 
+        recipeModel.setName(recipeName);
+        recipeModel.setIngredientSet(generatedIngredientSet);
+        recipeModel.setMethod(generatedMethodMap);
         return recipeModel;
+    }
+
+    /**
+     * Generates a set of random method steps.
+     *
+     * @param faker The Faker object to generate random data for the test cases.
+     * @return a set of method steps.
+     */
+    private Map<Integer, String> generateMethodMap(Faker faker) {
+
+        //Create the method map and define the number of steps in the method.
+        Map<Integer, String> methodMap = new TreeMap<>();
+        int numberOfMethodSteps = generateNumber(maxMethodMapSize);
+
+        //Populate the method map with random method steps.
+        for (int i = 0; i < numberOfMethodSteps; i++) {
+            methodMap.put(i, faker.harryPotter().quote());
+        }
+
+        return methodMap;
     }
 
     /**
@@ -86,10 +117,10 @@ public class CreateRecipeTests {
 
         //Create the ingredient set and define the number of ingredients in the recipe.
         Set<String> ingredientSet = new HashSet<>();
-        int numberOfIngredients = generateNumberOfIngredients(20);
+        int numberOfIngredients = generateNumber(maxIngredientSetSize);
 
         //Populate the ingredient set with random ingredients.
-        for (int i = 0; i < numberOfIngredients; i++ ){
+        for (int i = 0; i < numberOfIngredients; i++) {
             ingredientSet.add(faker.food().ingredient());
         }
 
@@ -100,17 +131,17 @@ public class CreateRecipeTests {
     /**
      * Generates a random int between 1 and the maxValue parameter.
      *
-     * @param maxValue the maximum number of ingredients you want for the recipe
-     * @return the number of ingredients that this recipe will have.
+     * @param maxValue the maximum number you want for the recipe field
+     * @return the number of items that this recipe field will have.
      */
-    private int generateNumberOfIngredients(int maxValue) {
+    private int generateNumber(int maxValue) {
 
         int minValue = 1;
         Random random = new Random();
         //Ensure min value is 1 (in the instance maxValue is generated as 0)
-        int numberOfIngredients = random.nextInt(maxValue - minValue + 1) + minValue;
+        int generatedNumber = random.nextInt(maxValue - minValue + 1) + minValue;
 
-        return numberOfIngredients;
+        return generatedNumber;
     }
 
 }
