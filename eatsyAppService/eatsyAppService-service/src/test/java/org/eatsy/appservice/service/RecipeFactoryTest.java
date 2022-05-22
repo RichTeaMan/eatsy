@@ -230,6 +230,33 @@ public class RecipeFactoryTest {
     }
 
     /**
+     * Check the Recipe Factory can edit an existing recipe.
+     */
+    @Test
+    public void checkEditRecipeSuccess() {
+
+        //Setup
+        //Populate the recipeCache with two recipes
+        List<RecipeModel> initialRecipeModelList = createRecipeModels();
+        RecipeModel recipeModelOne = initialRecipeModelList.get(0);
+        RecipeModel recipeModelTwo = initialRecipeModelList.get(1);
+        RecipeModel responseRecipeModelOne = recipeFactory.createRecipe(recipeModelOne);
+        RecipeModel responseRecipeModelTwo = recipeFactory.createRecipe(recipeModelTwo);
+
+        //Expected - Update the name of the second recipe. It will also have a new key.
+        RecipeModel updatedExpectedRecipeModel = responseRecipeModelTwo;
+        updatedExpectedRecipeModel.setName("Updated name");
+
+        //Test
+        RecipeModel actualUpdatedRecipeModel = recipeFactory.updateRecipe(responseRecipeModelTwo.getKey(), updatedExpectedRecipeModel);
+
+        //To ensure test doesn't fail on the randomly generated UUIDs
+        updatedExpectedRecipeModel.setKey(actualUpdatedRecipeModel.getKey());
+        //Assert - check the recipe list returned has replaced the original recipe object with the updated version
+        Assertions.assertEquals(updatedExpectedRecipeModel, actualUpdatedRecipeModel);
+    }
+
+    /**
      * Create two recipe model objects. Expected result for the checkRetrieveAllRecipesSuccess test.
      */
     private List<RecipeModel> createRecipeModels() {
