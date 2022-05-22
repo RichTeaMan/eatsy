@@ -168,6 +168,48 @@ public class ApiControllerTest {
     }
 
     /**
+     * Test the edit recipe endpoint.
+     */
+    @Test
+    public void checkEditRecipeEndpointSuccess() {
+
+        //Setup
+        //Create two recipes in the list of recipes
+        List<RecipeModel> allRecipes = createRecipeModelList();
+
+        //Create an updated version of one of the two recipes
+        RecipeModel updatedRecipe = allRecipes.get(0);
+        String updatedRecipeName = "Updated name";
+        updatedRecipe.setName(updatedRecipeName);
+
+        //Configure the mock to return the updated recipe when the edit endpoint is called.
+        Mockito.when(recipeFactoryHandler.updateRecipe(updatedRecipe.getKey(), updatedRecipe)).thenReturn(updatedRecipe);
+
+        //Build the mock request that will hit the "/edit/{recipeKey}" endpoint and trigger the above chain method.
+        MockHttpServletRequestBuilder mockRequest;
+        String recipeKey = updatedRecipe.getKey();
+        try {
+            mockRequest = MockMvcRequestBuilders.put("/api/edit/" + recipeKey)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(this.objectMapper.writeValueAsString(updatedRecipe));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        //Execute the test and assert the response is as expected.
+        try {
+            mockMvc.perform(mockRequest)
+                    .andExpect(status().isOk())
+                    .andExpect(jsonPath("$.name", is(updatedRecipeName)));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+    /**
      * Creates recipe model list consisting of two recipes.
      *
      * @return list of all recipe models
@@ -200,7 +242,7 @@ public class ApiControllerTest {
         Map<Integer, String> methodTwo = new HashMap<>();
         method.put(1, "Put cocopops in bowl");
         method.put(2, "Add milk");
-        method.put(3, "lwait for the milk to go chocolatey");
+        method.put(3, "wait for the milk to go chocolatey");
         final RecipeModel recipeModelTwo = new RecipeModel();
         recipeModelTwo.setKey(UUID.randomUUID().toString());
         recipeModelTwo.setName(recipeName);
