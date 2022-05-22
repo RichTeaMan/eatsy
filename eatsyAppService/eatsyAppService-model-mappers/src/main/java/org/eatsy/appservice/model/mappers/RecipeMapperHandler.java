@@ -7,9 +7,9 @@ import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * Recipe Mapper Handler to map between recipe domain and model objects.
@@ -51,7 +51,7 @@ public class RecipeMapperHandler implements RecipeMapper {
             }
 
             //Map method.
-            recipeModel.setMethod(new HashMap<>());
+            recipeModel.setMethod(new TreeMap<>());
 
             for (Map.Entry<Integer, String> entry : recipe.getMethod().entrySet()) {
                 recipeModel.getMethod().put(entry.getKey(), entry.getValue());

@@ -7,10 +7,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Recipe Mapper unit tests
@@ -39,7 +36,7 @@ public class RecipeMapperTest {
         Set<String> ingredientSet = new HashSet<>();
         ingredientSet.add("Beans");
         ingredientSet.add("Toast");
-        Map<Integer, String> method = new HashMap<>();
+        Map<Integer, String> method = new TreeMap<>();
         method.put(1, "Microwave Beans");
         method.put(2, "Toast Bread");
         method.put(3, "Put Beans on the toast");

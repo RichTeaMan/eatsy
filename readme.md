@@ -1,6 +1,6 @@
 # Eatsy App Service
 
-A REST API and java service to create, edit and store your favourite recipes.
+A REST API for creating, viewing, editing and deleting your favourite recipes.
 
 [![CircleCI](https://circleci.com/gh/DM1st/eatsy/tree/develop.svg?style=shield)](https://circleci.com/gh/DM1st/eatsy/tree/develop)
 [![Coverage Status](https://coveralls.io/repos/github/DM1st/eatsy/badge.svg?branch=develop)](https://coveralls.io/github/DM1st/eatsy?branch=develop)
@@ -11,7 +11,8 @@ This Java project uses [The Gradle Wrapper](https://docs.gradle.org/current/user
 
 The below sections provide the necessary information to run the application locally.
 
-The server is run locally as a Sprint Boot application. This can be done from a bash terminal:
+The server is run locally as a [Sprint Boot](https://spring.io/projects/spring-boot) application. This can be done from
+a bash terminal:
 
 ```
 ./gradlew clean build bootrun
@@ -55,8 +56,9 @@ A UI version can be seen using the [Swagger UI page](http://localhost:8080/swagg
 
 ## Validation of successful local deployment
 
-This service has unit tests with test coverage displayed on the coverage badge in this ReadMe. However, to test the
-service manually see the below example:
+This service has unit tests (using [JUnit 5](https://junit.org/junit5/) and [Mockito](https://site.mockito.org/)) with
+test coverage displayed on the coverage badge in this ReadMe. However, the service can be tested manually, see the below
+example which utilises the [Swagger UI page](http://localhost:8080/swagger-ui.html):
 
 * Once the service is running navigate to the [Swagger UI page](http://localhost:8080/swagger-ui.html).
 * Select the 'Api Controller'
