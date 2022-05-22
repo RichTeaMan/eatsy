@@ -9,6 +9,9 @@ ext.lombokVersion = '1.18.4'
 //coveralls
 ext.coverallsVersion = '2.12.0'
 
+//Java faker (for test data generation)
+ext.javaFakerVersion = '1.0.2'
+
 //test
 ext.junitVersion = '5.8.2'
 ext.mockitoCoreVersion = '4.5.1'
