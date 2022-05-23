@@ -11,7 +11,7 @@ import java.util.*;
 public class RecipeModelDataFactoryHandler implements RecipeModelDataFactory {
 
     //Faker object to generate the test data
-    //private final Faker faker = new Faker(); TODO
+    private final Faker faker = new Faker();
 
     /**
      * Uses the Java Faker library to create a RecipeModel object
@@ -24,7 +24,6 @@ public class RecipeModelDataFactoryHandler implements RecipeModelDataFactory {
     public RecipeModel generateRandomRecipeModel(final int maxIngredientSetSize, final int maxMethodMapSize) {
 
         //Setup
-        Faker faker = new Faker();
         RecipeModel recipeModel = new RecipeModel();
         //Generate recipe name
         String recipeName = faker.food().dish();

@@ -6,7 +6,8 @@ dependencies {
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
 
     //Faker - for generating test data
+    //Exclude the problematic dependency and then add it again
     implementation("com.github.javafaker:javafaker:$javaFakerVersion") { exclude module: 'snakeyaml' }
     implementation group: 'org.yaml', name: 'snakeyaml', version: '1.30'
-    
+
 }
