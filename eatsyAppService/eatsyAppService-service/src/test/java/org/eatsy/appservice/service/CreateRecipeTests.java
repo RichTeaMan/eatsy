@@ -52,10 +52,10 @@ public class CreateRecipeTests {
 
         //Setup
         //Create an input recipe model - this will also be the expected output from the method under test.
-        RecipeModel inputRecipeModel = generateRandomRecipeModel();
+        final RecipeModel inputRecipeModel = generateRandomRecipeModel();
 
         //Test
-        RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
+        final RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
         //Take the randomly generated key out of the assertion
         //Recipe key randomly generated, so they will never match and one wasn't assigned to the inputRecipeModel
         inputRecipeModel.setKey(actualRecipeModel.getKey());
@@ -79,6 +79,29 @@ public class CreateRecipeTests {
 
         //Assert
         Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
+
+    }
+
+    /**
+     * Check the Recipe Factory can create a recipe with an empty Ingredient List
+     */
+    @Test
+    public void checkCreateRecipeWithEmptyIngredientList() {
+
+        //Setup
+        //Create an input recipe model(with an empty ingredients list)
+        //This will also be the expected output from the method under test.
+        final RecipeModel inputRecipeModel = generateRandomRecipeModel();
+        inputRecipeModel.setIngredientSet(new HashSet<>());
+
+        //Test
+        RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
+        //Take the randomly generated key out of the assertion
+        //Recipe key randomly generated, so they will never match and one wasn't assigned to the inputRecipeModel
+        inputRecipeModel.setKey(actualRecipeModel.getKey());
+
+        //Assert
+        Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
 
     }
 
