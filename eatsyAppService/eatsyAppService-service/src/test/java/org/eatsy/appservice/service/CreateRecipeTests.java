@@ -129,6 +129,30 @@ public class CreateRecipeTests {
     }
 
     /**
+     * Check the Recipe Factory cannot create a recipe with an empty RecipeName field.
+     */
+    @Test
+    public void checkCreateRecipeWithEmptyName() {
+
+        //Setup
+        //Create an input recipe model(with an empty method list)
+        //This will also be the expected output from the method under test.
+        final RecipeModel inputRecipeModel = generateRandomRecipeModel();
+        inputRecipeModel.setName("         ");
+
+        //Expectation - cannot create a recipe domain object without providing a recipe name.
+        RecipeModel expectedRecipeModel = null;
+
+        //Test
+        RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
+
+        //Assert
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
+
+    }
+
+
+    /**
      * Uses the Java Faker library to create a RecipeModel object
      *
      * @return a randomly generated RecipeModel object.
