@@ -93,3 +93,4 @@ the [Swagger UI page](http://localhost:8080/swagger-ui.html):
 * Add categories.
 * Add tags.
 * Add the concept of users.
+* Add component test pack.
