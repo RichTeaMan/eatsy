@@ -65,6 +65,24 @@ public class CreateRecipeTests {
     }
 
     /**
+     * Check the Recipe Factory gracefully deals with null being
+     * passed to the service.
+     */
+    @Test
+    public void checkCreateRecipeWithNull() {
+
+        //Expectation
+        final RecipeModel expectedRecipeModel = null;
+
+        //Test
+        final RecipeModel actualRecipeModel = recipeFactory.createRecipe(null);
+
+        //Assert
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
+
+    }
+
+    /**
      * Uses the Java Faker library to create a RecipeModel object
      *
      * @return a randomly generated RecipeModel object.
