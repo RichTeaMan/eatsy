@@ -59,7 +59,7 @@ public class CreateRecipeTests {
         //Take the randomly generated key out of the assertion
         //Recipe key randomly generated, so they will never match and one wasn't assigned to the inputRecipeModel
         inputRecipeModel.setKey(actualRecipeModel.getKey());
-        
+
         //Assert - check the returned model matches the request model used to create the recipe domain object.
         Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
     }
@@ -101,6 +101,8 @@ public class CreateRecipeTests {
 
         //Populate the method map with random method steps.
         for (int i = 0; i < numberOfMethodSteps; i++) {
+            //faker does not produce random recipe steps. However, Harry Potter quotes
+            //are similar (in terms of short text sentence). So this will serve as representative test data.
             methodMap.put(i, faker.harryPotter().quote());
         }
 
