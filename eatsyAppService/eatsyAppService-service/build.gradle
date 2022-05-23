@@ -2,6 +2,7 @@ dependencies {
     implementation project(':eatsyAppService:eatsyAppService-model')
     implementation project(':eatsyAppService:eatsyAppService-model-mappers')
     implementation project(':eatsyAppService:eatsyAppService-domain')
+    testImplementation project(':eatsyAppService:eatsyAppService-test-data-generation').sourceSets.test.output
 
     //Java utilities/helper libraries
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
@@ -12,10 +13,6 @@ dependencies {
     //logging
     implementation "org.apache.logging.log4j:log4j-core:$log4jCoreVersion"
     implementation "org.apache.logging.log4j:log4j-api:$log4jApiVersion"
-
-    //Faker - for generating test data
-    implementation("com.github.javafaker:javafaker:$javaFakerVersion") { exclude module: 'snakeyaml' }
-    implementation group: 'org.yaml', name: 'snakeyaml', version: '1.30'
 
     // Test dependencies (In JUnit 5 the API is separated from the runtime)
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
