@@ -56,9 +56,10 @@ A UI version can be seen using the [Swagger UI page](http://localhost:8080/swagg
 
 ## Validation of successful local deployment
 
-This service has unit tests (using [JUnit 5](https://junit.org/junit5/) and [Mockito](https://site.mockito.org/)) with
-test coverage displayed on the coverage badge in this ReadMe. However, the service can be tested manually, see the below
-example which utilises the [Swagger UI page](http://localhost:8080/swagger-ui.html):
+This service has unit tests (using [JUnit 5](https://junit.org/junit5/), [Mockito](https://site.mockito.org/)
+and [Faker](https://github.com/DiUS/java-faker)) with test coverage displayed on the coverage badge in this ReadMe.
+However, the service can be tested manually, see the below example which utilises
+the [Swagger UI page](http://localhost:8080/swagger-ui.html):
 
 * Once the service is running navigate to the [Swagger UI page](http://localhost:8080/swagger-ui.html).
 * Select the 'Api Controller'
@@ -81,6 +82,14 @@ example which utilises the [Swagger UI page](http://localhost:8080/swagger-ui.ht
 
 * Select "Execute".
 * Inspect the server response and the response body will display the new recipe object that has been created with your
-  chosen name. 
+  chosen name.
 
+## TODO
 
+* Add persistence to service.
+* Add Google shopping list integration.
+* Add ability to search for recipe.
+* Add search capability for best match based on search ingredients.
+* Add categories.
+* Add tags.
+* Add the concept of users.
