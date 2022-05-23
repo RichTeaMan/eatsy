@@ -106,6 +106,29 @@ public class CreateRecipeTests {
     }
 
     /**
+     * Check the Recipe Factory can create a recipe with an empty method
+     */
+    @Test
+    public void checkCreateRecipeWithEmptyMethod() {
+
+        //Setup
+        //Create an input recipe model(with an empty method list)
+        //This will also be the expected output from the method under test.
+        final RecipeModel inputRecipeModel = generateRandomRecipeModel();
+        inputRecipeModel.setMethod(new TreeMap<>());
+
+        //Test
+        RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
+        //Take the randomly generated key out of the assertion
+        //Recipe key randomly generated, so they will never match and one wasn't assigned to the inputRecipeModel
+        inputRecipeModel.setKey(actualRecipeModel.getKey());
+
+        //Assert
+        Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
+
+    }
+
+    /**
      * Uses the Java Faker library to create a RecipeModel object
      *
      * @return a randomly generated RecipeModel object.
