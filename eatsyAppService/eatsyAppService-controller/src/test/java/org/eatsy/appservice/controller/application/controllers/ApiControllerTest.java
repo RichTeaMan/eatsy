@@ -58,11 +58,15 @@ public class ApiControllerTest {
     //Max value for the generated number of method steps in the recipe
     private int maxMethodMapSize;
 
+    //Max value for the generated number of recipeModels in the recipeModel list.
+    private int maxNumberOfRecipes;
+
     @BeforeAll
     public void setup() {
         recipeModelDataFactory = new RecipeModelDataFactoryHandler();
         maxIngredientSetSize = 20;
         maxMethodMapSize = 10;
+        maxNumberOfRecipes = 15;
     }
 
     /**
@@ -120,7 +124,10 @@ public class ApiControllerTest {
     public void checkRetrieveAllRecipesSuccess() {
 
         //Create a list of recipes to return in the mock;
-        List<RecipeModel> allRecipes = createRecipeModelList();
+        List<RecipeModel> allRecipes = recipeModelDataFactory.generateRecipeModelsList(maxNumberOfRecipes, maxIngredientSetSize, maxMethodMapSize);
+        //Gather some information about the data to validate the assertion
+        String nameOfFirstRecipeInList = allRecipes.get(1).getName();
+
         //Configure the mock to return the recipes when the retrieveAllRecipes is called.
         Mockito.when(recipeFactoryHandler.retrieveAllRecipes()).thenReturn(allRecipes);
 
@@ -137,8 +144,8 @@ public class ApiControllerTest {
         try {
             mockMvc.perform(mockRequest)
                     .andExpect(status().isOk())
-                    .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)))
-                    .andExpect(jsonPath("$[1].name", is("rice crispies cereal")));
+                    .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(allRecipes.size())))
+                    .andExpect(jsonPath("$[1].name", is(nameOfFirstRecipeInList)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
