@@ -2,8 +2,10 @@ package org.eatsy.appservice.model.mappers;
 
 import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
+import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
+import org.eatsy.appservice.testdatageneration.RecipeModelDataFactoryHandler;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -12,8 +14,8 @@ import java.util.*;
 /**
  * Recipe Mapper unit tests
  */
-//Define lifecycle of tests to be per class rather than per method default. Allows use of @BeforeAll
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+//Define lifecycle of tests to be per method rather than per class. Allows use of @BeforeEach
+@TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class RecipeMapperTest {
 
     /**
@@ -21,9 +23,21 @@ public class RecipeMapperTest {
      */
     private RecipeMapper recipeMapper;
 
-    @BeforeAll
+    //Factory where the data generation methods are stored
+    private RecipeModelDataFactory recipeModelDataFactory;
+
+    //Max value for the generated number of ingredients in the recipe
+    private int maxIngredientSetSize;
+
+    //Max value for the generated number of method steps in the recipe
+    private int maxMethodMapSize;
+
+    @BeforeEach
     public void setup() {
         recipeMapper = new RecipeMapperHandler();
+        recipeModelDataFactory = new RecipeModelDataFactoryHandler();
+        maxIngredientSetSize = 20;
+        maxMethodMapSize = 10;
     }
 
     /**
@@ -31,6 +45,11 @@ public class RecipeMapperTest {
      */
     @Test
     public void checkMapToModel() {
+
+        //Setup - generate a recipe domain object to be mapped into a recipe model object.
+
+
+
         //Setup
         String recipeName = "Beans on Toast";
         Set<String> ingredientSet = new HashSet<>();
