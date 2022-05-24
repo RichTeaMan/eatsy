@@ -9,7 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.TreeMap;
 
 /**
  * Recipe Mapper unit tests
@@ -146,24 +147,18 @@ public class RecipeMapperTest {
     @Test
     public void checkCantMapModelWithEmptyName() {
 
-        //Setup
-        String recipeName = "   ";
-        Set<String> ingredientSet = new HashSet<>();
-        ingredientSet.add("Eggs");
-        ingredientSet.add("Chips");
-        Map<Integer, String> method = new HashMap<>();
-        method.put(1, "Cook chips");
-        method.put(2, "Fry eggs");
-        method.put(3, "cut up fried eggs over chips");
-        Recipe recipe = new Recipe(recipeName, ingredientSet, method);
+        //Setup - generate a recipe domain object to be mapped into a recipe model object.
+        Recipe recipe = recipeDataFactory.generateRandomRecipe(maxIngredientSetSize, maxMethodMapSize);
+        //Make the recipe have an empty name.
+        Recipe recipeWithEmptyName = new Recipe("          ", recipe.getIngredientSet(), recipe.getMethod());
 
         //Expectation - cannot map a recipe domain object with an empty recipeName
         RecipeModel expectedRecipeModel = null;
 
         //Test
-        RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipe);
+        final RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipeWithEmptyName);
 
-        //Assert
+        //Actual
         Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
 
     }
