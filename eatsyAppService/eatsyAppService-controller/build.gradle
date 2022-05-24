@@ -11,6 +11,7 @@ dependencies {
 
     implementation project(':eatsyAppService:eatsyAppService-model')
     implementation project(':eatsyAppService:eatsyAppService-service')
+    testImplementation project(':eatsyAppService:eatsyAppService-test-data-generation')
 
     //Java utilities/helper libraries
     implementation "org.apache.commons:commons-lang3:$commonsLang3Version"
