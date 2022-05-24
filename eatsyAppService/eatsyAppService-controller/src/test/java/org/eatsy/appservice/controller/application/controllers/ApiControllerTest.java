@@ -3,7 +3,11 @@ package org.eatsy.appservice.controller.application.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.service.RecipeFactory;
+import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
+import org.eatsy.appservice.testdatageneration.RecipeModelDataFactoryHandler;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -28,6 +32,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //These two annotations tell Mockito to create the mocks based on the @Mock annotation and enable autowired
 @SpringBootTest
 @AutoConfigureMockMvc
+//Define lifecycle of tests to be per class rather than per class. Allows use of @BeforeAll.
+//Responses are mocked so PER_METHOD is not needed
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ApiControllerTest {
 
     //mockMvc auto-configured and part of the dependencies directly loaded for this test class
@@ -42,6 +49,22 @@ public class ApiControllerTest {
     @MockBean
     private RecipeFactory recipeFactoryHandler;
 
+    //Factory where the data generation methods are stored
+    private RecipeModelDataFactory recipeModelDataFactory;
+
+    //Max value for the generated number of ingredients in the recipe
+    private int maxIngredientSetSize;
+
+    //Max value for the generated number of method steps in the recipe
+    private int maxMethodMapSize;
+
+    @BeforeAll
+    public void setup() {
+        recipeModelDataFactory = new RecipeModelDataFactoryHandler();
+        maxIngredientSetSize = 20;
+        maxMethodMapSize = 10;
+    }
+
     /**
      * Test the add recipe endpoint
      */
@@ -50,18 +73,7 @@ public class ApiControllerTest {
 
         //Setup - create a recipeModel object for mocking the RecipeFactory service whilst the /add endpoint
         // (in the REST controller) is under test.
-        String recipeName = "Cocopops cereal";
-        Set<String> ingredientSet = new HashSet<>();
-        ingredientSet.add("Cocopops");
-        ingredientSet.add("Milk");
-        Map<Integer, String> method = new HashMap<>();
-        method.put(1, "Put Cocopops in bowl");
-        method.put(2, "Add milk");
-        method.put(3, "Allow milk to soak in the chocolatey goodness");
-        RecipeModel recipeModel = new RecipeModel();
-        recipeModel.setName(recipeName);
-        recipeModel.setIngredientSet(ingredientSet);
-        recipeModel.setMethod(method);
+        final RecipeModel recipeModel = recipeModelDataFactory.generateRandomRecipeModel(maxIngredientSetSize, maxMethodMapSize);
 
         //Executes some code of the class under test. In this case, build the mock request that will hit the
         // "/add" endpoint and trigger the below chain method.
@@ -75,12 +87,12 @@ public class ApiControllerTest {
             throw new RuntimeException(e);
         }
 
-        //When the created recipe is returned it will have a UUID.
+        //When the created recipe is returned it will have a UUID - update this for mock response.
         final RecipeModel recipeModelToReturn = new RecipeModel();
         recipeModelToReturn.setKey(UUID.randomUUID().toString());
-        recipeModelToReturn.setName(recipeName);
-        recipeModelToReturn.setIngredientSet(ingredientSet);
-        recipeModelToReturn.setMethod(method);
+        recipeModelToReturn.setName(recipeModel.getName());
+        recipeModelToReturn.setIngredientSet(recipeModel.getIngredientSet());
+        recipeModelToReturn.setMethod(recipeModel.getMethod());
 
         //Configure the mock to return the recipeModel when the createRecipeModel is called.
         //This chain method mocks the createRecipe() method call in the RecipeFactory, so every time the method is
@@ -88,7 +100,7 @@ public class ApiControllerTest {
         // in the parameter of the thenReturn() method.
         // In this case it returns the pre-set recipeModel (defined in this test setup), instead of actually calling
         // the createRecipe() method in the RecipeFactory service.
-        Mockito.when(recipeFactoryHandler.createRecipe(recipeModel)).thenReturn(recipeModel);
+        Mockito.when(recipeFactoryHandler.createRecipe(recipeModel)).thenReturn(recipeModelToReturn);
 
         //Execute the test and assert the response is as expected.
         try {
