@@ -31,31 +31,6 @@ public class RecipeFactoryTest {
         recipeFactory = new RecipeFactoryHandler(recipeMapper);
     }
 
-    /**
-     * Check the recipe factory correctly deletes the specified recipe
-     * and returns the updated list of all recipes
-     */
-    @Test
-    public void checkDeleteRecipeEndpoint() {
-
-        //Setup
-        //Populate the recipeCache with two recipes
-        List<RecipeModel> initialRecipeModelList = createRecipeModels();
-        RecipeModel recipeModelOne = initialRecipeModelList.get(0);
-        RecipeModel recipeModelTwo = initialRecipeModelList.get(1);
-        RecipeModel responseRecipeModelOne = recipeFactory.createRecipe(recipeModelOne);
-        RecipeModel responseRecipeModeTwo = recipeFactory.createRecipe(recipeModelTwo);
-
-        //Expected - Use the responseRecipeModel object so the random generated key is populated
-        List<RecipeModel> expectedRecipeModelList = new ArrayList<>();
-        expectedRecipeModelList.add(responseRecipeModeTwo);
-
-        //Test
-        List<RecipeModel> actualUpdatedRecipeModelList = recipeFactory.deleteRecipe(responseRecipeModelOne.getKey());
-
-        //Assert - check the recipe requested for deletion is no longer in the list of recipes
-        Assertions.assertEquals(expectedRecipeModelList, actualUpdatedRecipeModelList);
-    }
 
     /**
      * Check the Recipe Factory can edit an existing recipe.
