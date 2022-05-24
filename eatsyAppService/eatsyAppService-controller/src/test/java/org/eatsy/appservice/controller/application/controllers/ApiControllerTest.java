@@ -161,7 +161,7 @@ public class ApiControllerTest {
         //Create a list of recipes to return in the mock;
         List<RecipeModel> allRecipes = recipeModelDataFactory.generateRecipeModelsList(maxNumberOfRecipes, maxIngredientSetSize, maxMethodMapSize);
         //Gather some information about the data to validate the assertion
-        String nameOfFirstRecipeInList = allRecipes.get(1).getName();
+        String nameOfFirstRecipeInList = allRecipes.get(0).getName();
 
         /*
         Configure the mock to return the recipe model list when the deleteRecipe endpoint is called.
@@ -187,7 +187,7 @@ public class ApiControllerTest {
             mockMvc.perform(mockRequest)
                     .andExpect(status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(allRecipes.size())))
-                    .andExpect(jsonPath("$[1].name", is(nameOfFirstRecipeInList)));
+                    .andExpect(jsonPath("$[0].name", is(nameOfFirstRecipeInList)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
