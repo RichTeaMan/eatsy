@@ -19,7 +19,8 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.*;
+import java.util.List;
+import java.util.UUID;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -202,11 +203,12 @@ public class ApiControllerTest {
 
         //Setup
         //Create two recipes in the list of recipes
-        List<RecipeModel> allRecipes = createRecipeModelList();
+        List<RecipeModel> allRecipes = recipeModelDataFactory.generateRecipeModelsList(maxNumberOfRecipes, maxIngredientSetSize, maxMethodMapSize);
 
-        //Create an updated version of one of the two recipes
+        //Create an 'updated version' of one of the two recipes by submitting an edit to the name.
         RecipeModel updatedRecipe = allRecipes.get(0);
         String updatedRecipeName = "Updated name";
+        updatedRecipe.setKey(UUID.randomUUID().toString()); //The stored recipe would have a key, so this makes the mock response more realistic.
         updatedRecipe.setName(updatedRecipeName);
 
         //Configure the mock to return the updated recipe when the edit endpoint is called.
@@ -233,51 +235,6 @@ public class ApiControllerTest {
             throw new RuntimeException(e);
         }
 
-    }
-
-
-    /**
-     * Creates recipe model list consisting of two recipes.
-     *
-     * @return list of all recipe models
-     */
-    private List<RecipeModel> createRecipeModelList() {
-
-        List<RecipeModel> allTheRecipes = new ArrayList<>();
-
-        //First recipe
-        String recipeName = "rice crispies cereal";
-        Set<String> ingredientSet = new HashSet<>();
-        ingredientSet.add("rice crispies");
-        ingredientSet.add("Milk");
-        Map<Integer, String> method = new HashMap<>();
-        method.put(1, "Put ricpe crispies in bowl");
-        method.put(2, "Add milk");
-        method.put(3, "listen for the snap crackle and pop");
-        final RecipeModel recipeModelOne = new RecipeModel();
-        recipeModelOne.setKey(UUID.randomUUID().toString());
-        recipeModelOne.setName(recipeName);
-        recipeModelOne.setIngredientSet(ingredientSet);
-        recipeModelOne.setMethod(method);
-        allTheRecipes.add(recipeModelOne);
-
-        //Second recipe
-        String recipeNameTwo = "cocopops cereal";
-        Set<String> ingredientSetTwo = new HashSet<>();
-        ingredientSet.add("cocopops");
-        ingredientSet.add("Milk");
-        Map<Integer, String> methodTwo = new HashMap<>();
-        method.put(1, "Put cocopops in bowl");
-        method.put(2, "Add milk");
-        method.put(3, "wait for the milk to go chocolatey");
-        final RecipeModel recipeModelTwo = new RecipeModel();
-        recipeModelTwo.setKey(UUID.randomUUID().toString());
-        recipeModelTwo.setName(recipeName);
-        recipeModelTwo.setIngredientSet(ingredientSet);
-        recipeModelTwo.setMethod(method);
-        allTheRecipes.add(recipeModelTwo);
-
-        return allTheRecipes;
     }
 
 }
