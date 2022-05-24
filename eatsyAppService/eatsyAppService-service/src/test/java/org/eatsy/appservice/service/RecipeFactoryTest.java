@@ -32,31 +32,6 @@ public class RecipeFactoryTest {
     }
 
     /**
-     * Check the recipe factory correctly returns all recipes
-     */
-    @Test
-    public void checkRetrieveAllRecipes() {
-
-        //Setup
-
-        //Populate the recipeCache with two recipes
-        List<RecipeModel> expectedRecipeModelList = createRecipeModels();
-        recipeFactory.createRecipe(expectedRecipeModelList.get(0));
-        recipeFactory.createRecipe(expectedRecipeModelList.get(1));
-
-        //Test
-
-        List<RecipeModel> actualRecipeModelsList = recipeFactory.retrieveAllRecipes();
-        //To ensure test doesn't fail on the randomly generated UUIDs
-        expectedRecipeModelList.get(0).setKey(actualRecipeModelsList.get(0).getKey());
-        expectedRecipeModelList.get(1).setKey(actualRecipeModelsList.get(1).getKey());
-
-        //Assert
-        Assertions.assertEquals(expectedRecipeModelList, actualRecipeModelsList);
-
-    }
-
-    /**
      * Check the recipe factory correctly deletes the specified recipe
      * and returns the updated list of all recipes
      */
