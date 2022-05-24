@@ -159,8 +159,16 @@ public class ApiControllerTest {
     public void checkDeleteRecipeEndpointSuccess() {
 
         //Create a list of recipes to return in the mock;
-        List<RecipeModel> allRecipes = createRecipeModelList();
-        //Configure the mock to return the recipe model list when the deleteRecipe endpoint is called.
+        List<RecipeModel> allRecipes = recipeModelDataFactory.generateRecipeModelsList(maxNumberOfRecipes, maxIngredientSetSize, maxMethodMapSize);
+        //Gather some information about the data to validate the assertion
+        String nameOfFirstRecipeInList = allRecipes.get(1).getName();
+
+        /*
+        Configure the mock to return the recipe model list when the deleteRecipe endpoint is called.
+        None of the created models in this test have keys assigned. They are not needed as the response is mocked.
+        This test confirms the endpoint is correctly hit and service method triggered. If the test was interacting with the service layer,
+        it would fail due to not finding a recipeModel with the corresponding key (this test case is covered in the service layer unit tests.
+         */
         String key = UUID.randomUUID().toString();
         Mockito.when(recipeFactoryHandler.deleteRecipe(key)).thenReturn(allRecipes);
 
@@ -178,8 +186,8 @@ public class ApiControllerTest {
         try {
             mockMvc.perform(mockRequest)
                     .andExpect(status().isOk())
-                    .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(2)))
-                    .andExpect(jsonPath("$[1].name", is("rice crispies cereal")));
+                    .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(allRecipes.size())))
+                    .andExpect(jsonPath("$[1].name", is(nameOfFirstRecipeInList)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
