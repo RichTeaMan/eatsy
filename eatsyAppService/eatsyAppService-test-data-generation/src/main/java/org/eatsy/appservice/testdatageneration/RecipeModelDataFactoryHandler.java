@@ -40,6 +40,29 @@ public class RecipeModelDataFactoryHandler implements RecipeModelDataFactory {
     }
 
     /**
+     * Uses the Java Faker library to create a list of RecipeModel objects
+     *
+     * @param maxNumberOfRecipes Max value for the generated number of recipeModels in the list.
+     * @param maxIngredientSetSize Max value for the generated number of ingredients in each recipe
+     * @param maxMethodMapSize     Max value for the generated number of method steps in each recipe
+     * @return a randomly generated list of recipeModel objects.
+     */
+    @Override
+    public List<RecipeModel> generateRecipeModelsList(int maxNumberOfRecipes, int maxIngredientSetSize, int maxMethodMapSize) {
+
+        //Create the recipe list and define the number of recipes in the list.
+        List<RecipeModel> recipeModelsList = new ArrayList<>();
+        int numberOfRecipesInList = generateNumber(maxNumberOfRecipes);
+
+        //Populate the recipe list with random recipeModels.
+        for (int i = 0; i < numberOfRecipesInList; i++) {
+            recipeModelsList.add(generateRandomRecipeModel(maxIngredientSetSize, maxMethodMapSize));
+        }
+
+        return recipeModelsList;
+    }
+
+    /**
      * Generates a set of random method steps.
      *
      * @param maxMethodMapSize Max value for the generated number of method steps in the recipe
