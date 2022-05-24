@@ -5,6 +5,7 @@ import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.model.mappers.RecipeMapperHandler;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactoryHandler;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -35,11 +36,15 @@ public class RetrieveAllRecipesTest {
     //Max value for the generated number of method steps in the recipe
     private int maxMethodMapSize;
 
+    //Max value for the generated number of recipeModels in the recipeModel list.
+    private int maxNumberOfRecipes;
+
     @BeforeEach
     public void setup() {
         recipeMapper = new RecipeMapperHandler();
         recipeFactory = new RecipeFactoryHandler(recipeMapper);
         recipeModelDataFactory = new RecipeModelDataFactoryHandler();
+        maxNumberOfRecipes = 15;
         maxIngredientSetSize = 20;
         maxMethodMapSize = 10;
     }
@@ -52,8 +57,18 @@ public class RetrieveAllRecipesTest {
 
         //Setup
         //Populate the recipeCache with recipes
+        List<RecipeModel> expectedRecipeModelList = recipeModelDataFactory.generateRecipeModelsList(maxNumberOfRecipes, maxIngredientSetSize, maxMethodMapSize);
 
+        //Populate the recipeCache with the randomly generated recipes
+        for (RecipeModel currentRecipeModel : expectedRecipeModelList) {
+            recipeFactory.createRecipe(currentRecipeModel);
+        }
 
+        //Test
+        List<RecipeModel> actualRecipeModelsList = recipeFactory.retrieveAllRecipes();
+
+        //Assert
+        Assertions.assertEquals(expectedRecipeModelList, actualRecipeModelsList);
 
     }
 
