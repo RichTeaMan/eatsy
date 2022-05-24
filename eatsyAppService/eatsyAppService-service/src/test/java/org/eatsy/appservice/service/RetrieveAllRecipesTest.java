@@ -61,7 +61,10 @@ public class RetrieveAllRecipesTest {
 
         //Populate the recipeCache with the randomly generated recipes
         for (RecipeModel currentRecipeModel : expectedRecipeModelList) {
-            recipeFactory.createRecipe(currentRecipeModel);
+            RecipeModel createdRecipeModel = recipeFactory.createRecipe(currentRecipeModel);
+
+            //To ensure the test doesn't fail on the randomly generated UUIDs.
+            currentRecipeModel.setKey(createdRecipeModel.getKey());
         }
 
         //Test
