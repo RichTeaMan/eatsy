@@ -9,10 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Recipe Mapper unit tests
@@ -95,7 +92,7 @@ public class RecipeMapperTest {
 
         //Setup - generate a recipe domain object to be mapped into a recipe model object.
         Recipe recipe = recipeDataFactory.generateRandomRecipe(maxIngredientSetSize, maxMethodMapSize);
-        //Make the recipe have an empty name.
+        //Make the recipe have an empty ingredient set.
         Recipe recipeWithEmptyIngredientsSet = new Recipe(recipe.getName(), new HashSet<>(), recipe.getMethod());
         //Get this so that the assertion does not fail for different IDs being generated.
         String uniqueID = recipeWithEmptyIngredientsSet.getKey();
@@ -121,28 +118,24 @@ public class RecipeMapperTest {
     @Test
     public void checkMapToModelWithEmptyMethod() {
 
-        //Setup
-        String recipeName = "Fish finger sandwich";
-        Set<String> ingredientSet = new HashSet<>();
-        ingredientSet.add("Fish fingers");
-        ingredientSet.add("Bread");
-
-        Map<Integer, String> method = new HashMap<>();
-        Recipe recipe = new Recipe(recipeName, ingredientSet, method);
+        //Setup - generate a recipe domain object to be mapped into a recipe model object.
+        Recipe recipe = recipeDataFactory.generateRandomRecipe(maxIngredientSetSize, maxMethodMapSize);
+        //Make the recipe have an empty method.
+        Recipe recipeWithEmptyMap = new Recipe(recipe.getName(), recipe.getIngredientSet(), new TreeMap<>());
         //Get this so that the assertion does not fail for different IDs being generated.
-        String uniqueID = recipe.getKey();
+        String uniqueID = recipeWithEmptyMap.getKey();
 
         //Expectation
-        RecipeModel expectedRecipeModel = new RecipeModel();
+        final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
-        expectedRecipeModel.setName(recipeName);
-        expectedRecipeModel.setIngredientSet(ingredientSet);
-        expectedRecipeModel.setMethod(method);
+        expectedRecipeModel.setName(recipeWithEmptyMap.getName());
+        expectedRecipeModel.setIngredientSet(recipeWithEmptyMap.getIngredientSet());
+        expectedRecipeModel.setMethod(recipeWithEmptyMap.getMethod());
 
         //Test
-        RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipe);
+        final RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipeWithEmptyMap);
 
-        //Assert
+        //Actual
         Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
 
     }
