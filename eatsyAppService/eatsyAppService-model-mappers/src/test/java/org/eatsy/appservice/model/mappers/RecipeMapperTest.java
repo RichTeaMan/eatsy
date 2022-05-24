@@ -2,14 +2,17 @@ package org.eatsy.appservice.model.mappers;
 
 import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
-import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
-import org.eatsy.appservice.testdatageneration.RecipeModelDataFactoryHandler;
+import org.eatsy.appservice.testdatageneration.RecipeDataFactory;
+import org.eatsy.appservice.testdatageneration.RecipeDataFactoryHandler;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Recipe Mapper unit tests
@@ -24,7 +27,7 @@ public class RecipeMapperTest {
     private RecipeMapper recipeMapper;
 
     //Factory where the data generation methods are stored
-    private RecipeModelDataFactory recipeModelDataFactory;
+    private RecipeDataFactory recipeDataFactory;
 
     //Max value for the generated number of ingredients in the recipe
     private int maxIngredientSetSize;
@@ -35,7 +38,7 @@ public class RecipeMapperTest {
     @BeforeEach
     public void setup() {
         recipeMapper = new RecipeMapperHandler();
-        recipeModelDataFactory = new RecipeModelDataFactoryHandler();
+        recipeDataFactory = new RecipeDataFactoryHandler();
         maxIngredientSetSize = 20;
         maxMethodMapSize = 10;
     }
@@ -47,28 +50,16 @@ public class RecipeMapperTest {
     public void checkMapToModel() {
 
         //Setup - generate a recipe domain object to be mapped into a recipe model object.
-
-
-
-        //Setup
-        String recipeName = "Beans on Toast";
-        Set<String> ingredientSet = new HashSet<>();
-        ingredientSet.add("Beans");
-        ingredientSet.add("Toast");
-        Map<Integer, String> method = new TreeMap<>();
-        method.put(1, "Microwave Beans");
-        method.put(2, "Toast Bread");
-        method.put(3, "Put Beans on the toast");
-        Recipe recipe = new Recipe(recipeName, ingredientSet, method);
+        Recipe recipe = recipeDataFactory.generateRandomRecipe(maxIngredientSetSize, maxMethodMapSize);
         //Get this so that the assertion does not fail for different IDs being generated.
         String uniqueID = recipe.getKey();
 
         //Expectation
         final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
-        expectedRecipeModel.setName(recipeName);
-        expectedRecipeModel.setIngredientSet(ingredientSet);
-        expectedRecipeModel.setMethod(method);
+        expectedRecipeModel.setName(recipe.getName());
+        expectedRecipeModel.setIngredientSet(recipe.getIngredientSet());
+        expectedRecipeModel.setMethod(recipe.getMethod());
 
         //Test
         final RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipe);
