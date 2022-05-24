@@ -93,26 +93,24 @@ public class RecipeMapperTest {
     @Test
     public void checkMapToModelWithEmptyIngredientList() {
 
-        //Setup
-        String recipeName = "Terry's chocolate orange";
-        Map<Integer, String> method = new HashMap<>();
-        method.put(1, "Eat the chocolate orange in one go.");
-        Set<String> ingredientSet = new HashSet<>();
-        Recipe recipe = new Recipe(recipeName, ingredientSet, method);
+        //Setup - generate a recipe domain object to be mapped into a recipe model object.
+        Recipe recipe = recipeDataFactory.generateRandomRecipe(maxIngredientSetSize, maxMethodMapSize);
+        //Make the recipe have an empty name.
+        Recipe recipeWithEmptyIngredientsSet = new Recipe(recipe.getName(), new HashSet<>(), recipe.getMethod());
         //Get this so that the assertion does not fail for different IDs being generated.
-        String uniqueID = recipe.getKey();
+        String uniqueID = recipeWithEmptyIngredientsSet.getKey();
 
         //Expectation
-        RecipeModel expectedRecipeModel = new RecipeModel();
+        final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
-        expectedRecipeModel.setName(recipeName);
-        expectedRecipeModel.setIngredientSet(ingredientSet);
-        expectedRecipeModel.setMethod(method);
+        expectedRecipeModel.setName(recipeWithEmptyIngredientsSet.getName());
+        expectedRecipeModel.setIngredientSet(recipeWithEmptyIngredientsSet.getIngredientSet());
+        expectedRecipeModel.setMethod(recipeWithEmptyIngredientsSet.getMethod());
 
         //Test
-        RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipe);
+        final RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipeWithEmptyIngredientsSet);
 
-        //Assert
+        //Actual
         Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
 
     }
