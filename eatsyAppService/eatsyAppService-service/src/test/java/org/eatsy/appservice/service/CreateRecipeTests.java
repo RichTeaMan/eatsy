@@ -16,7 +16,7 @@ import java.util.TreeMap;
 /**
  * Recipe Factory unit tests for the Create Recipe Method
  */
-//Define lifecycle of tests to be per class rather than per method default. Allows use of @BeforeAll
+//Define lifecycle of tests to be per method rather than per class. Allows use of @BeforeEach
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class CreateRecipeTests {
 

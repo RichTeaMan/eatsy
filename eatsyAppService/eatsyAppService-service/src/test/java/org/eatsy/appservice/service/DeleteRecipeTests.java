@@ -13,11 +13,11 @@ import org.junit.jupiter.api.TestInstance;
 import java.util.List;
 
 /**
- * Recipe Factory unit tests for the Create Recipe Method
+ * Recipe Factory unit tests for the Delete Recipe Method
  */
-//Define lifecycle of tests to be per class rather than per method default. Allows use of @BeforeAll
+//Define lifecycle of tests to be per method rather than per class. Allows use of @BeforeEach
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-public class RetrieveAllRecipesTest {
+public class DeleteRecipeTests {
 
     /**
      * Class under test.
@@ -50,29 +50,36 @@ public class RetrieveAllRecipesTest {
     }
 
     /**
-     * Check the recipe factory correctly returns all recipes
+     * Check the recipe factory correctly deletes the specified recipe
+     * and returns the updated list of all recipes
      */
     @Test
-    public void checkRetrieveAllRecipes() {
+    public void checkDeleteAllRecipes() {
 
         //Setup
-        //Populate the recipeCache with recipes
+        //Create a list of recipes to be added to the recipeCache
         List<RecipeModel> expectedRecipeModelList = recipeModelDataFactory.generateRecipeModelsList(maxNumberOfRecipes, maxIngredientSetSize, maxMethodMapSize);
 
-        //Populate the recipeCache with the randomly generated recipes
+        //Populate the recipeCache with the randomly generated recipe list
         for (RecipeModel currentRecipeModel : expectedRecipeModelList) {
             RecipeModel createdRecipeModel = recipeFactory.createRecipe(currentRecipeModel);
 
-            //To ensure the test doesn't fail on the randomly generated UUIDs.
+            //To ensure the test doesn't fail on the randomly generated UUIDs when doing object comparisons.
             currentRecipeModel.setKey(createdRecipeModel.getKey());
         }
 
-        //Test
-        List<RecipeModel> actualRecipeModelsList = recipeFactory.retrieveAllRecipes();
+        //Test - delete one of the recipes in the recipeCache
+        //Select a recipe in the list for deletion at random
+        int randomListIndex = (int) ((Math.random() * expectedRecipeModelList.size()));
+        String uniqueKeyOfRecipeToDelete = expectedRecipeModelList.get(randomListIndex).getKey();
+        RecipeModel recipeModelToBeDeleted = expectedRecipeModelList.get(randomListIndex);
+        //Delete the recipe
+        List<RecipeModel> actualUpdatedRecipeModelList = recipeFactory.deleteRecipe(uniqueKeyOfRecipeToDelete);
 
-        //Assert
-        Assertions.assertEquals(expectedRecipeModelList, actualRecipeModelsList);
-
+        //Assert - check the recipe requested for deletion is no longer in the list of recipes, Check all the others are.
+        Assertions.assertTrue(expectedRecipeModelList.containsAll(actualUpdatedRecipeModelList));
+        Assertions.assertTrue((expectedRecipeModelList.size() - 1) == actualUpdatedRecipeModelList.size());
+        Assertions.assertTrue(!actualUpdatedRecipeModelList.contains(recipeModelToBeDeleted));//check the recipe to be deleted is in-fact gone.
     }
 
 }
