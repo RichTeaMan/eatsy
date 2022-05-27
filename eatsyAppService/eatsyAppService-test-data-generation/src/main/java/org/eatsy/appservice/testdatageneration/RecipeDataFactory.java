@@ -21,7 +21,7 @@ public interface RecipeDataFactory {
 
         //Setup
         //Faker object to generate the test data
-        Faker faker = new Faker();
+        final Faker faker = new Faker();
         //Generate recipe name
         final String recipeName = faker.food().dish();
         //Generate a set of ingredients for the recipe.
@@ -70,11 +70,11 @@ public interface RecipeDataFactory {
     static Map<Integer, String> generateMethodMap(final int maxMethodMapSize) {
 
         //Create the method map and define the number of steps in the method.
-        Map<Integer, String> methodMap = new TreeMap<>();
+        final Map<Integer, String> methodMap = new TreeMap<>();
         final int numberOfMethodSteps = generateNumber(maxMethodMapSize);
 
         //Faker object to generate the test data
-        Faker faker = new Faker();
+        final Faker faker = new Faker();
 
         //Populate the method map with random method steps.
         for (int i = 0; i < numberOfMethodSteps; i++) {
@@ -95,7 +95,7 @@ public interface RecipeDataFactory {
     static Set<String> generateIngredientSet(final int maxIngredientSetSize) {
 
         //Create the ingredient set and define the number of ingredients in the recipe.
-        Set<String> ingredientSet = new HashSet<>();
+        final Set<String> ingredientSet = new HashSet<>();
         final int numberOfIngredients = generateNumber(maxIngredientSetSize);
 
         //Populate the ingredient set with random ingredients.

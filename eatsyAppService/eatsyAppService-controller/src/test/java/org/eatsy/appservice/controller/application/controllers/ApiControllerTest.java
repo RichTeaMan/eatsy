@@ -62,13 +62,13 @@ public class ApiControllerTest {
 
         //Executes some code of the class under test. In this case, build the mock request that will hit the
         // "/add" endpoint and trigger the below chain method.
-        MockHttpServletRequestBuilder mockRequest;
+        final MockHttpServletRequestBuilder mockRequest;
         try {
             mockRequest = MockMvcRequestBuilders.post(EatsyRecipeTestParamters.ADD_RECIPE)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .content(this.objectMapper.writeValueAsString(recipeModel));
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -92,7 +92,7 @@ public class ApiControllerTest {
             mockMvc.perform(mockRequest)
                     .andExpect(status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$.ingredientSet").exists());
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -105,20 +105,20 @@ public class ApiControllerTest {
     public void checkRetrieveAllRecipesSuccess() {
 
         //Create a list of recipes to return in the mock;
-        List<RecipeModel> allRecipes = RecipeModelDataFactory.generateRecipeModelsList(
+        final List<RecipeModel> allRecipes = RecipeModelDataFactory.generateRecipeModelsList(
                 EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
         //Gather some information about the data to validate the assertion
-        String nameOfFirstRecipeInList = allRecipes.get(0).getName();
+        final String nameOfFirstRecipeInList = allRecipes.get(0).getName();
 
         //Configure the mock to return the recipes when the retrieveAllRecipes is called.
         Mockito.when(recipeFactoryHandler.retrieveAllRecipes()).thenReturn(allRecipes);
 
         //Build the mock request that will hit the "/retrieveAllRecipes" endpoint and trigger the above chain method.
-        MockHttpServletRequestBuilder mockRequest;
+        final MockHttpServletRequestBuilder mockRequest;
         try {
             mockRequest = MockMvcRequestBuilders.get(EatsyRecipeTestParamters.RETRIEVE_ALL_RECIPES)
                     .contentType(MediaType.APPLICATION_JSON);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -128,7 +128,7 @@ public class ApiControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(allRecipes.size())))
                     .andExpect(jsonPath("$[0].name", is(nameOfFirstRecipeInList)));
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -141,10 +141,10 @@ public class ApiControllerTest {
     public void checkDeleteRecipeEndpointSuccess() {
 
         //Create a list of recipes to return in the mock;
-        List<RecipeModel> allRecipes = RecipeModelDataFactory.generateRecipeModelsList(
+        final List<RecipeModel> allRecipes = RecipeModelDataFactory.generateRecipeModelsList(
                 EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
         //Gather some information about the data to validate the assertion
-        String nameOfFirstRecipeInList = allRecipes.get(0).getName();
+        final String nameOfFirstRecipeInList = allRecipes.get(0).getName();
 
         /*
         Configure the mock to return the recipe model list when the deleteRecipe endpoint is called.
@@ -152,16 +152,16 @@ public class ApiControllerTest {
         This test confirms the endpoint is correctly hit and service method triggered. If the test was interacting with the service layer,
         it would fail due to not finding a recipeModel with the corresponding key (this test case is covered in the service layer unit tests.
          */
-        String key = UUID.randomUUID().toString();
+        final String key = UUID.randomUUID().toString();
         Mockito.when(recipeFactoryHandler.deleteRecipe(key)).thenReturn(allRecipes);
 
         //Build the mock request that will hit the "/deleteRecipe" endpoint and trigger the above chain method.
-        MockHttpServletRequestBuilder mockRequest;
+        final MockHttpServletRequestBuilder mockRequest;
         try {
             mockRequest = MockMvcRequestBuilders.delete(EatsyRecipeTestParamters.DELETE_RECIPE, key)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON);
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -171,7 +171,7 @@ public class ApiControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(allRecipes.size())))
                     .andExpect(jsonPath("$[0].name", is(nameOfFirstRecipeInList)));
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -185,12 +185,12 @@ public class ApiControllerTest {
 
         //Setup
         //Create two recipes in the list of recipes
-        List<RecipeModel> allRecipes = RecipeModelDataFactory.generateRecipeModelsList(
+        final List<RecipeModel> allRecipes = RecipeModelDataFactory.generateRecipeModelsList(
                 EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
 
         //Create an 'updated version' of one of the two recipes by submitting an edit to the name.
-        RecipeModel updatedRecipe = allRecipes.get(0);
-        String updatedRecipeName = "Updated name";
+        final RecipeModel updatedRecipe = allRecipes.get(0);
+        final String updatedRecipeName = "Updated name";
         updatedRecipe.setKey(UUID.randomUUID().toString()); //The stored recipe would have a key, so this makes the mock response more realistic.
         updatedRecipe.setName(updatedRecipeName);
 
@@ -198,14 +198,14 @@ public class ApiControllerTest {
         Mockito.when(recipeFactoryHandler.updateRecipe(updatedRecipe.getKey(), updatedRecipe)).thenReturn(updatedRecipe);
 
         //Build the mock request that will hit the "/edit/{recipeKey}" endpoint and trigger the above chain method.
-        MockHttpServletRequestBuilder mockRequest;
-        String recipeKey = updatedRecipe.getKey();
+        final MockHttpServletRequestBuilder mockRequest;
+        final String recipeKey = updatedRecipe.getKey();
         try {
             mockRequest = MockMvcRequestBuilders.put(EatsyRecipeTestParamters.EDIT_RECIPE + recipeKey)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .content(this.objectMapper.writeValueAsString(updatedRecipe));
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
 
@@ -214,7 +214,7 @@ public class ApiControllerTest {
             mockMvc.perform(mockRequest)
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.name", is(updatedRecipeName)));
-        } catch (Exception e) {
+        } catch (final Exception e) {
             throw new RuntimeException(e);
         }
 

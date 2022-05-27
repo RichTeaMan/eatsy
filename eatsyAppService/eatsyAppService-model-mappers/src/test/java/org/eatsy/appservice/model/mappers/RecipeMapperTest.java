@@ -36,9 +36,9 @@ public class RecipeMapperTest {
     public void checkMapToModel() {
 
         //Setup - generate a recipe domain object to be mapped into a recipe model object.
-        Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
+        final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
         //Get this so that the assertion does not fail for different IDs being generated.
-        String uniqueID = recipe.getKey();
+        final String uniqueID = recipe.getKey();
 
         //Expectation
         final RecipeModel expectedRecipeModel = new RecipeModel();
@@ -80,15 +80,15 @@ public class RecipeMapperTest {
     public void checkMapToModelWithEmptyIngredientList() {
 
         //Setup - generate a recipe domain object to be mapped into a recipe model object.
-        Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
+        final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty ingredient set.
-        Recipe recipeWithEmptyIngredientsSet = new Recipe.RecipeBuilder(recipe.getName())
+        final Recipe recipeWithEmptyIngredientsSet = new Recipe.RecipeBuilder(recipe.getName())
                 .withIngredientSet(new HashSet<>())
                 .withMethod(recipe.getMethod())
                 .build();
 
         //Get this so that the assertion does not fail for different IDs being generated.
-        String uniqueID = recipeWithEmptyIngredientsSet.getKey();
+        final String uniqueID = recipeWithEmptyIngredientsSet.getKey();
 
         //Expectation
         final RecipeModel expectedRecipeModel = new RecipeModel();
@@ -112,15 +112,15 @@ public class RecipeMapperTest {
     public void checkMapToModelWithEmptyMethod() {
 
         //Setup - generate a recipe domain object to be mapped into a recipe model object.
-        Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
+        final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty method.
-        Recipe recipeWithEmptyMap = new Recipe.RecipeBuilder(recipe.getName())
+        final Recipe recipeWithEmptyMap = new Recipe.RecipeBuilder(recipe.getName())
                 .withIngredientSet(recipe.getIngredientSet())
                 .withMethod(new TreeMap<>())
                 .build();
 
         //Get this so that the assertion does not fail for different IDs being generated.
-        String uniqueID = recipeWithEmptyMap.getKey();
+        final String uniqueID = recipeWithEmptyMap.getKey();
 
         //Expectation
         final RecipeModel expectedRecipeModel = new RecipeModel();
@@ -144,15 +144,15 @@ public class RecipeMapperTest {
     public void checkCantMapModelWithEmptyName() {
 
         //Setup - generate a recipe domain object to be mapped into a recipe model object.
-        Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
+        final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty name.
-        Recipe recipeWithEmptyName = new Recipe.RecipeBuilder("          ")
+        final Recipe recipeWithEmptyName = new Recipe.RecipeBuilder("          ")
                 .withIngredientSet(recipe.getIngredientSet())
                 .withMethod(recipe.getMethod())
                 .build();
 
         //Expectation - cannot map a recipe domain object with an empty recipeName
-        RecipeModel expectedRecipeModel = null;
+        final RecipeModel expectedRecipeModel = null;
 
         //Test
         final RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipeWithEmptyName);

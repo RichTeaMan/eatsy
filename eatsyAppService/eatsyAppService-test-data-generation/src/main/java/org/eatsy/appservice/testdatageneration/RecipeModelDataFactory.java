@@ -20,15 +20,15 @@ public interface RecipeModelDataFactory {
     static RecipeModel generateRandomRecipeModel(final int maxIngredientSetSize, final int maxMethodMapSize) {
 
         //Setup
-        RecipeModel recipeModel = new RecipeModel();
+        final RecipeModel recipeModel = new RecipeModel();
         //Faker object to generate the test data
-        Faker faker = new Faker();
+        final Faker faker = new Faker();
         //Generate recipe name
-        String recipeName = faker.food().dish();
+        final String recipeName = faker.food().dish();
         //Generate a set of ingredients for the recipe.
-        Set<String> generatedIngredientSet = generateIngredientSet(maxIngredientSetSize);
+        final Set<String> generatedIngredientSet = generateIngredientSet(maxIngredientSetSize);
         //Generate a map of method steps.
-        Map<Integer, String> generatedMethodMap = generateMethodMap(maxMethodMapSize);
+        final Map<Integer, String> generatedMethodMap = generateMethodMap(maxMethodMapSize);
 
         recipeModel.setName(recipeName);
         recipeModel.setIngredientSet(generatedIngredientSet);
@@ -72,7 +72,7 @@ public interface RecipeModelDataFactory {
         final int numberOfMethodSteps = generateNumber(maxMethodMapSize);
 
         //Faker object to generate the test data
-        Faker faker = new Faker();
+        final Faker faker = new Faker();
 
         //Populate the method map with random method steps.
         for (int i = 0; i < numberOfMethodSteps; i++) {
@@ -97,7 +97,7 @@ public interface RecipeModelDataFactory {
         final int numberOfIngredients = generateNumber(maxIngredientSetSize);
 
         //Faker object to generate the test data
-        Faker faker = new Faker();
+        final Faker faker = new Faker();
 
         //Populate the ingredient set with random ingredients.
         for (int i = 0; i < numberOfIngredients; i++) {
