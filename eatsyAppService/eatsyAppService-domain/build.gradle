@@ -4,4 +4,14 @@ dependencies {
     // https://projectlombok.org
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    // Test dependencies
+    // (In JUnit 5 the API is separated from the runtime)
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    //EqualsVerifier
+    testImplementation "nl.jqno.equalsverifier:equalsverifier:$equalsVerifierVersion"
+    //ToStringVerifier
+    testImplementation "com.jparams:to-string-verifier:$toStringVerifierVersion"
+
 }
