@@ -38,29 +38,7 @@ public interface RecipeDataFactory {
         return recipe;
 
     }
-
-    /**
-     * Uses the Java Faker library to create a list of Recipe objects
-     *
-     * @param maxNumberOfRecipes   Max value for the generated number of recipe in the list.
-     * @param maxIngredientSetSize Max value for the generated number of ingredients in each recipe
-     * @param maxMethodMapSize     Max value for the generated number of method steps in each recipe
-     * @return a randomly generated list of recipe objects.
-     */
-    static List<Recipe> generateRecipeList(final int maxNumberOfRecipes, final int maxIngredientSetSize, final int maxMethodMapSize) {
-
-        //Create the recipe list and define the number of recipes in the list.
-        final List<Recipe> recipeList = new ArrayList<>();
-        final int numberOfRecipesInList = generateNumber(maxNumberOfRecipes);
-
-        //Populate the recipe list with random recipeModels.
-        for (int i = 0; i < numberOfRecipesInList; i++) {
-            recipeList.add(generateRandomRecipe(maxIngredientSetSize, maxMethodMapSize));
-        }
-
-        return recipeList;
-    }
-
+    
     /**
      * Generates a set of random method steps.
      *
