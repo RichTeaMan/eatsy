@@ -5,6 +5,7 @@ import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.service.RecipeFactory;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactoryHandler;
+import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParamters;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -65,9 +66,9 @@ public class ApiControllerTest {
     @BeforeAll
     public void setup() {
         recipeModelDataFactory = new RecipeModelDataFactoryHandler();
-        maxIngredientSetSize = 20;
-        maxMethodMapSize = 10;
-        maxNumberOfRecipes = 15;
+        maxIngredientSetSize = EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE;
+        maxMethodMapSize = EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE;
+        maxNumberOfRecipes = EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES;
     }
 
     /**
@@ -84,7 +85,7 @@ public class ApiControllerTest {
         // "/add" endpoint and trigger the below chain method.
         MockHttpServletRequestBuilder mockRequest;
         try {
-            mockRequest = MockMvcRequestBuilders.post("/api/add")
+            mockRequest = MockMvcRequestBuilders.post(EatsyRecipeTestParamters.ADD_RECIPE)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .content(this.objectMapper.writeValueAsString(recipeModel));
@@ -135,7 +136,7 @@ public class ApiControllerTest {
         //Build the mock request that will hit the "/retrieveAllRecipes" endpoint and trigger the above chain method.
         MockHttpServletRequestBuilder mockRequest;
         try {
-            mockRequest = MockMvcRequestBuilders.get("/api/retrieveAllRecipes")
+            mockRequest = MockMvcRequestBuilders.get(EatsyRecipeTestParamters.RETRIEVE_ALL_RECIPES)
                     .contentType(MediaType.APPLICATION_JSON);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -176,7 +177,7 @@ public class ApiControllerTest {
         //Build the mock request that will hit the "/deleteRecipe" endpoint and trigger the above chain method.
         MockHttpServletRequestBuilder mockRequest;
         try {
-            mockRequest = MockMvcRequestBuilders.delete("/api/deleteRecipe?recipeKey={key}", key)
+            mockRequest = MockMvcRequestBuilders.delete(EatsyRecipeTestParamters.DELETE_RECIPE, key)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON);
         } catch (Exception e) {
@@ -218,7 +219,7 @@ public class ApiControllerTest {
         MockHttpServletRequestBuilder mockRequest;
         String recipeKey = updatedRecipe.getKey();
         try {
-            mockRequest = MockMvcRequestBuilders.put("/api/edit/" + recipeKey)
+            mockRequest = MockMvcRequestBuilders.put(EatsyRecipeTestParamters.EDIT_RECIPE + recipeKey)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .content(this.objectMapper.writeValueAsString(updatedRecipe));

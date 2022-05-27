@@ -5,6 +5,7 @@ import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.model.mappers.RecipeMapperHandler;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactoryHandler;
+import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParamters;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,9 +45,9 @@ public class RetrieveAllRecipesTests {
         recipeMapper = new RecipeMapperHandler();
         recipeFactory = new RecipeFactoryHandler(recipeMapper);
         recipeModelDataFactory = new RecipeModelDataFactoryHandler();
-        maxNumberOfRecipes = 15;
-        maxIngredientSetSize = 20;
-        maxMethodMapSize = 10;
+        maxNumberOfRecipes = EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES;
+        maxIngredientSetSize = EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE;
+        maxMethodMapSize = EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE;
     }
 
     /**

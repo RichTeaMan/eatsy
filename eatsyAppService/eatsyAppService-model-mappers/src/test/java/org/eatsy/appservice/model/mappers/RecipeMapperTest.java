@@ -4,6 +4,7 @@ import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.testdatageneration.RecipeDataFactory;
 import org.eatsy.appservice.testdatageneration.RecipeDataFactoryHandler;
+import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParamters;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,8 +38,8 @@ public class RecipeMapperTest {
     public void setup() {
         recipeMapper = new RecipeMapperHandler();
         recipeDataFactory = new RecipeDataFactoryHandler();
-        maxIngredientSetSize = 20;
-        maxMethodMapSize = 10;
+        maxIngredientSetSize = EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE;
+        maxMethodMapSize = EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE;
     }
 
     /**
@@ -94,7 +95,11 @@ public class RecipeMapperTest {
         //Setup - generate a recipe domain object to be mapped into a recipe model object.
         Recipe recipe = recipeDataFactory.generateRandomRecipe(maxIngredientSetSize, maxMethodMapSize);
         //Make the recipe have an empty ingredient set.
-        Recipe recipeWithEmptyIngredientsSet = new Recipe(recipe.getName(), new HashSet<>(), recipe.getMethod());
+        Recipe recipeWithEmptyIngredientsSet = new Recipe.RecipeBuilder(recipe.getName())
+                .withIngredientSet(new HashSet<>())
+                .withMethod(recipe.getMethod())
+                .build();
+
         //Get this so that the assertion does not fail for different IDs being generated.
         String uniqueID = recipeWithEmptyIngredientsSet.getKey();
 
@@ -122,7 +127,11 @@ public class RecipeMapperTest {
         //Setup - generate a recipe domain object to be mapped into a recipe model object.
         Recipe recipe = recipeDataFactory.generateRandomRecipe(maxIngredientSetSize, maxMethodMapSize);
         //Make the recipe have an empty method.
-        Recipe recipeWithEmptyMap = new Recipe(recipe.getName(), recipe.getIngredientSet(), new TreeMap<>());
+        Recipe recipeWithEmptyMap = new Recipe.RecipeBuilder(recipe.getName())
+                .withIngredientSet(recipe.getIngredientSet())
+                .withMethod(new TreeMap<>())
+                .build();
+
         //Get this so that the assertion does not fail for different IDs being generated.
         String uniqueID = recipeWithEmptyMap.getKey();
 
@@ -150,7 +159,10 @@ public class RecipeMapperTest {
         //Setup - generate a recipe domain object to be mapped into a recipe model object.
         Recipe recipe = recipeDataFactory.generateRandomRecipe(maxIngredientSetSize, maxMethodMapSize);
         //Make the recipe have an empty name.
-        Recipe recipeWithEmptyName = new Recipe("          ", recipe.getIngredientSet(), recipe.getMethod());
+        Recipe recipeWithEmptyName = new Recipe.RecipeBuilder("          ")
+                .withIngredientSet(recipe.getIngredientSet())
+                .withMethod(recipe.getMethod())
+                .build();
 
         //Expectation - cannot map a recipe domain object with an empty recipeName
         RecipeModel expectedRecipeModel = null;
