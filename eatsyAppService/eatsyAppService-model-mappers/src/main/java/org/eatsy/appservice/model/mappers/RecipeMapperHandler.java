@@ -26,7 +26,7 @@ public class RecipeMapperHandler implements RecipeMapper {
      * @return the recipeModel object that has been created from the recipe domain object.
      */
     @Override
-    public RecipeModel mapToModel(Recipe recipe) {
+    public RecipeModel mapToModel(final Recipe recipe) {
 
         RecipeModel recipeModel = null;
         //The recipe to be mapped must not be null and the recipe must have a name.
@@ -53,12 +53,39 @@ public class RecipeMapperHandler implements RecipeMapper {
             //Map method.
             recipeModel.setMethod(new TreeMap<>());
 
-            for (Map.Entry<Integer, String> entry : recipe.getMethod().entrySet()) {
+            for (final Map.Entry<Integer, String> entry : recipe.getMethod().entrySet()) {
                 recipeModel.getMethod().put(entry.getKey(), entry.getValue());
             }
 
         }
         return recipeModel;
+
+    }
+
+    /**
+     * Map the recipeModel to a recipe domain object.
+     *
+     * @param recipeModel the model object to be mapped to domain object
+     * @return the recipe domain object that has been created from the recipe model object
+     */
+    @Override
+    public Recipe mapToDomain(final RecipeModel recipeModel) {
+
+        Recipe recipe = null;
+        //The recipe model to be mapped must not be null and the recipeModel must have a name.
+        if (null != recipeModel && StringUtils.isNotEmpty(recipeModel.getName().trim())) ;
+        {
+
+            logger.debug("Mapping model object " + recipeModel.getName() + " to a recipe domain object");
+
+            recipe = new Recipe.RecipeBuilder(recipeModel.getName())
+                    .withIngredientSet(recipeModel.getIngredientSet())
+                    .withMethod(recipeModel.getMethod())
+                    .build();
+
+        }
+
+        return recipe;
 
     }
 }

@@ -16,4 +16,12 @@ public interface RecipeMapper {
      */
     RecipeModel mapToModel(final Recipe recipe);
 
+    /**
+     * Map the recipeModel to a recipe domain object.
+     *
+     * @param recipeModel the model object to be mapped to domain object
+     * @return the recipe domain object that has been created from the recipe model object
+     */
+    Recipe mapToDomain(final RecipeModel recipeModel);
+
 }
