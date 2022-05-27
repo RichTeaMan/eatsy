@@ -30,7 +30,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
     private final RecipeMapper recipeMapperHandler;
 
     //Inject the dependency of the recipeMapper implementation into the RecipeFactoryHandler during instantiation.
-    public RecipeFactoryHandler(RecipeMapper recipeMapperHandler) {
+    public RecipeFactoryHandler(final RecipeMapper recipeMapperHandler) {
         this.recipeMapperHandler = recipeMapperHandler;
     }
 
@@ -41,7 +41,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
      * @return a recipe model object containing the data from the newly created recipe domain object
      */
     @Override
-    public RecipeModel createRecipe(RecipeModel recipeModel) {
+    public RecipeModel createRecipe(final RecipeModel recipeModel) {
 
         RecipeModel newRecipeModel = null;
 
@@ -50,7 +50,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
             logger.debug("Creating a new recipe domain object called " + recipeModel.getName());
 
-            Recipe recipe = new Recipe.RecipeBuilder(recipeModel.getName())
+            final Recipe recipe = new Recipe.RecipeBuilder(recipeModel.getName())
                     .withIngredientSet(recipeModel.getIngredientSet())
                     .withMethod(recipeModel.getMethod())
                     .build();
@@ -75,7 +75,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
         logger.debug("Retrieving all recipes to return to the controller");
 
         //map the updated recipeCache to a recipeModel list to be returned.
-        List<RecipeModel> allRecipesModel = getAllRecipeModels();
+        final List<RecipeModel> allRecipesModel = getAllRecipeModels();
 
         return allRecipesModel;
 
@@ -88,7 +88,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
      * @return the list of existing recipe models that will have been updated to remove recipeModelToDelete
      */
     @Override
-    public List<RecipeModel> deleteRecipe(String recipeKey) {
+    public List<RecipeModel> deleteRecipe(final String recipeKey) {
 
         logger.debug("deleting recipe with key : " + recipeKey);
 
@@ -96,7 +96,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
         recipeCache.remove(recipeKey);
 
         //map the updated recipeCache to a recipeModel list to be returned.
-        List<RecipeModel> allRecipesModel = getAllRecipeModels();
+        final List<RecipeModel> allRecipesModel = getAllRecipeModels();
 
         return allRecipesModel;
     }
@@ -110,23 +110,23 @@ public class RecipeFactoryHandler implements RecipeFactory {
      * @return the updated recipeModel with the new updates/changes applied.
      */
     @Override
-    public RecipeModel updateRecipe(String recipeKey, RecipeModel recipeModelWithUpdates) {
+    public RecipeModel updateRecipe(final String recipeKey, final RecipeModel recipeModelWithUpdates) {
 
         logger.debug("replacing recipe with key: " + recipeKey + " for the new updated version");
 
         //Create the updated Recipe domain object
-        Recipe updatedRecipe = new Recipe.RecipeBuilder(recipeModelWithUpdates.getName())
+        final Recipe updatedRecipe = new Recipe.RecipeBuilder(recipeModelWithUpdates.getName())
                 .withIngredientSet(recipeModelWithUpdates.getIngredientSet())
                 .withMethod(recipeModelWithUpdates.getMethod())
                 .build();
-        
+
         //replace the outdated recipe with the updated version in the recipeCache.
         recipeCache.replace(recipeKey, updatedRecipe);
         //The updatedRecipe domain object has a new key generated on creation, so the Maps Key value will need to be updated to correspond.
         recipeCache.put(updatedRecipe.getKey(), recipeCache.remove(recipeKey));
 
         //Map the updated recipe to a RecipeModel and return.
-        RecipeModel updatedRecipeModel = recipeMapperHandler.mapToModel(updatedRecipe);
+        final RecipeModel updatedRecipeModel = recipeMapperHandler.mapToModel(updatedRecipe);
         return updatedRecipeModel;
     }
 
@@ -136,7 +136,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
      * @return all recipe models.
      */
     private List<RecipeModel> getAllRecipeModels() {
-        List<RecipeModel> allRecipesModel = new ArrayList();
+        final List<RecipeModel> allRecipesModel = new ArrayList();
         recipeCache.forEach((key, value) -> {
                     allRecipesModel.add(recipeMapperHandler.mapToModel(value));
                 }
