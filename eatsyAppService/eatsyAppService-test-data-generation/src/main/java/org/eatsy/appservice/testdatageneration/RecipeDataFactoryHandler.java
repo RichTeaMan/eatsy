@@ -32,8 +32,11 @@ public class RecipeDataFactoryHandler implements RecipeDataFactory {
         Map<Integer, String> generatedMethodMap = generateMethodMap(faker, maxMethodMapSize);
 
         //Construct random recipe
-        Recipe recipe = new Recipe(recipeName, generatedIngredientSet, generatedMethodMap);
-
+        Recipe recipe = new Recipe.RecipeBuilder(recipeName)
+                .withIngredientSet(generatedIngredientSet)
+                .withMethod(generatedMethodMap)
+                .build();
+        
         return recipe;
 
     }

@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eatsy.appservice.controller.application.constants.EatsyRecipeEndpoints;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.service.RecipeFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -21,7 +22,7 @@ import java.util.List;
  * All handling methods on this controller are relative to the /api path.
  */
 @RestController //Inform the DispatcherServlet that this class contains request mapping methods.
-@RequestMapping("/api")
+@RequestMapping(EatsyRecipeEndpoints.API)
 @EnableAutoConfiguration
 public class ApiController {
 
@@ -45,7 +46,7 @@ public class ApiController {
      */
     @Operation(description = "Returns a new recipe with the information provided in the request")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully created new recipe.")})
-    @RequestMapping(value = "/add", method = {RequestMethod.POST})
+    @RequestMapping(value = EatsyRecipeEndpoints.ADD_RECIPE, method = {RequestMethod.POST})
     @ResponseBody
     public ResponseEntity<RecipeModel> addRecipe(
             @Parameter(description = "The recipe to be created.") @RequestBody final RecipeModel recipeModel) {
@@ -64,7 +65,7 @@ public class ApiController {
      */
     @Operation(description = "Returns all recipes and their associated unique ids that have been created.")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully returned all recipes.")})
-    @RequestMapping(value = "/retrieveAllRecipes", method = {RequestMethod.GET})
+    @RequestMapping(value = EatsyRecipeEndpoints.RETRIEVE_ALL_RECIPES, method = {RequestMethod.GET})
     @ResponseBody
     public List<RecipeModel> retrieveAllRecipes() {
 
@@ -80,7 +81,7 @@ public class ApiController {
      */
     @Operation(description = "Deletes the submitted recipe and returns the updated list of all recipes")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully deleted chosen recipe.")})
-    @RequestMapping(value = "/deleteRecipe", method = {RequestMethod.DELETE})
+    @RequestMapping(value = EatsyRecipeEndpoints.DELETE_RECIPE, method = {RequestMethod.DELETE})
     @ResponseBody
     public List<RecipeModel> deleteRecipe(String recipeKey) {
 
@@ -100,7 +101,7 @@ public class ApiController {
      */
     @Operation(description = "Replaces the existing recipe with the updated version supplied in the PUT request")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully updated chosen recipe.")})
-    @RequestMapping(value = "/edit/{recipeKey}", method = {RequestMethod.PUT})
+    @RequestMapping(value = EatsyRecipeEndpoints.EDIT_RECIPE, method = {RequestMethod.PUT})
     @ResponseBody
     public RecipeModel editRecipe(
             @Parameter(description = "The recipe with the new information to update the existing recipe")

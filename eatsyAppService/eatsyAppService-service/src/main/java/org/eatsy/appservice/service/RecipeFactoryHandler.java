@@ -50,7 +50,11 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
             logger.debug("Creating a new recipe domain object called " + recipeModel.getName());
 
-            Recipe recipe = new Recipe(recipeModel.getName(), recipeModel.getIngredientSet(), recipeModel.getMethod());
+            Recipe recipe = new Recipe.RecipeBuilder(recipeModel.getName())
+                    .withIngredientSet(recipeModel.getIngredientSet())
+                    .withMethod(recipeModel.getMethod())
+                    .build();
+
             //Add the new recipe to the cache of recipes
             recipeCache.put(recipe.getKey(), recipe);
 
@@ -111,8 +115,11 @@ public class RecipeFactoryHandler implements RecipeFactory {
         logger.debug("replacing recipe with key: " + recipeKey + " for the new updated version");
 
         //Create the updated Recipe domain object
-        Recipe updatedRecipe = new Recipe(recipeModelWithUpdates.getName(), recipeModelWithUpdates.getIngredientSet(), recipeModelWithUpdates.getMethod());
-
+        Recipe updatedRecipe = new Recipe.RecipeBuilder(recipeModelWithUpdates.getName())
+                .withIngredientSet(recipeModelWithUpdates.getIngredientSet())
+                .withMethod(recipeModelWithUpdates.getMethod())
+                .build();
+        
         //replace the outdated recipe with the updated version in the recipeCache.
         recipeCache.replace(recipeKey, updatedRecipe);
         //The updatedRecipe domain object has a new key generated on creation, so the Maps Key value will need to be updated to correspond.
