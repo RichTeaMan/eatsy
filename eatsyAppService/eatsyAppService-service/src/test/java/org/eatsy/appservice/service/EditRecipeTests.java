@@ -28,7 +28,7 @@ public class EditRecipeTests {
     @BeforeEach
     public void setup() {
         //RecipeFactory dependent on RecipeMapper
-        RecipeMapper recipeMapper = new RecipeMapperHandler();
+        final RecipeMapper recipeMapper = new RecipeMapperHandler();
         recipeFactory = new RecipeFactoryHandler(recipeMapper);
 
     }
@@ -41,28 +41,28 @@ public class EditRecipeTests {
 
         //Setup
         //Create a list of recipes to be added to the recipeCache
-        List<RecipeModel> expectedRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
+        final List<RecipeModel> expectedRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
 
         //Populate the recipeCache with the randomly generated recipe list
-        for (RecipeModel currentRecipeModel : expectedRecipeModelList) {
-            RecipeModel createdRecipeModel = recipeFactory.createRecipe(currentRecipeModel);
+        for (final RecipeModel currentRecipeModel : expectedRecipeModelList) {
+            final RecipeModel createdRecipeModel = recipeFactory.createRecipe(currentRecipeModel);
 
             //To ensure the test doesn't fail on the randomly generated UUIDs when doing object comparisons.
             currentRecipeModel.setKey(createdRecipeModel.getKey());
         }
 
         //Get a new name to edit the recipe with
-        String newRecipeName = RecipeModelDataFactory.generateRandomRecipeModel(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE).getName();
+        final String newRecipeName = RecipeModelDataFactory.generateRandomRecipeModel(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE).getName();
         //Select a recipe in the list for the recipeName edit at random
-        int randomListIndex = (int) ((Math.random() * expectedRecipeModelList.size()));
-        String uniqueKeyOfRecipeToEdit = expectedRecipeModelList.get(randomListIndex).getKey();
+        final int randomListIndex = (int) ((Math.random() * expectedRecipeModelList.size()));
+        final String uniqueKeyOfRecipeToEdit = expectedRecipeModelList.get(randomListIndex).getKey();
 
         //Expected - What we expect the recipeModel to be after the name update (also what we will be submitting to the service as the updated model)
-        RecipeModel expectedUpdatedRecipeModel = expectedRecipeModelList.get(randomListIndex);
+        final RecipeModel expectedUpdatedRecipeModel = expectedRecipeModelList.get(randomListIndex);
         expectedUpdatedRecipeModel.setName(newRecipeName);
 
         //Test - edit one of the recipe names in the recipeCache (This returned recipeModel will have a new key)
-        RecipeModel actualUpdatedRecipeModel = recipeFactory.updateRecipe(uniqueKeyOfRecipeToEdit, expectedUpdatedRecipeModel);
+        final RecipeModel actualUpdatedRecipeModel = recipeFactory.updateRecipe(uniqueKeyOfRecipeToEdit, expectedUpdatedRecipeModel);
         //To ensure test doesn't fail on the randomly generated UUIDs
         expectedUpdatedRecipeModel.setKey(actualUpdatedRecipeModel.getKey());
 

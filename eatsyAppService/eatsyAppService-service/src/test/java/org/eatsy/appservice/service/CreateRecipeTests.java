@@ -29,7 +29,7 @@ public class CreateRecipeTests {
     @BeforeEach
     public void setup() {
         //RecipeFactory dependent on RecipeMapper
-        RecipeMapper recipeMapper = new RecipeMapperHandler();
+        final RecipeMapper recipeMapper = new RecipeMapperHandler();
         recipeFactory = new RecipeFactoryHandler(recipeMapper);
 
     }
@@ -91,7 +91,7 @@ public class CreateRecipeTests {
         inputRecipeModel.setIngredientSet(new HashSet<>());
 
         //Test
-        RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
+        final RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
         //Take the randomly generated key out of the assertion
         //Recipe key randomly generated, so they will never match and one wasn't assigned to the inputRecipeModel
         inputRecipeModel.setKey(actualRecipeModel.getKey());
@@ -115,7 +115,7 @@ public class CreateRecipeTests {
         inputRecipeModel.setMethod(new TreeMap<>());
 
         //Test
-        RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
+        final RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
         //Take the randomly generated key out of the assertion
         //Recipe key randomly generated, so they will never match and one wasn't assigned to the inputRecipeModel
         inputRecipeModel.setKey(actualRecipeModel.getKey());
@@ -139,10 +139,10 @@ public class CreateRecipeTests {
         inputRecipeModel.setName("         ");
 
         //Expectation - cannot create a recipe domain object without providing a recipe name.
-        RecipeModel expectedRecipeModel = null;
+        final RecipeModel expectedRecipeModel = null;
 
         //Test
-        RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
+        final RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
 
         //Assert
         Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);

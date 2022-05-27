@@ -28,7 +28,7 @@ public class DeleteRecipeTests {
     @BeforeEach
     public void setup() {
         //RecipeFactory dependent on RecipeMapper
-        RecipeMapper recipeMapper = new RecipeMapperHandler();
+        final RecipeMapper recipeMapper = new RecipeMapperHandler();
         recipeFactory = new RecipeFactoryHandler(recipeMapper);
 
     }
@@ -42,12 +42,12 @@ public class DeleteRecipeTests {
 
         //Setup
         //Create a list of recipes to be added to the recipeCache
-        List<RecipeModel> expectedRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(
+        final List<RecipeModel> expectedRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(
                 EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
 
         //Populate the recipeCache with the randomly generated recipe list
-        for (RecipeModel currentRecipeModel : expectedRecipeModelList) {
-            RecipeModel createdRecipeModel = recipeFactory.createRecipe(currentRecipeModel);
+        for (final RecipeModel currentRecipeModel : expectedRecipeModelList) {
+            final RecipeModel createdRecipeModel = recipeFactory.createRecipe(currentRecipeModel);
 
             //To ensure the test doesn't fail on the randomly generated UUIDs when doing object comparisons.
             currentRecipeModel.setKey(createdRecipeModel.getKey());
@@ -55,11 +55,11 @@ public class DeleteRecipeTests {
 
         //Test - delete one of the recipes in the recipeCache
         //Select a recipe in the list for deletion at random
-        int randomListIndex = (int) ((Math.random() * expectedRecipeModelList.size()));
-        String uniqueKeyOfRecipeToDelete = expectedRecipeModelList.get(randomListIndex).getKey();
-        RecipeModel recipeModelToBeDeleted = expectedRecipeModelList.get(randomListIndex);
+        final int randomListIndex = (int) ((Math.random() * expectedRecipeModelList.size()));
+        final String uniqueKeyOfRecipeToDelete = expectedRecipeModelList.get(randomListIndex).getKey();
+        final RecipeModel recipeModelToBeDeleted = expectedRecipeModelList.get(randomListIndex);
         //Delete the recipe
-        List<RecipeModel> actualUpdatedRecipeModelList = recipeFactory.deleteRecipe(uniqueKeyOfRecipeToDelete);
+        final List<RecipeModel> actualUpdatedRecipeModelList = recipeFactory.deleteRecipe(uniqueKeyOfRecipeToDelete);
 
         //Assert - check the recipe requested for deletion is no longer in the list of recipes, Check all the others are.
         Assertions.assertTrue(expectedRecipeModelList.containsAll(actualUpdatedRecipeModelList));

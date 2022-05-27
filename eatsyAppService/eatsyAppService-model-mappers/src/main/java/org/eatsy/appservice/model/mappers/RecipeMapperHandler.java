@@ -60,8 +60,7 @@ public class RecipeMapperHandler implements RecipeMapper {
 
         Recipe recipe = null;
         //The recipe model to be mapped must not be null and the recipeModel must have a name.
-        if (null != recipeModel && StringUtils.isNotEmpty(recipeModel.getName().trim())) ;
-        {
+        if (null != recipeModel && StringUtils.isNotEmpty(recipeModel.getName().trim())) {
 
             logger.debug("Mapping model object " + recipeModel.getName() + " to a recipe domain object");
 

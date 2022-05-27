@@ -27,7 +27,7 @@ public class RetrieveAllRecipesTests {
     @BeforeEach
     public void setup() {
         //RecipeFactory dependent on RecipeMapper
-        RecipeMapper recipeMapper = new RecipeMapperHandler();
+        final RecipeMapper recipeMapper = new RecipeMapperHandler();
         recipeFactory = new RecipeFactoryHandler(recipeMapper);
 
     }
@@ -40,19 +40,19 @@ public class RetrieveAllRecipesTests {
 
         //Setup
         //Create the expected list of recipes to be retrieved
-        List<RecipeModel> expectedRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(
+        final List<RecipeModel> expectedRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(
                 EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
 
         //Populate the recipeCache with the randomly generated recipes
-        for (RecipeModel currentRecipeModel : expectedRecipeModelList) {
-            RecipeModel createdRecipeModel = recipeFactory.createRecipe(currentRecipeModel);
+        for (final RecipeModel currentRecipeModel : expectedRecipeModelList) {
+            final RecipeModel createdRecipeModel = recipeFactory.createRecipe(currentRecipeModel);
 
             //To ensure the test doesn't fail on the randomly generated UUIDs.
             currentRecipeModel.setKey(createdRecipeModel.getKey());
         }
 
         //Test
-        List<RecipeModel> actualRecipeModelsList = recipeFactory.retrieveAllRecipes();
+        final List<RecipeModel> actualRecipeModelsList = recipeFactory.retrieveAllRecipes();
 
         //Assert
         Assertions.assertEquals(expectedRecipeModelList, actualRecipeModelsList);
