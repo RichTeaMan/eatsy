@@ -33,7 +33,7 @@ public class ApiController {
     private RecipeFactory recipeFactoryHandler;
 
     //Inject the dependency of the recipeFactory implementation into the api controller during instantiation.
-    public ApiController(RecipeFactory recipeFactoryHandler) {
+    public ApiController(final RecipeFactory recipeFactoryHandler) {
         this.recipeFactoryHandler = recipeFactoryHandler;
     }
 
@@ -52,7 +52,7 @@ public class ApiController {
             @Parameter(description = "The recipe to be created.") @RequestBody final RecipeModel recipeModel) {
 
         logger.debug("A new request has been made to create a recipe called " + recipeModel.getName());
-        RecipeModel newRecipeModel = recipeFactoryHandler.createRecipe(recipeModel);
+        final RecipeModel newRecipeModel = recipeFactoryHandler.createRecipe(recipeModel);
 
         final ResponseEntity<RecipeModel> response = new ResponseEntity<RecipeModel>(newRecipeModel, HttpStatus.OK);
         return response;
@@ -83,10 +83,10 @@ public class ApiController {
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully deleted chosen recipe.")})
     @RequestMapping(value = EatsyRecipeEndpoints.DELETE_RECIPE, method = {RequestMethod.DELETE})
     @ResponseBody
-    public List<RecipeModel> deleteRecipe(String recipeKey) {
+    public List<RecipeModel> deleteRecipe(final String recipeKey) {
 
         logger.debug("A new request has been made to delete recipe: " + recipeKey);
-        List<RecipeModel> updatedRecipeList = recipeFactoryHandler.deleteRecipe(recipeKey);
+        final List<RecipeModel> updatedRecipeList = recipeFactoryHandler.deleteRecipe(recipeKey);
         return updatedRecipeList;
 
     }
@@ -108,7 +108,7 @@ public class ApiController {
             @RequestBody final RecipeModel recipeModelWithUpdates, @PathVariable final String recipeKey) {
 
         logger.debug("A new request has been made to update recipe: " + recipeKey);
-        RecipeModel updatedRecipeModel = recipeFactoryHandler.updateRecipe(recipeKey, recipeModelWithUpdates);
+        final RecipeModel updatedRecipeModel = recipeFactoryHandler.updateRecipe(recipeKey, recipeModelWithUpdates);
         return updatedRecipeModel;
     }
 
