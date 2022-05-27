@@ -4,9 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.service.RecipeFactory;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
-import org.eatsy.appservice.testdatageneration.RecipeModelDataFactoryHandler;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParamters;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
@@ -51,26 +49,6 @@ public class ApiControllerTest {
     @MockBean
     private RecipeFactory recipeFactoryHandler;
 
-    //Factory where the data generation methods are stored
-    private RecipeModelDataFactory recipeModelDataFactory;
-
-    //Max value for the generated number of ingredients in the recipe
-    private int maxIngredientSetSize;
-
-    //Max value for the generated number of method steps in the recipe
-    private int maxMethodMapSize;
-
-    //Max value for the generated number of recipeModels in the recipeModel list.
-    private int maxNumberOfRecipes;
-
-    @BeforeAll
-    public void setup() {
-        recipeModelDataFactory = new RecipeModelDataFactoryHandler();
-        maxIngredientSetSize = EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE;
-        maxMethodMapSize = EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE;
-        maxNumberOfRecipes = EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES;
-    }
-
     /**
      * Test the add recipe endpoint
      */
@@ -79,7 +57,8 @@ public class ApiControllerTest {
 
         //Setup - create a recipeModel object for mocking the RecipeFactory service whilst the /add endpoint
         // (in the REST controller) is under test.
-        final RecipeModel recipeModel = recipeModelDataFactory.generateRandomRecipeModel(maxIngredientSetSize, maxMethodMapSize);
+        final RecipeModel recipeModel = RecipeModelDataFactory
+                .generateRandomRecipeModel(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
 
         //Executes some code of the class under test. In this case, build the mock request that will hit the
         // "/add" endpoint and trigger the below chain method.
@@ -126,7 +105,8 @@ public class ApiControllerTest {
     public void checkRetrieveAllRecipesSuccess() {
 
         //Create a list of recipes to return in the mock;
-        List<RecipeModel> allRecipes = recipeModelDataFactory.generateRecipeModelsList(maxNumberOfRecipes, maxIngredientSetSize, maxMethodMapSize);
+        List<RecipeModel> allRecipes = RecipeModelDataFactory.generateRecipeModelsList(
+                EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
         //Gather some information about the data to validate the assertion
         String nameOfFirstRecipeInList = allRecipes.get(0).getName();
 
@@ -161,7 +141,8 @@ public class ApiControllerTest {
     public void checkDeleteRecipeEndpointSuccess() {
 
         //Create a list of recipes to return in the mock;
-        List<RecipeModel> allRecipes = recipeModelDataFactory.generateRecipeModelsList(maxNumberOfRecipes, maxIngredientSetSize, maxMethodMapSize);
+        List<RecipeModel> allRecipes = RecipeModelDataFactory.generateRecipeModelsList(
+                EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
         //Gather some information about the data to validate the assertion
         String nameOfFirstRecipeInList = allRecipes.get(0).getName();
 
@@ -204,7 +185,8 @@ public class ApiControllerTest {
 
         //Setup
         //Create two recipes in the list of recipes
-        List<RecipeModel> allRecipes = recipeModelDataFactory.generateRecipeModelsList(maxNumberOfRecipes, maxIngredientSetSize, maxMethodMapSize);
+        List<RecipeModel> allRecipes = RecipeModelDataFactory.generateRecipeModelsList(
+                EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
 
         //Create an 'updated version' of one of the two recipes by submitting an edit to the name.
         RecipeModel updatedRecipe = allRecipes.get(0);

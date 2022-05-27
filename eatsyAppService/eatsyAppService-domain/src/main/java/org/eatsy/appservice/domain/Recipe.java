@@ -42,13 +42,8 @@ public final class Recipe {
      * Builder for the Recipe Object.
      */
     /*
-    Using a builder as there are more than a handful of parameters (this will likely expand).
-    This will help avoid multiple constructors and helps control which fields are required for a Recipe on creation and which are not.
-
-    The returned Recipe object is immutable. The builder setter methods return the builder object
-    so are able to be chained for easy to read and write code.
-
-    Static as we do not want an instance of the Builder.
+    This will help avoid multiple constructors and helps control which fields
+    are required for a Recipe on creation and which are not.
      */
     public static class RecipeBuilder {
 

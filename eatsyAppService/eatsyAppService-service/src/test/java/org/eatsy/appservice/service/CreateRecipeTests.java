@@ -4,7 +4,6 @@ import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.model.mappers.RecipeMapperHandler;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
-import org.eatsy.appservice.testdatageneration.RecipeModelDataFactoryHandler;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParamters;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,25 +25,13 @@ public class CreateRecipeTests {
      */
     private RecipeFactory recipeFactory;
 
-    //RecipeFactory dependent on RecipeMapper
-    private RecipeMapper recipeMapper;
-
-    //Factory where the data generation methods are stored
-    private RecipeModelDataFactory recipeModelDataFactory;
-
-    //Max value for the generated number of ingredients in the recipe
-    private int maxIngredientSetSize;
-
-    //Max value for the generated number of method steps in the recipe
-    private int maxMethodMapSize;
 
     @BeforeEach
     public void setup() {
-        recipeMapper = new RecipeMapperHandler();
+        //RecipeFactory dependent on RecipeMapper
+        RecipeMapper recipeMapper = new RecipeMapperHandler();
         recipeFactory = new RecipeFactoryHandler(recipeMapper);
-        recipeModelDataFactory = new RecipeModelDataFactoryHandler();
-        maxIngredientSetSize = EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE;
-        maxMethodMapSize = EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE;
+
     }
 
     /**
@@ -59,7 +46,8 @@ public class CreateRecipeTests {
 
         //Setup
         //Create an input recipe model - this will also be the expected output from the method under test.
-        final RecipeModel inputRecipeModel = recipeModelDataFactory.generateRandomRecipeModel(maxIngredientSetSize, maxMethodMapSize);
+        final RecipeModel inputRecipeModel = RecipeModelDataFactory
+                .generateRandomRecipeModel(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
@@ -98,7 +86,8 @@ public class CreateRecipeTests {
         //Setup
         //Create an input recipe model(with an empty ingredients list)
         //This will also be the expected output from the method under test.
-        final RecipeModel inputRecipeModel = recipeModelDataFactory.generateRandomRecipeModel(maxIngredientSetSize, maxMethodMapSize);
+        final RecipeModel inputRecipeModel = RecipeModelDataFactory
+                .generateRandomRecipeModel(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
         inputRecipeModel.setIngredientSet(new HashSet<>());
 
         //Test
@@ -121,7 +110,8 @@ public class CreateRecipeTests {
         //Setup
         //Create an input recipe model(with an empty method list)
         //This will also be the expected output from the method under test.
-        final RecipeModel inputRecipeModel = recipeModelDataFactory.generateRandomRecipeModel(maxIngredientSetSize, maxMethodMapSize);
+        final RecipeModel inputRecipeModel = RecipeModelDataFactory
+                .generateRandomRecipeModel(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
         inputRecipeModel.setMethod(new TreeMap<>());
 
         //Test
@@ -144,7 +134,8 @@ public class CreateRecipeTests {
         //Setup
         //Create an input recipe model(with an empty method list)
         //This will also be the expected output from the method under test.
-        final RecipeModel inputRecipeModel = recipeModelDataFactory.generateRandomRecipeModel(maxIngredientSetSize, maxMethodMapSize);
+        final RecipeModel inputRecipeModel = RecipeModelDataFactory
+                .generateRandomRecipeModel(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
         inputRecipeModel.setName("         ");
 
         //Expectation - cannot create a recipe domain object without providing a recipe name.
