@@ -87,7 +87,7 @@ clean {
 jar {
     manifest {
         attributes(
-                'Main-Class': 'org.eatsy.appservice.controller.application'
+                'Main-Class': 'org.eatsy.appservice.controller.application.ServerRunner'
         )
     }
 }
