@@ -17,7 +17,7 @@ import java.util.TreeMap;
  */
 //Define lifecycle of tests to be per method rather than per class. Allows use of @BeforeEach
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-public class RecipeMapperTest {
+public class MapToModelMapperTests {
 
     /**
      * Class under test.
