@@ -168,4 +168,33 @@ public class MapToDomainMapperTests {
 
     }
 
+    /**
+     * Test that the mappers can handle a situation when non-compulsory fields are not initialised.
+     */
+    @Test
+    public void checkMapToDomainNoMethodOrIngredients() {
+
+        //Setup
+        //Generate a recipe model object to be mapped into recipe domain object
+        final RecipeModel recipeModel = RecipeModelDataFactory.generateRandomRecipeModel(
+                EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe model have only the required fields
+        final RecipeModel requiredFieldsOnlyRecipeModel = new RecipeModel();
+        requiredFieldsOnlyRecipeModel.setName(recipeModel.getName());
+
+        //Expected
+        final Recipe expectedDomainRecipe = new Recipe
+                .RecipeBuilder(requiredFieldsOnlyRecipeModel.getName())
+                .build();
+
+        //Test
+        final Recipe actualDomainRecipe = recipeMapper.mapToDomain(requiredFieldsOnlyRecipeModel);
+
+        //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
+        assertThat(expectedDomainRecipe)
+                .usingRecursiveComparison().ignoringFields("key")
+                .isEqualTo(actualDomainRecipe);
+
+    }
+
 }
