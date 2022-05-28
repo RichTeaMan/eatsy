@@ -149,4 +149,27 @@ public class CreateRecipeTests {
 
     }
 
+    /**
+     * Check the Recipe Factory can create a recipe with only the required fields.
+     */
+    @Test
+    public void checkCreateRecipeWithRequiredFields() {
+
+        //Setup
+        //Create an input recipe model(with only the required fields)
+        final RecipeModel recipeModel = RecipeModelDataFactory
+                .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        final RecipeModel inputRecipeModel = new RecipeModel();
+        inputRecipeModel.setName(recipeModel.getName());
+
+        //Test
+        final RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
+
+        //Recipe key randomly generated, so they will never match and one wasn't assigned to the inputRecipeModel
+        inputRecipeModel.setKey(actualRecipeModel.getKey());
+
+        //Assert
+        Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
+    }
+
 }
