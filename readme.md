@@ -7,11 +7,9 @@ A REST API for creating, viewing, editing and deleting your favourite recipes.
 
 ## Getting started
 
-This Java project uses [The Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html).
-
 The below sections provide the necessary information to run the application locally.
 
-The server is run locally as a [Sprint Boot](https://spring.io/projects/spring-boot) application. This can be done from
+This Java project uses [The Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html), and the server is run locally as a [Sprint Boot](https://spring.io/projects/spring-boot) application. This can be done from
 a bash terminal:
 
 ```
