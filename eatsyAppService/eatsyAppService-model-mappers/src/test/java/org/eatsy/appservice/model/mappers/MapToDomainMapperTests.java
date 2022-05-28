@@ -4,6 +4,7 @@ import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -53,6 +54,23 @@ public class MapToDomainMapperTests {
         assertThat(expectedRecipe)
                 .usingRecursiveComparison().ignoringFields("key")
                 .isEqualTo(actualRecipe);
+
+    }
+
+    /**
+     * Check the recipe mapper gracefully deals with null being passed to the service.
+     */
+    @Test
+    public void checkMapToDomainWithNull() {
+
+        //Expectation
+        final Recipe expectedRecipe = null;
+
+        //Test
+        final Recipe actualRecipe = recipeMapper.mapToDomain(null);
+
+        //Assert
+        Assertions.assertEquals(expectedRecipe, actualRecipe);
 
     }
 
