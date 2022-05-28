@@ -17,4 +17,6 @@ dependencies {
     // Test dependencies (In JUnit 5 the API is separated from the runtime)
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    //AssertJ
+    testImplementation("org.assertj:assertj-core:$assertJVersion")
 }
