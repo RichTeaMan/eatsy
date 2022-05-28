@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.util.HashSet;
+import java.util.TreeMap;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -100,6 +101,38 @@ public class MapToDomainMapperTests {
 
         //Test
         final Recipe actualDomainRecipe = recipeMapper.mapToDomain(recipeModelWithEmptyIngredientSet);
+
+        //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
+        assertThat(expectedDomainRecipe)
+                .usingRecursiveComparison().ignoringFields("key")
+                .isEqualTo(actualDomainRecipe);
+
+    }
+
+    /**
+     * Check the Recipe Mapper can map a RecipeModel with an empty method.
+     */
+    @Test
+    public void checkMapToDomainWithEmptyMethod() {
+
+        //Setup
+        //Generate a recipe model object to be mapped into recipe domain object
+        final RecipeModel recipeModel = RecipeModelDataFactory.generateRandomRecipeModel(
+                EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe model have an empty method.
+        final RecipeModel recipeModelWithEmptyMap = new RecipeModel();
+        recipeModelWithEmptyMap.setName(recipeModel.getName());
+        recipeModelWithEmptyMap.setIngredientSet(recipeModel.getIngredientSet());
+        recipeModelWithEmptyMap.setMethod(new TreeMap<>());
+
+        //Exception
+        final Recipe expectedDomainRecipe = new Recipe.RecipeBuilder(recipeModelWithEmptyMap.getName())
+                .withIngredientSet(recipeModelWithEmptyMap.getIngredientSet())
+                .withMethod(recipeModelWithEmptyMap.getMethod())
+                .build();
+
+        //Test
+        final Recipe actualDomainRecipe = recipeMapper.mapToDomain(recipeModelWithEmptyMap);
 
         //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
         assertThat(expectedDomainRecipe)
