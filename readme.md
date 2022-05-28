@@ -5,6 +5,8 @@ A REST API for creating, viewing, editing and deleting your favourite recipes.
 [![CircleCI](https://circleci.com/gh/DM1st/eatsy/tree/develop.svg?style=shield)](https://circleci.com/gh/DM1st/eatsy/tree/develop)
 [![Coverage Status](https://coveralls.io/repos/github/DM1st/eatsy/badge.svg?branch=develop)](https://coveralls.io/github/DM1st/eatsy?branch=develop)
 
+A live version of the Eatsy App Service can be found [here](https://eatsy-recipe-service.herokuapp.com/)
+
 ## Getting started
 
 The below sections provide the necessary information to run the application locally.
