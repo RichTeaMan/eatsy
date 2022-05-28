@@ -41,7 +41,8 @@ public class EditRecipeTests {
 
         //Setup
         //Create a list of recipes to be added to the recipeCache
-        final List<RecipeModel> expectedRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        final List<RecipeModel> expectedRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(
+                EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
         //Populate the recipeCache with the randomly generated recipe list
         for (final RecipeModel currentRecipeModel : expectedRecipeModelList) {
@@ -52,7 +53,8 @@ public class EditRecipeTests {
         }
 
         //Get a new name to edit the recipe with
-        final String newRecipeName = RecipeModelDataFactory.generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE).getName();
+        final String newRecipeName = RecipeModelDataFactory.generateRandomRecipeModel(
+                EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE).getName();
         //Select a recipe in the list for the recipeName edit at random
         final int randomListIndex = (int) ((Math.random() * expectedRecipeModelList.size()));
         final String uniqueKeyOfRecipeToEdit = expectedRecipeModelList.get(randomListIndex).getKey();
