@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.util.HashSet;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
@@ -71,6 +73,38 @@ public class MapToDomainMapperTests {
 
         //Assert
         Assertions.assertEquals(expectedRecipe, actualRecipe);
+
+    }
+
+    /**
+     * Check the Recipe Mapper can map a recipe with an empty ingredient set.
+     */
+    @Test
+    public void checkMapToDomainWithEmptyIngredientsList() {
+
+        //Setup
+        //Generate a recipe model object to be mapped into a recipe domain object.
+        final RecipeModel recipeModel = RecipeModelDataFactory.generateRandomRecipeModel(
+                EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe model have an empty ingredient set.
+        final RecipeModel recipeModelWithEmptyIngredientSet = new RecipeModel();
+        recipeModelWithEmptyIngredientSet.setName(recipeModel.getName());
+        recipeModelWithEmptyIngredientSet.setIngredientSet(new HashSet<>());
+        recipeModelWithEmptyIngredientSet.setMethod(recipeModel.getMethod());
+
+        //Expectation
+        final Recipe expectedDomainRecipe = new Recipe.RecipeBuilder(recipeModelWithEmptyIngredientSet.getName())
+                .withIngredientSet(recipeModelWithEmptyIngredientSet.getIngredientSet())
+                .withMethod(recipeModelWithEmptyIngredientSet.getMethod())
+                .build();
+
+        //Test
+        final Recipe actualDomainRecipe = recipeMapper.mapToDomain(recipeModelWithEmptyIngredientSet);
+
+        //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
+        assertThat(expectedDomainRecipe)
+                .usingRecursiveComparison().ignoringFields("key")
+                .isEqualTo(actualDomainRecipe);
 
     }
 
