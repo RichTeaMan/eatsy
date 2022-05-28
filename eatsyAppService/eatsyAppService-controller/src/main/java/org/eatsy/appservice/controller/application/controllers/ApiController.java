@@ -30,7 +30,7 @@ public class ApiController {
     private static final Logger logger = LogManager.getLogger(ApiController.class);
 
     //Interface for recipe operations
-    private RecipeFactory recipeFactoryHandler;
+    private final RecipeFactory recipeFactoryHandler;
 
     //Inject the dependency of the recipeFactory implementation into the api controller during instantiation.
     public ApiController(final RecipeFactory recipeFactoryHandler) {

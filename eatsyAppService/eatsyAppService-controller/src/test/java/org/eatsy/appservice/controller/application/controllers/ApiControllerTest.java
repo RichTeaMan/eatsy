@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.service.RecipeFactory;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
-import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParamters;
+import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.Mockito;
@@ -58,13 +58,13 @@ public class ApiControllerTest {
         //Setup - create a recipeModel object for mocking the RecipeFactory service whilst the /add endpoint
         // (in the REST controller) is under test.
         final RecipeModel recipeModel = RecipeModelDataFactory
-                .generateRandomRecipeModel(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
+                .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
         //Executes some code of the class under test. In this case, build the mock request that will hit the
         // "/add" endpoint and trigger the below chain method.
         final MockHttpServletRequestBuilder mockRequest;
         try {
-            mockRequest = MockMvcRequestBuilders.post(EatsyRecipeTestParamters.ADD_RECIPE)
+            mockRequest = MockMvcRequestBuilders.post(EatsyRecipeTestParameters.ADD_RECIPE)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .content(this.objectMapper.writeValueAsString(recipeModel));
@@ -106,7 +106,7 @@ public class ApiControllerTest {
 
         //Create a list of recipes to return in the mock;
         final List<RecipeModel> allRecipes = RecipeModelDataFactory.generateRecipeModelsList(
-                EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
+                EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Gather some information about the data to validate the assertion
         final String nameOfFirstRecipeInList = allRecipes.get(0).getName();
 
@@ -116,7 +116,7 @@ public class ApiControllerTest {
         //Build the mock request that will hit the "/retrieveAllRecipes" endpoint and trigger the above chain method.
         final MockHttpServletRequestBuilder mockRequest;
         try {
-            mockRequest = MockMvcRequestBuilders.get(EatsyRecipeTestParamters.RETRIEVE_ALL_RECIPES)
+            mockRequest = MockMvcRequestBuilders.get(EatsyRecipeTestParameters.RETRIEVE_ALL_RECIPES)
                     .contentType(MediaType.APPLICATION_JSON);
         } catch (final Exception e) {
             throw new RuntimeException(e);
@@ -142,7 +142,7 @@ public class ApiControllerTest {
 
         //Create a list of recipes to return in the mock;
         final List<RecipeModel> allRecipes = RecipeModelDataFactory.generateRecipeModelsList(
-                EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
+                EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Gather some information about the data to validate the assertion
         final String nameOfFirstRecipeInList = allRecipes.get(0).getName();
 
@@ -158,7 +158,7 @@ public class ApiControllerTest {
         //Build the mock request that will hit the "/deleteRecipe" endpoint and trigger the above chain method.
         final MockHttpServletRequestBuilder mockRequest;
         try {
-            mockRequest = MockMvcRequestBuilders.delete(EatsyRecipeTestParamters.DELETE_RECIPE, key)
+            mockRequest = MockMvcRequestBuilders.delete(EatsyRecipeTestParameters.DELETE_RECIPE, key)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON);
         } catch (final Exception e) {
@@ -186,7 +186,7 @@ public class ApiControllerTest {
         //Setup
         //Create two recipes in the list of recipes
         final List<RecipeModel> allRecipes = RecipeModelDataFactory.generateRecipeModelsList(
-                EatsyRecipeTestParamters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
+                EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
         //Create an 'updated version' of one of the two recipes by submitting an edit to the name.
         final RecipeModel updatedRecipe = allRecipes.get(0);
@@ -201,7 +201,7 @@ public class ApiControllerTest {
         final MockHttpServletRequestBuilder mockRequest;
         final String recipeKey = updatedRecipe.getKey();
         try {
-            mockRequest = MockMvcRequestBuilders.put(EatsyRecipeTestParamters.EDIT_RECIPE + recipeKey)
+            mockRequest = MockMvcRequestBuilders.put(EatsyRecipeTestParameters.EDIT_RECIPE + recipeKey)
                     .contentType(MediaType.APPLICATION_JSON)
                     .accept(MediaType.APPLICATION_JSON)
                     .content(this.objectMapper.writeValueAsString(updatedRecipe));
