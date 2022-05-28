@@ -163,4 +163,31 @@ public class RecipeMapperTest {
     }
 
 
+    /**
+     * Test that the mappers can handle a situation when non-compulsory fields are not initialised.
+     */
+    @Test
+    public void checkMapToModelNoMethodOrIngredients() {
+
+        //Setup
+        // generate a recipe domain object to be mapped into a recipe model object.
+        final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe have only required fields.
+        final Recipe requiredFieldsOnlyRecipe = new Recipe.RecipeBuilder(recipe.getName())
+                .build();
+
+        //Expected
+        final RecipeModel expectedRecipeModel = new RecipeModel();
+        expectedRecipeModel.setKey(requiredFieldsOnlyRecipe.getKey());
+        expectedRecipeModel.setName(requiredFieldsOnlyRecipe.getName());
+        expectedRecipeModel.setIngredientSet(requiredFieldsOnlyRecipe.getIngredientSet());
+        expectedRecipeModel.setMethod(requiredFieldsOnlyRecipe.getMethod());
+
+        //Test
+        final RecipeModel actualRecipeModel = recipeMapper.mapToModel(requiredFieldsOnlyRecipe);
+
+        //Assertion
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
+    }
+
 }
