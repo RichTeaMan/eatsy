@@ -4,7 +4,7 @@ import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.model.mappers.RecipeMapperHandler;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
-import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParamters;
+import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ public class CreateRecipeTests {
         //Setup
         //Create an input recipe model - this will also be the expected output from the method under test.
         final RecipeModel inputRecipeModel = RecipeModelDataFactory
-                .generateRandomRecipeModel(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
+                .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactory.createRecipe(inputRecipeModel);
@@ -87,7 +87,7 @@ public class CreateRecipeTests {
         //Create an input recipe model(with an empty ingredients list)
         //This will also be the expected output from the method under test.
         final RecipeModel inputRecipeModel = RecipeModelDataFactory
-                .generateRandomRecipeModel(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
+                .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         inputRecipeModel.setIngredientSet(new HashSet<>());
 
         //Test
@@ -111,7 +111,7 @@ public class CreateRecipeTests {
         //Create an input recipe model(with an empty method list)
         //This will also be the expected output from the method under test.
         final RecipeModel inputRecipeModel = RecipeModelDataFactory
-                .generateRandomRecipeModel(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
+                .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         inputRecipeModel.setMethod(new TreeMap<>());
 
         //Test
@@ -135,7 +135,7 @@ public class CreateRecipeTests {
         //Create an input recipe model(with an empty method list)
         //This will also be the expected output from the method under test.
         final RecipeModel inputRecipeModel = RecipeModelDataFactory
-                .generateRandomRecipeModel(EatsyRecipeTestParamters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParamters.MAX_METHOD_MAP_SIZE);
+                .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         inputRecipeModel.setName("         ");
 
         //Expectation - cannot create a recipe domain object without providing a recipe name.

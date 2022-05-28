@@ -3,7 +3,7 @@ package org.eatsy.appservice.testdatageneration.constants;
 /**
  * Constants for test class parameters
  */
-public class EatsyRecipeTestParamters {
+public class EatsyRecipeTestParameters {
 
     //Endpoints needed for tests to interact and test the REST API
     private static final String API = "/api";
