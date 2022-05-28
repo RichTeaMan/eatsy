@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.TreeMap;
 
 /**
- * Recipe Mapper unit tests
+ * Recipe Map to Model Mapper unit tests
  */
 //Define lifecycle of tests to be per method rather than per class. Allows use of @BeforeEach
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
