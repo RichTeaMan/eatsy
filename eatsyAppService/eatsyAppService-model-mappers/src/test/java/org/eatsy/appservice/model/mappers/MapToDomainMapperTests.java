@@ -141,4 +141,31 @@ public class MapToDomainMapperTests {
 
     }
 
+    /**
+     * Check the Recipe Mapper cannot map a recipe model with an empty recipeName.
+     */
+    @Test
+    public void checkCantMapToDomainWithEmptyName() {
+
+        //Setup
+        //Generate a recipe model object to be mapped into recipe domain object
+        final RecipeModel recipeModel = RecipeModelDataFactory.generateRandomRecipeModel(
+                EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe model have an empty name
+        final RecipeModel recipeModelWithEmptyRecipeName = new RecipeModel();
+        recipeModelWithEmptyRecipeName.setName("         ");
+        recipeModelWithEmptyRecipeName.setIngredientSet(recipeModel.getIngredientSet());
+        recipeModelWithEmptyRecipeName.setMethod(recipeModel.getMethod());
+
+        //Expectation - cannot map a recipe model with an empty recipeName
+        final Recipe expectedDomainRecipe = null;
+
+        //Test
+        final Recipe actualDomainRecipe = recipeMapper.mapToDomain(recipeModelWithEmptyRecipeName);
+
+        //Actual
+        Assertions.assertEquals(expectedDomainRecipe, actualDomainRecipe);
+
+    }
+
 }
