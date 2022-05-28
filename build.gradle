@@ -70,6 +70,20 @@ buildscript {
     }
 }
 
+//Heroku deployment configuration
+task stage(type: Copy, dependsOn: [clean, build]) {
+    from jar.archivePath
+    into project.rootDir
+    rename {
+        'app.jar'
+    }
+}
+stage.mustRunAfter(clean)
+
+clean {
+    project.file('app.jar').delete()
+}
+
 //JaCoCo and coveralls configuration
 def allTestCoverageFile = "$buildDir/jacoco/allTestCoverage.exec"
 def devProjects = subprojects.findAll { it.path != 'test' } //Exclude test code projects
