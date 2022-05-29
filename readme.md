@@ -5,14 +5,15 @@ A REST API for creating, viewing, editing and deleting your favourite recipes.
 [![CircleCI](https://circleci.com/gh/DM1st/eatsy/tree/develop.svg?style=shield)](https://circleci.com/gh/DM1st/eatsy/tree/develop)
 [![Coverage Status](https://coveralls.io/repos/github/DM1st/eatsy/badge.svg?branch=develop)](https://coveralls.io/github/DM1st/eatsy?branch=develop)
 
-A live version of the Eatsy App Service can be found [here](https://eatsy-recipe-service.herokuapp.com/)
+A live version of the Eatsy App Service swagger ui can be found [here](https://eatsy-recipe-service.herokuapp.com/swagger-ui.html)
 
 ## Getting started
 
 The below sections provide the necessary information to run the application locally.
 
-This Java project uses [The Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html), and the server is run locally as a [Sprint Boot](https://spring.io/projects/spring-boot) application. This can be done from
-a bash terminal:
+This Java project uses [The Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html), and the
+server is run locally as a [Sprint Boot](https://spring.io/projects/spring-boot) application. This can be done from a
+bash terminal:
 
 ```
 ./gradlew clean build bootrun
