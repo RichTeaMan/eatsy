@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
+import org.eatsy.appservice.persistence.model.RecipeEntity;
+import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -29,16 +31,20 @@ public class RecipeFactoryHandler implements RecipeFactory {
     //Recipe Mapper implementation
     private final RecipeMapper recipeMapperHandler;
 
-    //Inject the dependency of the recipeMapper implementation into the RecipeFactoryHandler during instantiation.
-    public RecipeFactoryHandler(final RecipeMapper recipeMapperHandler) {
+    //Repository handler for persistence
+    private final EatsyRepositoryService eatsyRepositoryHandler;
+
+    //Inject the dependency of the recipeMapper and repositoryHandler implementations into the RecipeFactoryHandler during instantiation.
+    public RecipeFactoryHandler(final RecipeMapper recipeMapperHandler, final EatsyRepositoryService eatsyRepositoryHandler) {
         this.recipeMapperHandler = recipeMapperHandler;
+        this.eatsyRepositoryHandler = eatsyRepositoryHandler;
     }
 
     /**
-     * Creates a new recipe model object
+     * Creates and persists a new Recipe.
      *
-     * @param recipeModel the recipe model that will be used to create a recipe domain object
-     * @return a recipe model object containing the data from the newly created recipe domain object
+     * @param recipeModel the recipe model that has the data for the new Recipe
+     * @return a recipe model object containing the data from the newly created and persisted recipe.
      */
     @Override
     public RecipeModel createRecipe(final RecipeModel recipeModel) {
@@ -51,8 +57,9 @@ public class RecipeFactoryHandler implements RecipeFactory {
             logger.debug("Creating a new recipe domain object called " + recipeModel.getName());
 
             final Recipe recipe = recipeMapperHandler.mapToDomain(recipeModel);
-            //Add the new recipe to the cache of recipes
-            recipeCache.put(recipe.getKey(), recipe);
+
+            //Persist the recipe to the database.
+            persistRecipe(recipe);
 
             newRecipeModel = recipeMapperHandler.mapToModel(recipe);
 
@@ -121,6 +128,24 @@ public class RecipeFactoryHandler implements RecipeFactory {
         //Map the updated recipe to a RecipeModel and return.
         final RecipeModel updatedRecipeModel = recipeMapperHandler.mapToModel(updatedRecipe);
         return updatedRecipeModel;
+    }
+
+    /**
+     * Persist the recipe object to the database.
+     *
+     * @param recipe the recipe domain object to be persisted.
+     */
+    private void persistRecipe(final Recipe recipe) {
+
+        logger.debug("Creating a new recipe entity object for persistence called " + recipe.getName());
+        final RecipeEntity recipeEntity = recipeMapperHandler.mapToEntity(recipe);
+
+        //Persist the recipe to the database.
+        final RecipeEntity persistedRecipeEntity = eatsyRepositoryHandler.persistNewRecipe(recipeEntity);
+
+        //Add the new domain recipe to the cache of recipes.
+        recipeCache.put(recipe.getKey(), recipe);
+
     }
 
     /**

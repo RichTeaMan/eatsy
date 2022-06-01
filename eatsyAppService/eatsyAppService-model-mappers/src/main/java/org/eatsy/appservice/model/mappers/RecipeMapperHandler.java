@@ -5,6 +5,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
+import org.eatsy.appservice.persistence.model.RecipeEntity;
 import org.springframework.stereotype.Component;
 
 /**
@@ -73,5 +74,38 @@ public class RecipeMapperHandler implements RecipeMapper {
 
         return recipe;
 
+    }
+
+    /**
+     * Map the recipe domain object to a recipe entity object for persistence to database.
+     *
+     * @param recipe the domain object to be mapped
+     * @return the recipeEntity object that has been created from the recipe domain object.
+     */
+    @Override
+    public RecipeEntity mapToEntity(final Recipe recipe) {
+
+        RecipeEntity recipeEntity = null;
+        //The recipe to be mapped must not be null and the recipe must have a name.
+        if (null != recipe && StringUtils.isNotEmpty(recipe.getName().trim())) {
+
+            logger.debug("Mapping domain object " + recipe.getName() + " to a recipeEntity object");
+
+            recipeEntity = new RecipeEntity();
+
+            //Map key.
+            recipeEntity.setKey(recipe.getKey());
+
+            //Map name.
+            recipeEntity.setName(recipe.getName());
+
+            //Map set of ingredients.
+            recipeEntity.setIngredientSet(recipe.getIngredientSet());
+
+            //Map method.
+            recipeEntity.setMethodMap(recipe.getMethod());
+
+        }
+        return recipeEntity;
     }
 }

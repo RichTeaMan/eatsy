@@ -30,7 +30,7 @@ public class CreateRecipeTests {
     public void setup() {
         //RecipeFactory dependent on RecipeMapper
         final RecipeMapper recipeMapper = new RecipeMapperHandler();
-        recipeFactory = new RecipeFactoryHandler(recipeMapper);
+        //recipeFactory = new RecipeFactoryHandler(recipeMapper); TODO
 
     }
 

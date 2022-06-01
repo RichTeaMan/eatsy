@@ -2,6 +2,7 @@ dependencies {
     implementation project(':eatsyAppService:eatsyAppService-model')
     implementation project(':eatsyAppService:eatsyAppService-model-mappers')
     implementation project(':eatsyAppService:eatsyAppService-domain')
+    implementation project(':eatsyAppService:eatsyAppService-persistence')
     testImplementation project(':eatsyAppService:eatsyAppService-test-data-generation')
 
     //Java utilities/helper libraries
@@ -13,7 +14,7 @@ dependencies {
     //logging
     implementation "org.apache.logging.log4j:log4j-core:$log4jCoreVersion"
     implementation "org.apache.logging.log4j:log4j-api:$log4jApiVersion"
-
+    
     // Test dependencies (In JUnit 5 the API is separated from the runtime)
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"

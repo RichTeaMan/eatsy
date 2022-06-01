@@ -7,3 +7,5 @@ include 'eatsyAppService:eatsyAppService-service'
 include 'eatsyAppService:eatsyAppService-model'
 include 'eatsyAppService:eatsyAppService-model-mappers'
 include 'eatsyAppService:eatsyAppService-test-data-generation'
+include 'eatsyAppService:eatsyAppService-persistence'
+

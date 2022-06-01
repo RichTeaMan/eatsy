@@ -18,10 +18,10 @@ public interface RecipeFactory {
     List<RecipeModel> retrieveAllRecipes();
 
     /**
-     * Creates a new recipe model object
+     * Creates and persists a new Recipe.
      *
-     * @param recipeModel the recipe model that will be used to create a recipe domain object
-     * @return a recipe model object containing the data from the newly created recipe domain object
+     * @param recipeModel the recipe model that has the data for the new Recipe
+     * @return a recipe model object containing the data from the newly created and persisted recipe.
      */
     RecipeModel createRecipe(RecipeModel recipeModel);
 
