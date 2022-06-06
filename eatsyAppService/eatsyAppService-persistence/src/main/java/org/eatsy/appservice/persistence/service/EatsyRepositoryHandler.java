@@ -8,6 +8,8 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import java.util.List;
+
 /**
  * Class for utilising JPA repository methods and interacting with the database.
  * Tagged with Configuration, EnableJpaRepositories and EntityScan to ensure bean
@@ -39,6 +41,22 @@ public class EatsyRepositoryHandler implements EatsyRepositoryService {
         final RecipeEntity persistedRecipeEntity = eatsyRepository.save(recipeEntity);
 
         return persistedRecipeEntity;
+
+    }
+
+    /**
+     * Retrieves all Recipe Entity objects that are stored in the Recipe table
+     *
+     * @return the list of all recipeEntity objects that are in the Recipe database table.
+     */
+    @Override
+    public List<RecipeEntity> retrieveAllRecipes() {
+
+        logger.debug("Retrieving all Recipe Entity objects from the Recipe DB table");
+
+        final List<RecipeEntity> allRecipeEntities = eatsyRepository.findAll();
+
+        return allRecipeEntities;
 
     }
 
