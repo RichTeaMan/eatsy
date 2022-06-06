@@ -23,7 +23,7 @@ public class RecipeMapperHandler implements RecipeMapper {
      * @return the recipeModel object that has been created from the recipe domain object.
      */
     @Override
-    public RecipeModel mapToModel(final Recipe recipe) {
+    public RecipeModel mapDomainToModel(final Recipe recipe) {
 
         RecipeModel recipeModel = null;
         //The recipe to be mapped must not be null and the recipe must have a name.
@@ -57,7 +57,7 @@ public class RecipeMapperHandler implements RecipeMapper {
      * @return the recipe domain object that has been created from the recipe model object
      */
     @Override
-    public Recipe mapToDomain(final RecipeModel recipeModel) {
+    public Recipe mapModelToDomain(final RecipeModel recipeModel) {
 
         Recipe recipe = null;
         //The recipe model to be mapped must not be null and the recipeModel must have a name.
@@ -83,7 +83,7 @@ public class RecipeMapperHandler implements RecipeMapper {
      * @return the recipeEntity object that has been created from the recipe domain object.
      */
     @Override
-    public RecipeEntity mapToEntity(final Recipe recipe) {
+    public RecipeEntity mapDomainToEntity(final Recipe recipe) {
 
         RecipeEntity recipeEntity = null;
         //The recipe to be mapped must not be null and the recipe must have a name.
@@ -107,5 +107,32 @@ public class RecipeMapperHandler implements RecipeMapper {
 
         }
         return recipeEntity;
+    }
+
+    /**
+     * Map the recipe entity object to a recipe domain object
+     *
+     * @param recipeEntity the entity object to be mapped
+     * @return the recipeDomain object that has been created from the recipe entity object
+     */
+    @Override
+    public Recipe mapEntityToDomain(final RecipeEntity recipeEntity) {
+
+        Recipe recipe = null;
+        //The recipe to be mapped must not be null and the recipe must have a name.
+        if (null != recipeEntity && StringUtils.isNotEmpty(recipeEntity.getName().trim())) {
+
+            logger.debug("Mapping entity object " + recipeEntity.getName() + " to a recipedomain object");
+
+            recipe = new Recipe
+                    .RecipeBuilder(recipeEntity.getName())
+                    .withIngredientSet(recipeEntity.getIngredientSet())
+                    .withMethod(recipeEntity.getMethodMap())
+                    .withSpecifiedKey(recipeEntity.getKey()) //override the newly generated key to ensure it is the same as the db entity key
+                    .build();
+
+        }
+        return recipe;
+
     }
 }

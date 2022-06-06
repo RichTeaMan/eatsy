@@ -56,12 +56,12 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
             logger.debug("Creating a new recipe domain object called " + recipeModel.getName());
 
-            final Recipe recipe = recipeMapperHandler.mapToDomain(recipeModel);
+            final Recipe recipe = recipeMapperHandler.mapModelToDomain(recipeModel);
 
             //Persist the recipe to the database.
             persistRecipe(recipe);
 
-            newRecipeModel = recipeMapperHandler.mapToModel(recipe);
+            newRecipeModel = recipeMapperHandler.mapDomainToModel(recipe);
 
         }
         return newRecipeModel;
@@ -77,8 +77,11 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
         logger.debug("Retrieving all recipes to return to the controller");
 
-        //map the updated recipeCache to a recipeModel list to be returned.
-        final List<RecipeModel> allRecipesModel = getAllRecipeModels();
+        //Retrieve all RecipeEntity objects from the database.
+        final List<RecipeEntity> allRecipeEntities = eatsyRepositoryHandler.retrieveAllRecipes();
+
+        //Update the domain in-memory recipeCache, and create a recipeModel list of all existing recipes to be returned to the controller.
+        final List<RecipeModel> allRecipesModel = updateRecipeCacheAndGetAllRecipeModels(allRecipeEntities);
 
         return allRecipesModel;
 
@@ -118,7 +121,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
         logger.debug("replacing recipe with key: " + recipeKey + " for the new updated version");
 
         //Create the updated Recipe domain object
-        final Recipe updatedRecipe = recipeMapperHandler.mapToDomain(recipeModelWithUpdates);
+        final Recipe updatedRecipe = recipeMapperHandler.mapModelToDomain(recipeModelWithUpdates);
 
         //replace the outdated recipe with the updated version in the recipeCache.
         recipeCache.replace(recipeKey, updatedRecipe);
@@ -126,7 +129,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
         recipeCache.put(updatedRecipe.getKey(), recipeCache.remove(recipeKey));
 
         //Map the updated recipe to a RecipeModel and return.
-        final RecipeModel updatedRecipeModel = recipeMapperHandler.mapToModel(updatedRecipe);
+        final RecipeModel updatedRecipeModel = recipeMapperHandler.mapDomainToModel(updatedRecipe);
         return updatedRecipeModel;
     }
 
@@ -138,13 +141,46 @@ public class RecipeFactoryHandler implements RecipeFactory {
     private void persistRecipe(final Recipe recipe) {
 
         logger.debug("Creating a new recipe entity object for persistence called " + recipe.getName());
-        final RecipeEntity recipeEntity = recipeMapperHandler.mapToEntity(recipe);
+        final RecipeEntity recipeEntity = recipeMapperHandler.mapDomainToEntity(recipe);
 
         //Persist the recipe to the database.
         final RecipeEntity persistedRecipeEntity = eatsyRepositoryHandler.persistNewRecipe(recipeEntity);
 
         //Add the new domain recipe to the cache of recipes.
         recipeCache.put(recipe.getKey(), recipe);
+
+    }
+
+    /**
+     * Updates the in-memory domain Recipe cache and creates a list of all Recipe Model objects to be returned to the controller.
+     *
+     * @param allRecipeEntities the list of all recipe entities that exist in the recipe database table.
+     * @return a list of all recipe model objects created from all recipe entities in the database.
+     */
+    private List<RecipeModel> updateRecipeCacheAndGetAllRecipeModels(final List<RecipeEntity> allRecipeEntities) {
+
+        logger.debug("Updating in-memory domain recipe cache");
+
+        //a recipeModel list to be returned to the controller when all existing recipes have been added to this list.
+        final List<RecipeModel> allRecipesModel = new ArrayList<>();
+
+        //Update the domain model in memory recipeCache to be up-to-date.
+        for (final RecipeEntity currentRecipeEntity : allRecipeEntities) {
+
+            final Recipe currentDomainRecipe = recipeMapperHandler.mapEntityToDomain(currentRecipeEntity);
+
+            //If the map already contains a mapping for the key then the corresponding recipe (value) will be updated in the recipe cache.
+            //If the key does is not already in the map, a new recipe entry will be added to the recipe cache.
+            recipeCache.put(currentDomainRecipe.getKey(), currentDomainRecipe);
+
+            //map the updated recipeCache to a recipeModel list to be returned to the controller.
+            final RecipeModel currentModelRecipe = recipeMapperHandler.mapDomainToModel(currentDomainRecipe);
+            allRecipesModel.add(currentModelRecipe);
+        }
+
+        logger.debug("returning the list of all recipe model objects.");
+
+        return allRecipesModel;
 
     }
 
@@ -156,9 +192,11 @@ public class RecipeFactoryHandler implements RecipeFactory {
     private List<RecipeModel> getAllRecipeModels() {
         final List<RecipeModel> allRecipesModel = new ArrayList();
         recipeCache.forEach((key, value) -> {
-                    allRecipesModel.add(recipeMapperHandler.mapToModel(value));
+                    allRecipesModel.add(recipeMapperHandler.mapDomainToModel(value));
                 }
         );
         return allRecipesModel;
     }
 }
+
+

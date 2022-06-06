@@ -15,7 +15,7 @@ public interface RecipeMapper {
      * @param recipe the domain object to be mapped
      * @return the recipeModel object that has been created from the recipe domain object.
      */
-    RecipeModel mapToModel(final Recipe recipe);
+    RecipeModel mapDomainToModel(final Recipe recipe);
 
     /**
      * Map the recipeModel to a recipe domain object.
@@ -23,7 +23,7 @@ public interface RecipeMapper {
      * @param recipeModel the model object to be mapped to domain object
      * @return the recipe domain object that has been created from the recipe model object
      */
-    Recipe mapToDomain(final RecipeModel recipeModel);
+    Recipe mapModelToDomain(final RecipeModel recipeModel);
 
     /**
      * Map the recipe domain object to a recipe entity object for persistence to database.
@@ -31,6 +31,13 @@ public interface RecipeMapper {
      * @param recipe the domain object to be mapped
      * @return the recipeEntity object that has been created from the recipe domain object.
      */
-    RecipeEntity mapToEntity(final Recipe recipe);
+    RecipeEntity mapDomainToEntity(final Recipe recipe);
 
+    /**
+     * Map the recipe entity object to a recipe domain object
+     *
+     * @param recipeEntity the entity object to be mapped
+     * @return the recipeDomain object that has been created from the recipe entity object
+     */
+    Recipe mapEntityToDomain(final RecipeEntity recipeEntity);
 }

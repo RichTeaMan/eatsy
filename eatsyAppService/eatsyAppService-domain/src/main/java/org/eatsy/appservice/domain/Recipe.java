@@ -48,7 +48,7 @@ public final class Recipe {
     public static class RecipeBuilder {
 
         //Required
-        private final String key;
+        private String key;
         private final String name;
 
         //Optional
@@ -68,6 +68,12 @@ public final class Recipe {
 
         public RecipeBuilder withMethod(final Map<Integer, String> method) {
             this.method = method;
+            return this;
+        }
+
+        //If the key needs to be overwritten (e.g. by a mapper)
+        public RecipeBuilder withSpecifiedKey(final String specifiedKey) {
+            this.key = specifiedKey;
             return this;
         }
 

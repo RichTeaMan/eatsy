@@ -51,7 +51,7 @@ public class MapToDomainMapperTests {
         recipeModel.setKey(expectedRecipe.getKey());
 
         //Test
-        final Recipe actualRecipe = recipeMapper.mapToDomain(recipeModel);
+        final Recipe actualRecipe = recipeMapper.mapModelToDomain(recipeModel);
 
         //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
         assertThat(expectedRecipe)
@@ -70,7 +70,7 @@ public class MapToDomainMapperTests {
         final Recipe expectedRecipe = null;
 
         //Test
-        final Recipe actualRecipe = recipeMapper.mapToDomain(null);
+        final Recipe actualRecipe = recipeMapper.mapModelToDomain(null);
 
         //Assert
         Assertions.assertEquals(expectedRecipe, actualRecipe);
@@ -100,7 +100,7 @@ public class MapToDomainMapperTests {
                 .build();
 
         //Test
-        final Recipe actualDomainRecipe = recipeMapper.mapToDomain(recipeModelWithEmptyIngredientSet);
+        final Recipe actualDomainRecipe = recipeMapper.mapModelToDomain(recipeModelWithEmptyIngredientSet);
 
         //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
         assertThat(expectedDomainRecipe)
@@ -132,7 +132,7 @@ public class MapToDomainMapperTests {
                 .build();
 
         //Test
-        final Recipe actualDomainRecipe = recipeMapper.mapToDomain(recipeModelWithEmptyMap);
+        final Recipe actualDomainRecipe = recipeMapper.mapModelToDomain(recipeModelWithEmptyMap);
 
         //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
         assertThat(expectedDomainRecipe)
@@ -161,7 +161,7 @@ public class MapToDomainMapperTests {
         final Recipe expectedDomainRecipe = null;
 
         //Test
-        final Recipe actualDomainRecipe = recipeMapper.mapToDomain(recipeModelWithEmptyRecipeName);
+        final Recipe actualDomainRecipe = recipeMapper.mapModelToDomain(recipeModelWithEmptyRecipeName);
 
         //Actual
         Assertions.assertEquals(expectedDomainRecipe, actualDomainRecipe);
@@ -188,7 +188,7 @@ public class MapToDomainMapperTests {
                 .build();
 
         //Test
-        final Recipe actualDomainRecipe = recipeMapper.mapToDomain(requiredFieldsOnlyRecipeModel);
+        final Recipe actualDomainRecipe = recipeMapper.mapModelToDomain(requiredFieldsOnlyRecipeModel);
 
         //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
         assertThat(expectedDomainRecipe)

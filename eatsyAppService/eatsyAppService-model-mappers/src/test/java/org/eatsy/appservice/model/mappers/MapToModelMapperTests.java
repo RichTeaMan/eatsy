@@ -48,7 +48,7 @@ public class MapToModelMapperTests {
         expectedRecipeModel.setMethod(recipe.getMethod());
 
         //Test
-        final RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipe);
+        final RecipeModel actualRecipeModel = recipeMapper.mapDomainToModel(recipe);
 
         //Actual
         Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
@@ -66,7 +66,7 @@ public class MapToModelMapperTests {
         final RecipeModel expectedRecipeModel = null;
 
         //Test
-        final RecipeModel actualRecipeModel = recipeMapper.mapToModel(null);
+        final RecipeModel actualRecipeModel = recipeMapper.mapDomainToModel(null);
 
         //Assert
         Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
@@ -98,7 +98,7 @@ public class MapToModelMapperTests {
         expectedRecipeModel.setMethod(recipeWithEmptyIngredientsSet.getMethod());
 
         //Test
-        final RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipeWithEmptyIngredientsSet);
+        final RecipeModel actualRecipeModel = recipeMapper.mapDomainToModel(recipeWithEmptyIngredientsSet);
 
         //Actual
         Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
@@ -130,7 +130,7 @@ public class MapToModelMapperTests {
         expectedRecipeModel.setMethod(recipeWithEmptyMap.getMethod());
 
         //Test
-        final RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipeWithEmptyMap);
+        final RecipeModel actualRecipeModel = recipeMapper.mapDomainToModel(recipeWithEmptyMap);
 
         //Actual
         Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
@@ -155,7 +155,7 @@ public class MapToModelMapperTests {
         final RecipeModel expectedRecipeModel = null;
 
         //Test
-        final RecipeModel actualRecipeModel = recipeMapper.mapToModel(recipeWithEmptyName);
+        final RecipeModel actualRecipeModel = recipeMapper.mapDomainToModel(recipeWithEmptyName);
 
         //Actual
         Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
@@ -184,7 +184,7 @@ public class MapToModelMapperTests {
         expectedRecipeModel.setMethod(requiredFieldsOnlyRecipe.getMethod());
 
         //Test
-        final RecipeModel actualRecipeModel = recipeMapper.mapToModel(requiredFieldsOnlyRecipe);
+        final RecipeModel actualRecipeModel = recipeMapper.mapDomainToModel(requiredFieldsOnlyRecipe);
 
         //Assertion
         Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);

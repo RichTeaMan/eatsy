@@ -27,11 +27,11 @@ import java.util.TreeMap;
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class CreateRecipeTests {
 
-    //Create a mock implementation of the RecipeMapper. These unit tests are only concerned with the service not the mapper module.
+    //Create a mock implementation of the RecipeMapper. These unit tests are only concerned with the service module not the mapper module.
     @Mock
     private RecipeMapper recipeMapperHandler;
 
-    //Create a mock implementation of the EatsyRepositoryService. These unit tests are only concerned with the service not the persistence module.
+    //Create a mock implementation of the EatsyRepositoryService. These unit tests are only concerned with the service module not the persistence module.
     @Mock
     private EatsyRepositoryService eatsyRepositoryHandler;
 
@@ -212,9 +212,9 @@ public class CreateRecipeTests {
 
         //Configure the RecipeMapper mock to return mocked data when it's mapper methods are called from the RecipeFactory.
         final Recipe mockedDomainRecipe = createMockDomainRecipe(inputRecipeModel);
-        Mockito.when(recipeMapperHandler.mapToDomain(inputRecipeModel)).thenReturn(mockedDomainRecipe);
-        Mockito.when(recipeMapperHandler.mapToEntity(mockedDomainRecipe)).thenReturn(mockedPersistedRecipeEntity);
-        Mockito.when(recipeMapperHandler.mapToModel(mockedDomainRecipe)).thenReturn(inputRecipeModel);
+        Mockito.when(recipeMapperHandler.mapModelToDomain(inputRecipeModel)).thenReturn(mockedDomainRecipe);
+        Mockito.when(recipeMapperHandler.mapDomainToEntity(mockedDomainRecipe)).thenReturn(mockedPersistedRecipeEntity);
+        Mockito.when(recipeMapperHandler.mapDomainToModel(mockedDomainRecipe)).thenReturn(inputRecipeModel);
     }
 
     /**
