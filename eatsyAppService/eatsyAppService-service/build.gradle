@@ -14,8 +14,11 @@ dependencies {
     //logging
     implementation "org.apache.logging.log4j:log4j-core:$log4jCoreVersion"
     implementation "org.apache.logging.log4j:log4j-api:$log4jApiVersion"
-    
+
     // Test dependencies (In JUnit 5 the API is separated from the runtime)
+    //Mockito
+    testImplementation "org.springframework.boot:spring-boot-starter-test:$springStarterTestVersion"
+    //Junit
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 

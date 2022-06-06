@@ -3,6 +3,8 @@ package org.eatsy.appservice.service;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.model.mappers.RecipeMapperHandler;
+import org.eatsy.appservice.persistence.service.EatsyRepositoryHandler;
+import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
 import org.junit.jupiter.api.Assertions;
@@ -27,9 +29,10 @@ public class DeleteRecipeTests {
 
     @BeforeEach
     public void setup() {
-        //RecipeFactory dependent on RecipeMapper
+        //RecipeFactory dependent on RecipeMapper and EatsyRepositoryHandler
         final RecipeMapper recipeMapper = new RecipeMapperHandler();
-        //recipeFactory = new RecipeFactoryHandler(recipeMapper); TODO
+        final EatsyRepositoryService eatsyRepositoryService = new EatsyRepositoryHandler();
+        recipeFactory = new RecipeFactoryHandler(recipeMapper, eatsyRepositoryService);
 
     }
 
