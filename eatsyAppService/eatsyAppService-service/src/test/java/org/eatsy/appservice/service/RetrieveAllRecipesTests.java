@@ -1,6 +1,7 @@
 package org.eatsy.appservice.service;
 
 import org.apache.commons.lang3.StringUtils;
+import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.persistence.model.RecipeEntity;
@@ -39,14 +40,14 @@ public class RetrieveAllRecipesTests {
      */
     //Injects the dependent mocks (marked with @Mock) for a recipe factory instance.
     @InjectMocks
-    private RecipeFactory recipeFactory;
+    private RecipeFactoryHandler recipeFactoryHandler;
 
     @BeforeEach
     public void setup() {
         //Initialise the mock objects upon initialisation of Junit tests.
         MockitoAnnotations.openMocks(this);
         //Initialise the class under test and inject the mocks.
-        recipeFactory = new RecipeFactoryHandler(recipeMapperHandler, eatsyRepositoryHandler);
+        recipeFactoryHandler = new RecipeFactoryHandler(recipeMapperHandler, eatsyRepositoryHandler);
 
     }
 
@@ -56,31 +57,76 @@ public class RetrieveAllRecipesTests {
     @Test
     public void checkRetrieveAllRecipes() {
 
-        //Setup
+        //Setup and mocking
+
         //Create the expected list of recipes to be retrieved
         final List<RecipeModel> expectedRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(
                 EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
-
+        //Mock eatsyRepositoryHandler interactions
         final List<RecipeEntity> expectedRecipeEntityList = createMockRecipeEntity(expectedRecipeModelList);
-
         Mockito.when(eatsyRepositoryHandler.retrieveAllRecipes()).thenReturn(expectedRecipeEntityList);
 
-        //TODO carry on unit test from here
+        //Mock recipeMapperHandler service for each of the recipe entities that the mapper service will externally map to domain objects.
+        for (final RecipeEntity currentRecipeEntity : expectedRecipeEntityList) {
+            final Recipe currentDomainRecipe = mappedTestEntityToDomain(currentRecipeEntity);
+            Mockito.when(recipeMapperHandler.mapEntityToDomain(currentRecipeEntity)).thenReturn(currentDomainRecipe);
 
-        //Populate the recipeCache with the randomly generated recipes
-        for (final RecipeModel currentRecipeModel : expectedRecipeModelList) {
-            final RecipeModel createdRecipeModel = recipeFactory.createRecipe(currentRecipeModel);
-
-            //To ensure the test doesn't fail on the randomly generated UUIDs.
-            currentRecipeModel.setKey(createdRecipeModel.getKey());
+            //Mock recipeMapperHandler service for each of the mapped domain objects that will externally be mapped to model objects
+            Mockito.when(recipeMapperHandler.mapDomainToModel(currentDomainRecipe)).thenReturn(mappedTestDomainRecipeToModel(currentDomainRecipe));
         }
 
         //Test
-        final List<RecipeModel> actualRecipeModelsList = recipeFactory.retrieveAllRecipes();
+
+        final List<RecipeModel> actualRecipeModelsList = recipeFactoryHandler.retrieveAllRecipes();
 
         //Assert
+
         Assertions.assertEquals(expectedRecipeModelList, actualRecipeModelsList);
 
+    }
+
+    /**
+     * A test method to facilitate the "retrieve all recipe" unit test by mocking part of the external mapper service functionality.
+     * Map the recipe domain object to a recipe model object.
+     *
+     * @param currentDomainRecipe the domain object to be mapped
+     * @return the recipeModel object that has been created from the recipe domain object.
+     */
+    private RecipeModel mappedTestDomainRecipeToModel(final Recipe currentDomainRecipe) {
+        final RecipeModel recipeModel = new RecipeModel();
+
+        //Map key.
+        recipeModel.setKey(currentDomainRecipe.getKey());
+
+        //Map name.
+        recipeModel.setName(currentDomainRecipe.getName());
+
+        //Map set of ingredients.
+        recipeModel.setIngredientSet(currentDomainRecipe.getIngredientSet());
+
+        //Map method.
+        recipeModel.setMethod(currentDomainRecipe.getMethod());
+
+        return recipeModel;
+    }
+
+    /**
+     * A test method to facilitate the "retrieve all recipe" unit test by mocking part of the external mapper service functionality.
+     * Map the recipe entity object to a recipe domain object
+     *
+     * @param currentRecipeEntity the entity object to be mapped
+     * @return the recipeDomain object that has been created from the recipe entity object
+     */
+    private Recipe mappedTestEntityToDomain(final RecipeEntity currentRecipeEntity) {
+
+        final Recipe recipe = new Recipe
+                .RecipeBuilder(currentRecipeEntity.getName())
+                .withIngredientSet(currentRecipeEntity.getIngredientSet())
+                .withMethod(currentRecipeEntity.getMethodMap())
+                .withSpecifiedKey(currentRecipeEntity.getKey()) //override the newly generated key to ensure it is the same as the db entity key
+                .build();
+
+        return recipe;
     }
 
     /**
