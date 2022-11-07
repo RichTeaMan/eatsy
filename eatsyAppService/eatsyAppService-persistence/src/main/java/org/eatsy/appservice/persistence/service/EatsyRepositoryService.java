@@ -24,4 +24,8 @@ public interface EatsyRepositoryService {
      */
     List<RecipeEntity> retrieveAllRecipes();
 
+    /**
+     * Deletes the Recipe Entity object that is stored in the database with the specified unique key.
+     */
+    void deleteRecipeById(String recipeKey);
 }

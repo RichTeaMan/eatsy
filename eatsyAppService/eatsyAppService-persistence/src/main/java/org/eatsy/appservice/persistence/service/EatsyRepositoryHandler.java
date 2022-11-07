@@ -60,4 +60,16 @@ public class EatsyRepositoryHandler implements EatsyRepositoryService {
 
     }
 
+    /**
+     * Deletes the Recipe Entity object that is stored in the database with the specified unique key.
+     */
+    @Override
+    public void deleteRecipeById(final String recipeKey) {
+
+        logger.debug("Deleting Recipe Entity object from the Recipe database with recipeKey: " + recipeKey);
+
+        eatsyRepository.deleteById(recipeKey);
+
+    }
+
 }

@@ -58,7 +58,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
             final Recipe recipe = recipeMapperHandler.mapModelToDomain(recipeModel);
 
-            //Persist the recipe to the database.
+            //Persist the recipe to the database and add the new domain recipe to the cache of recipes.
             persistRecipe(recipe);
 
             newRecipeModel = recipeMapperHandler.mapDomainToModel(recipe);
@@ -97,6 +97,9 @@ public class RecipeFactoryHandler implements RecipeFactory {
     public List<RecipeModel> deleteRecipe(final String recipeKey) {
 
         logger.debug("deleting recipe with key : " + recipeKey);
+
+        //Delete the recipe with the specified recipeKey from the database.
+        eatsyRepositoryHandler.deleteRecipeById(recipeKey);
 
         //Remove the recipe for deletion from the recipe cache.
         recipeCache.remove(recipeKey);
