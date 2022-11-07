@@ -48,7 +48,6 @@ public class RetrieveAllRecipesTests {
         MockitoAnnotations.openMocks(this);
         //Initialise the class under test and inject the mocks.
         recipeFactoryHandler = new RecipeFactoryHandler(recipeMapperHandler, eatsyRepositoryHandler);
-
     }
 
     /**

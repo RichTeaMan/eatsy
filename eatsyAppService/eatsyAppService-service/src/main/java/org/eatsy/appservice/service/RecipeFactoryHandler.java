@@ -59,7 +59,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
             final Recipe recipe = recipeMapperHandler.mapModelToDomain(recipeModel);
 
             //Persist the recipe to the database and add the new domain recipe to the cache of recipes.
-            persistRecipe(recipe);
+            persistRecipeAndUpdateRecipeCache(recipe);
 
             newRecipeModel = recipeMapperHandler.mapDomainToModel(recipe);
 
@@ -137,11 +137,11 @@ public class RecipeFactoryHandler implements RecipeFactory {
     }
 
     /**
-     * Persist the recipe object to the database.
+     * Persist the recipe object to the database and update in-memory cache.
      *
      * @param recipe the recipe domain object to be persisted.
      */
-    private void persistRecipe(final Recipe recipe) {
+    private void persistRecipeAndUpdateRecipeCache(final Recipe recipe) {
 
         logger.debug("Creating a new recipe entity object for persistence called " + recipe.getName());
         final RecipeEntity recipeEntity = recipeMapperHandler.mapDomainToEntity(recipe);
