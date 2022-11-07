@@ -60,8 +60,33 @@ public class DeleteRecipeTests {
         //Setup and Mocking (eatsyRepositoryHandler class mocked (and it's delete method is void return type)).
         //In order to test deletion, recipes must be pre-existing in the recipe cache, therefore recipes will be created as part of the setup
 
-        //1) Add recipes to the cache as setup for the test
+        //1) Add recipes to the cache as setup for the test (so deletion can occur)
+        final List<RecipeModel> inputRecipeModelWithKeysList = createRecipesInCache();
 
+        //2) Test - Delete a recipe
+
+        //Select a recipe in the list for deletion at random
+        final int randomListIndex = (int) ((Math.random() * inputRecipeModelWithKeysList.size()));
+        final String uniqueKeyOfRecipeToDelete = inputRecipeModelWithKeysList.get(randomListIndex).getKey();
+        final RecipeModel recipeModelToBeDeleted = inputRecipeModelWithKeysList.get(randomListIndex);
+
+        //Delete the recipe
+        final List<RecipeModel> actualUpdatedRecipeModelList = recipeFactoryHandler.deleteRecipe(uniqueKeyOfRecipeToDelete);
+
+        //3) Assert - check the recipe requested for deletion is no longer in the list of recipes, Check all the others are.
+        Assertions.assertTrue(inputRecipeModelWithKeysList.containsAll(actualUpdatedRecipeModelList));
+        Assertions.assertEquals((inputRecipeModelWithKeysList.size() - 1), actualUpdatedRecipeModelList.size());
+        Assertions.assertFalse(actualUpdatedRecipeModelList.contains(recipeModelToBeDeleted));//check the recipe to be deleted is in-fact gone.
+    }
+
+    //Test methods below.
+
+    /**
+     * Creates a random list of recipes via the createRecipe service method.
+     * Whilst The RecipeMapper and EatsyRepository services are mocked during this method, the in-memory recipeCache is updated
+     * @return list of recipeModels that correspond to the domain recipes in the in-memory cache.
+     */
+    private List<RecipeModel> createRecipesInCache() {
         //Create a list of input recipe models, to be added to the cache.
         final List<RecipeModel> inputRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(
                 EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
@@ -80,21 +105,7 @@ public class DeleteRecipeTests {
             currentInputRecipeModel.setKey(newRecipeModel.getKey());
             inputRecipeModelWithKeysList.add(currentInputRecipeModel);
         }
-
-        //2) Test - Delete the recipe
-
-        //Select a recipe in the list for deletion at random
-        final int randomListIndex = (int) ((Math.random() * inputRecipeModelWithKeysList.size()));
-        final String uniqueKeyOfRecipeToDelete = inputRecipeModelWithKeysList.get(randomListIndex).getKey();
-        final RecipeModel recipeModelToBeDeleted = inputRecipeModelWithKeysList.get(randomListIndex);
-
-        //Delete the recipe
-        final List<RecipeModel> actualUpdatedRecipeModelList = recipeFactoryHandler.deleteRecipe(uniqueKeyOfRecipeToDelete);
-
-        //3) Assert - check the recipe requested for deletion is no longer in the list of recipes, Check all the others are.
-        Assertions.assertTrue(inputRecipeModelWithKeysList.containsAll(actualUpdatedRecipeModelList));
-        Assertions.assertEquals((inputRecipeModelWithKeysList.size() - 1), actualUpdatedRecipeModelList.size());
-        Assertions.assertFalse(actualUpdatedRecipeModelList.contains(recipeModelToBeDeleted));//check the recipe to be deleted is in-fact gone.
+        return inputRecipeModelWithKeysList;
     }
 
 }
