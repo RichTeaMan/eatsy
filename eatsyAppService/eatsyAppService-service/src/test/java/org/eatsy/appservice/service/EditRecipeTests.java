@@ -2,8 +2,6 @@ package org.eatsy.appservice.service;
 
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
-import org.eatsy.appservice.model.mappers.RecipeMapperHandler;
-import org.eatsy.appservice.persistence.service.EatsyRepositoryHandler;
 import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
@@ -11,6 +9,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
@@ -21,23 +22,35 @@ import java.util.List;
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class EditRecipeTests {
 
+    //Create a mock implementation of the RecipeMapper. These unit tests are only concerned with the service module not the mapper module.
+    @Mock
+    private RecipeMapper recipeMapperHandler;
+
+    //Create a mock implementation of the EatsyRepositoryService. These unit tests are only concerned with the service module not the persistence module.
+    @Mock
+    private EatsyRepositoryService eatsyRepositoryHandler;
+
     /**
      * Class under test.
      */
-    private RecipeFactory recipeFactory;
+    //Injects the dependent mocks (marked with @Mock) for a recipe factory instance.
+    @InjectMocks
+    private RecipeFactoryHandler recipeFactoryHandler;
 
 
     @BeforeEach
     public void setup() {
-        //RecipeFactory dependent on RecipeMapper and EatsyRepositoryHandler
-        final RecipeMapper recipeMapper = new RecipeMapperHandler();
-        final EatsyRepositoryService eatsyRepositoryService = new EatsyRepositoryHandler();
-        recipeFactory = new RecipeFactoryHandler(recipeMapper, eatsyRepositoryService);
-
+        //Initialise the mock objects upon initialisation of Junit tests.
+        MockitoAnnotations.openMocks(this);
+        //Initialise the class under test and inject the mocks.
+        recipeFactoryHandler = new RecipeFactoryHandler(recipeMapperHandler, eatsyRepositoryHandler);
     }
 
     /**
      * Check the Recipe Factory can edit an existing recipe.
+     *
+     * In order to test editing recipes, recipes must be pre-existing in the recipe cache, therefore recipes will be created as part of the setup.
+     * Therefore, this test has a dependency on the CreateRecipe method in the service under test (RecipeFactoryHandler)
      */
     @Test
     public void checkEditRecipeNameSuccess() {
@@ -49,7 +62,7 @@ public class EditRecipeTests {
 
         //Populate the recipeCache with the randomly generated recipe list
         for (final RecipeModel currentRecipeModel : expectedRecipeModelList) {
-            final RecipeModel createdRecipeModel = recipeFactory.createRecipe(currentRecipeModel);
+            final RecipeModel createdRecipeModel = recipeFactoryHandler.createRecipe(currentRecipeModel);
 
             //To ensure the test doesn't fail on the randomly generated UUIDs when doing object comparisons.
             currentRecipeModel.setKey(createdRecipeModel.getKey());
@@ -67,7 +80,7 @@ public class EditRecipeTests {
         expectedUpdatedRecipeModel.setName(newRecipeName);
 
         //Test - edit one of the recipe names in the recipeCache (This returned recipeModel will have a new key)
-        final RecipeModel actualUpdatedRecipeModel = recipeFactory.updateRecipe(uniqueKeyOfRecipeToEdit, expectedUpdatedRecipeModel);
+        final RecipeModel actualUpdatedRecipeModel = recipeFactoryHandler.updateRecipe(uniqueKeyOfRecipeToEdit, expectedUpdatedRecipeModel);
         //To ensure test doesn't fail on the randomly generated UUIDs
         expectedUpdatedRecipeModel.setKey(actualUpdatedRecipeModel.getKey());
 

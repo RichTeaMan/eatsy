@@ -3,8 +3,6 @@ package org.eatsy.appservice.service;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
-import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
-import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,7 +11,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,7 +58,8 @@ public class DeleteRecipeTests {
         //In order to test deletion, recipes must be pre-existing in the recipe cache, therefore recipes will be created as part of the setup
 
         //1) Add recipes to the cache as setup for the test (so deletion can occur)
-        final List<RecipeModel> inputRecipeModelWithKeysList = createRecipesInCache();
+        final List<RecipeModel> inputRecipeModelWithKeysList = RecipeMockFactory.createRecipesInCache(
+                recipeFactoryHandler, recipeMapperHandler, eatsyRepositoryHandler);
 
         //2) Test - Delete a recipe
 
@@ -77,35 +75,6 @@ public class DeleteRecipeTests {
         Assertions.assertTrue(inputRecipeModelWithKeysList.containsAll(actualUpdatedRecipeModelList));
         Assertions.assertEquals((inputRecipeModelWithKeysList.size() - 1), actualUpdatedRecipeModelList.size());
         Assertions.assertFalse(actualUpdatedRecipeModelList.contains(recipeModelToBeDeleted));//check the recipe to be deleted is in-fact gone.
-    }
-
-    //Test methods below.
-
-    /**
-     * Creates a random list of recipes via the createRecipe service method.
-     * Whilst The RecipeMapper and EatsyRepository services are mocked during this method, the in-memory recipeCache is updated
-     * @return list of recipeModels that correspond to the domain recipes in the in-memory cache.
-     */
-    private List<RecipeModel> createRecipesInCache() {
-        //Create a list of input recipe models, to be added to the cache.
-        final List<RecipeModel> inputRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(
-                EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
-
-        //The generated inputRecipeModels will need their unique IDs to match what is assigned when they get put in the recipe cache
-        final List<RecipeModel> inputRecipeModelWithKeysList = new ArrayList<>();
-
-        //Mock the services that are not being tested through these unit tests
-        RecipeMockFactory.createMocksForRecipeMapperAndEatsyRepositoryServices(inputRecipeModelList, recipeMapperHandler, eatsyRepositoryHandler);
-
-        //Add the recipes to the recipe cache via the createRecipe method (Mapper and repository services mocked).
-        for (final RecipeModel currentInputRecipeModel : inputRecipeModelList) {
-            final RecipeModel newRecipeModel = recipeFactoryHandler.createRecipe(currentInputRecipeModel);
-            //Take the randomly generated key out of the assertion
-            //Recipe key randomly generated, so they will never match and one wasn't assigned to the inputRecipeModel
-            currentInputRecipeModel.setKey(newRecipeModel.getKey());
-            inputRecipeModelWithKeysList.add(currentInputRecipeModel);
-        }
-        return inputRecipeModelWithKeysList;
     }
 
 }

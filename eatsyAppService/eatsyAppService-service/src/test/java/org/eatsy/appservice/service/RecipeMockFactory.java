@@ -6,8 +6,11 @@ import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.persistence.model.RecipeEntity;
 import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
+import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
+import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
 import org.mockito.Mockito;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -57,6 +60,34 @@ public interface RecipeMockFactory {
         //Configure the RecipeMapperMock to return the mocked data (with the unique keys in the cache) when the MapperService is called.
         final RecipeModel mockedCreatedRecipeModelWithKey = createMockRecipeModelFromDomain(mockedDomainRecipe);
         Mockito.when(recipeMapperHandler.mapDomainToModel(mockedDomainRecipe)).thenReturn(mockedCreatedRecipeModelWithKey);
+    }
+
+    /**
+     * Creates a random list of recipes via the createRecipe service method.
+     * Whilst The RecipeMapper and EatsyRepository services are mocked during this method, the in-memory recipeCache is updated
+     *
+     * @return list of recipeModels that correspond to the domain recipes in the in-memory cache.
+     */
+    static List<RecipeModel> createRecipesInCache(final RecipeFactoryHandler recipeFactoryHandler, final RecipeMapper recipeMapperHandler, final EatsyRepositoryService eatsyRepositoryHandler) {
+        //Create a list of input recipe models, to be added to the cache.
+        final List<RecipeModel> inputRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(
+                EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+
+        //The generated inputRecipeModels will need their unique IDs to match what is assigned when they get put in the recipe cache
+        final List<RecipeModel> inputRecipeModelWithKeysList = new ArrayList<>();
+
+        //Mock the services that are not being tested through these unit tests
+        RecipeMockFactory.createMocksForRecipeMapperAndEatsyRepositoryServices(inputRecipeModelList, recipeMapperHandler, eatsyRepositoryHandler);
+
+        //Add the recipes to the recipe cache via the createRecipe method (Mapper and repository services mocked).
+        for (final RecipeModel currentInputRecipeModel : inputRecipeModelList) {
+            final RecipeModel newRecipeModel = recipeFactoryHandler.createRecipe(currentInputRecipeModel);
+            //Take the randomly generated key out of the assertion
+            //Recipe key randomly generated, so they will never match and one wasn't assigned to the inputRecipeModel
+            currentInputRecipeModel.setKey(newRecipeModel.getKey());
+            inputRecipeModelWithKeysList.add(currentInputRecipeModel);
+        }
+        return inputRecipeModelWithKeysList;
     }
 
     /**
