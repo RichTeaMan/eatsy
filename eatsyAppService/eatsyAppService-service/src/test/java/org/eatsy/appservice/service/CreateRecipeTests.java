@@ -1,6 +1,5 @@
 package org.eatsy.appservice.service;
 
-import org.apache.commons.lang3.StringUtils;
 import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
@@ -54,7 +53,7 @@ public class CreateRecipeTests {
     /**
      * The RecipeModel being returned from the recipeFactory is formed from
      * the newly created recipe domain object.
-     *
+     * <p>
      * This test checks the RecipeModel response has the same content as the
      * recipeModel initially requested to the Eatsy App service.
      */
@@ -66,7 +65,7 @@ public class CreateRecipeTests {
         final RecipeModel inputRecipeModel = RecipeModelDataFactory
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Mock the services that are not being tested through these unit tests
-        createMocksForRecipeMapperAndEatsyRepositoryServices(inputRecipeModel);
+        createMocksForRecipeMapperAndEatsyRepositoryServicesInCreateRecipeTests(inputRecipeModel);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
@@ -109,7 +108,7 @@ public class CreateRecipeTests {
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         inputRecipeModel.setIngredientSet(new HashSet<>());
         //Mock the services that are not being tested through these unit tests
-        createMocksForRecipeMapperAndEatsyRepositoryServices(inputRecipeModel);
+        createMocksForRecipeMapperAndEatsyRepositoryServicesInCreateRecipeTests(inputRecipeModel);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
@@ -135,7 +134,7 @@ public class CreateRecipeTests {
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         inputRecipeModel.setMethod(new TreeMap<>());
         //Mock the services that are not being tested through these unit tests
-        createMocksForRecipeMapperAndEatsyRepositoryServices(inputRecipeModel);
+        createMocksForRecipeMapperAndEatsyRepositoryServicesInCreateRecipeTests(inputRecipeModel);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
@@ -185,7 +184,7 @@ public class CreateRecipeTests {
         final RecipeModel inputRecipeModel = new RecipeModel();
         inputRecipeModel.setName(recipeModel.getName());
         //Mock the services that are not being tested through these unit tests
-        createMocksForRecipeMapperAndEatsyRepositoryServices(inputRecipeModel);
+        createMocksForRecipeMapperAndEatsyRepositoryServicesInCreateRecipeTests(inputRecipeModel);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
@@ -204,67 +203,17 @@ public class CreateRecipeTests {
      *
      * @param inputRecipeModel randomly generated recipe model test data.
      */
-    private void createMocksForRecipeMapperAndEatsyRepositoryServices(final RecipeModel inputRecipeModel) {
+    private void createMocksForRecipeMapperAndEatsyRepositoryServicesInCreateRecipeTests(final RecipeModel inputRecipeModel) {
 
         //Configure the eatsyRepository Mock to return the mocked data (Recipe Entity) when the eatsyRepository is called.
-        final RecipeEntity mockedPersistedRecipeEntity = createMockRecipeEntity(inputRecipeModel);
+        final RecipeEntity mockedPersistedRecipeEntity = RecipeMockFactory.createMockRecipeEntity(inputRecipeModel);
         Mockito.when(eatsyRepositoryHandler.persistNewRecipe(mockedPersistedRecipeEntity)).thenReturn(mockedPersistedRecipeEntity);
 
         //Configure the RecipeMapper mock to return mocked data when it's mapper methods are called from the RecipeFactory.
-        final Recipe mockedDomainRecipe = createMockDomainRecipe(inputRecipeModel);
+        final Recipe mockedDomainRecipe = RecipeMockFactory.createMockDomainRecipe(inputRecipeModel);
         Mockito.when(recipeMapperHandler.mapModelToDomain(inputRecipeModel)).thenReturn(mockedDomainRecipe);
         Mockito.when(recipeMapperHandler.mapDomainToEntity(mockedDomainRecipe)).thenReturn(mockedPersistedRecipeEntity);
         Mockito.when(recipeMapperHandler.mapDomainToModel(mockedDomainRecipe)).thenReturn(inputRecipeModel);
-    }
-
-    /**
-     * Creates a Recipe Entity object from a Recipe Model object
-     *
-     * @param inputRecipeModel recipe model object.
-     * @return A Recipe Entity object.
-     */
-    private static RecipeEntity createMockRecipeEntity(final RecipeModel inputRecipeModel) {
-
-        RecipeEntity recipeEntity = null;
-        //The recipe to be mapped must not be null and the recipe must have a name.
-        if (null != inputRecipeModel && StringUtils.isNotEmpty(inputRecipeModel.getName().trim())) {
-
-            recipeEntity = new RecipeEntity();
-            //Map key.
-            recipeEntity.setKey(inputRecipeModel.getKey());
-            //Map name.
-            recipeEntity.setName(inputRecipeModel.getName());
-            //Map set of ingredients.
-            recipeEntity.setIngredientSet(inputRecipeModel.getIngredientSet());
-            //Map method.
-            recipeEntity.setMethodMap(inputRecipeModel.getMethod());
-
-        }
-        return recipeEntity;
-
-    }
-
-    /**
-     * Creates a Recipe Domain object from a Recipe Model object
-     *
-     * @param inputRecipeModel recipe model object.
-     * @return A Recipe Domain object.
-     */
-    private static Recipe createMockDomainRecipe(final RecipeModel inputRecipeModel) {
-
-        Recipe domainRecipe = null;
-        //The recipe model to be mapped must not be null and the recipe must have a name.
-        if (null != inputRecipeModel && StringUtils.isNotEmpty(inputRecipeModel.getName().trim())) {
-
-            domainRecipe = new Recipe
-                    .RecipeBuilder(inputRecipeModel.getName())
-                    .withIngredientSet(inputRecipeModel.getIngredientSet())
-                    .withMethod(inputRecipeModel.getMethod())
-                    .build();
-
-        }
-        return domainRecipe;
-
     }
 
 }

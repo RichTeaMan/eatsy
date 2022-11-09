@@ -262,4 +262,31 @@ public interface RecipeMockFactory {
         return recipeEntityList;
     }
 
+    /**
+     * Creates a Recipe Entity object from a Recipe Model object
+     *
+     * @param inputRecipeModel recipe model object.
+     * @return A Recipe Entity object.
+     */
+    static RecipeEntity createMockRecipeEntity(final RecipeModel inputRecipeModel) {
+
+        RecipeEntity recipeEntity = null;
+        //The recipe to be mapped must not be null and the recipe must have a name.
+        if (null != inputRecipeModel && StringUtils.isNotEmpty(inputRecipeModel.getName().trim())) {
+
+            recipeEntity = new RecipeEntity();
+            //Map key.
+            recipeEntity.setKey(inputRecipeModel.getKey());
+            //Map name.
+            recipeEntity.setName(inputRecipeModel.getName());
+            //Map set of ingredients.
+            recipeEntity.setIngredientSet(inputRecipeModel.getIngredientSet());
+            //Map method.
+            recipeEntity.setMethodMap(inputRecipeModel.getMethod());
+
+        }
+        return recipeEntity;
+
+    }
+
 }
