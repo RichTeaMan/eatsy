@@ -91,6 +91,19 @@ public interface RecipeMockFactory {
     }
 
     /**
+     * Mocks the recipeMapper service interactions when a list of Recipe Entities would need to be mapped to a list of domain recipes.
+     *
+     * @param recipeMapperHandler      mock implementation of the RecipeMapper
+     * @param expectedRecipeEntityList randomly generated recipe entity list test data.
+     */
+    static void createMockDomainRecipesFromEntityRecipes(final RecipeMapper recipeMapperHandler, final List<RecipeEntity> expectedRecipeEntityList) {
+        for (final RecipeEntity currentEntity : expectedRecipeEntityList) {
+            final Recipe expectedUpdateDomainRecipe = createMockRecipe(currentEntity);
+            Mockito.when(recipeMapperHandler.mapEntityToDomain(currentEntity)).thenReturn(expectedUpdateDomainRecipe);
+        }
+    }
+
+    /**
      * Creates a Recipe Model object from a Recipe Domain object that has been added to the recipeCache
      *
      * @param mockedDomainRecipe recipe domain object.
@@ -145,6 +158,29 @@ public interface RecipeMockFactory {
     }
 
     /**
+     * Creates a Recipe object from a Recipe Entity object
+     *
+     * @param inputRecipeEntity recipe model object.
+     * @return A Recipe object.
+     */
+    static Recipe createMockRecipe(final RecipeEntity inputRecipeEntity) {
+
+        Recipe recipe = null;
+        //The recipeEntity to be mapped must not be null and the recipeEntity must have a name.
+        if (null != inputRecipeEntity && StringUtils.isNotEmpty(inputRecipeEntity.getName().trim())) {
+
+            recipe = new Recipe
+                    .RecipeBuilder(inputRecipeEntity.getName())
+                    .withIngredientSet(inputRecipeEntity.getIngredientSet())
+                    .withMethod(inputRecipeEntity.getMethodMap())
+                    .withSpecifiedKey(inputRecipeEntity.getKey())
+                    .build();
+        }
+        return recipe;
+
+    }
+
+    /**
      * Creates a Recipe Domain object from a Recipe Model object
      *
      * @param inputRecipeModel recipe model object.
@@ -190,6 +226,40 @@ public interface RecipeMockFactory {
         }
         return domainRecipe;
 
+    }
+
+    /**
+     * Creates a list of Recipe Entity objects from a list of Recipe Model objects
+     *
+     * @param inputRecipeModelList list recipe model object.
+     * @return A list of Recipe Entity object.
+     */
+    static List<RecipeEntity> createMockRecipeEntity(final List<RecipeModel> inputRecipeModelList) {
+
+        final List<RecipeEntity> recipeEntityList = new ArrayList<>();
+
+        for (final RecipeModel currentRecipeModel : inputRecipeModelList) {
+
+            RecipeEntity recipeEntity = null;
+            //The recipe to be mapped must not be null and the recipe must have a name.
+            if (null != currentRecipeModel && StringUtils.isNotEmpty(currentRecipeModel.getName().trim())) {
+
+                recipeEntity = new RecipeEntity();
+                //Map key.
+                recipeEntity.setKey(currentRecipeModel.getKey());
+                //Map name.
+                recipeEntity.setName(currentRecipeModel.getName());
+                //Map set of ingredients.
+                recipeEntity.setIngredientSet(currentRecipeModel.getIngredientSet());
+                //Map method.
+                recipeEntity.setMethodMap(currentRecipeModel.getMethod());
+
+            }
+            recipeEntityList.add(recipeEntity);
+
+        }
+
+        return recipeEntityList;
     }
 
 }
