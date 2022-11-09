@@ -167,4 +167,29 @@ public interface RecipeMockFactory {
 
     }
 
+    /**
+     * Creates a Recipe Domain object from a Recipe Model object with a specific key.
+     *
+     * @param inputRecipeModel recipe model object.
+     * @param specifiedKey     unique string UUID to use for the key.
+     * @return A Recipe Domain object.
+     */
+    static Recipe createMockDomainRecipeWithSpecifiedKey(final RecipeModel inputRecipeModel, final String specifiedKey) {
+
+        Recipe domainRecipe = null;
+        //The recipe model to be mapped must not be null and the recipe must have a name.
+        if (null != inputRecipeModel && StringUtils.isNotEmpty(inputRecipeModel.getName().trim())) {
+
+            domainRecipe = new Recipe
+                    .RecipeBuilder(inputRecipeModel.getName())
+                    .withIngredientSet(inputRecipeModel.getIngredientSet())
+                    .withMethod(inputRecipeModel.getMethod())
+                    .withSpecifiedKey(specifiedKey)
+                    .build();
+
+        }
+        return domainRecipe;
+
+    }
+
 }
