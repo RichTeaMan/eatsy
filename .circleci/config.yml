@@ -3,7 +3,13 @@ jobs:
   build:
 
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: circleci/openjdk:8-jdk #Primary image - all commands run in this image. (Required for Springboot/java)
+
+      - image: circleci/postgres:9.6.2-alpine #Secondary(/service) image needed as the application has a DB
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: eatsy
     working_directory: ~/eatsy
 
     general:
@@ -12,9 +18,9 @@ jobs:
           - develop
 
     steps:
-      - checkout
+      - checkout #Get sourcecode from Github
 
-      # Download and cache dependencies
+      # Download and cache dependencies - optimise so no need to download deps everytime src code is checked out
       - restore_cache:
           keys:
             - gradle-{{ checksum "build.gradle" }}
@@ -24,7 +30,18 @@ jobs:
             - ~/.gradle
           key: gradle-{{ checksum "build.gradle" }}
 
-      - run:
+      - run: #Installation of dockerize which ensures that after the db gets ready, only then will the app be able to make connections with it
+          name: install dockerize
+          command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+          environment:
+            DOCKERIZE_VERSION: v0.6.1
+      - run: #Install postgres client and create database
+          name: Wait for db
+          command: sudo dockerize -wait tcp://localhost:5433 -timeout 1m
+      - run: sudo apt update && sudo apt install postgressql-client
+      - run: psql -U postgres -c "eatsy"
+
+      - run: #For invoking command line
           name: Run tests
           #Give gradlew execution permissions (chmod=+x) via git for this to work
           command: ./gradlew coveralls
