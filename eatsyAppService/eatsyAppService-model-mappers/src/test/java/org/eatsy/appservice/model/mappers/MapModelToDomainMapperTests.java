@@ -38,7 +38,7 @@ public class MapModelToDomainMapperTests {
     public void checkMapToDomain() {
 
         //Setup
-        //Generate a recipe model object to be mapped into a recipe domain model object./
+        //Generate a recipe model object to be mapped into a recipe domain model object.
         final RecipeModel recipeModel = RecipeModelDataFactory
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
