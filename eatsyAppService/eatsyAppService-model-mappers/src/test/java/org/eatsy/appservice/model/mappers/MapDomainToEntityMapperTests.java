@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.util.HashSet;
+import java.util.TreeMap;
 
 /**
  * Recipe Map From Domain to Entity Mapper unit tests
@@ -98,6 +99,38 @@ public class MapDomainToEntityMapperTests {
 
         //Test
         final RecipeEntity actualRecipeEntity = recipeMapper.mapDomainToEntity(recipeWithEmptyIngredientsSet);
+
+        //Actual
+        Assertions.assertEquals(expectedRecipeEntity, actualRecipeEntity);
+
+    }
+
+    /**
+     * Check the Recipe Mapper can map a Recipe with an empty method.
+     */
+    @Test
+    public void checkMapToEntityWithEmptyMethod() {
+
+        //Setup - generate a recipe domain object to be mapped into a recipe entity object.
+        final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe have an empty method.
+        final Recipe recipeWithEmptyMap = new Recipe.RecipeBuilder(recipe.getName())
+                .withIngredientSet(recipe.getIngredientSet())
+                .withMethod(new TreeMap<>())
+                .build();
+
+        //Get this so that the assertion does not fail for different IDs being generated.
+        final String uniqueID = recipeWithEmptyMap.getKey();
+
+        //Expectation
+        final RecipeEntity expectedRecipeEntity = new RecipeEntity();
+        expectedRecipeEntity.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
+        expectedRecipeEntity.setName(recipeWithEmptyMap.getName());
+        expectedRecipeEntity.setIngredientSet(recipeWithEmptyMap.getIngredientSet());
+        expectedRecipeEntity.setMethodMap(recipeWithEmptyMap.getMethod());
+
+        //Test
+        final RecipeEntity actualRecipeEntity = recipeMapper.mapDomainToEntity(recipeWithEmptyMap);
 
         //Actual
         Assertions.assertEquals(expectedRecipeEntity, actualRecipeEntity);
