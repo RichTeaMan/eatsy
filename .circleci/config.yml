@@ -38,8 +38,12 @@ jobs:
       - run: #Install postgres client and create database
           name: Wait for db
           command: sudo dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run: sudo apt update && sudo apt install postgressql-client
-      - run: psql -U postgres -c "eatsy"
+      - run:
+          name: Install postgres client
+          command: sudo apt update && apt install postgresql-client
+      - run:
+          name: Create eatsy database
+          command: psql -U postgres -c "eatsy"
 
       - run: #For invoking command line
           name: Run tests
