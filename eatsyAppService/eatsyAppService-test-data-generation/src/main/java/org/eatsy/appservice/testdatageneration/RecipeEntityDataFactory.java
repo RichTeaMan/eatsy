@@ -38,28 +38,6 @@ public interface RecipeEntityDataFactory {
     }
 
     /**
-     * Uses the Java Faker library to create a list of RecipeEntity objects
-     *
-     * @param maxNumberOfRecipes   Max value for the generated number of recipeEntities in the list.
-     * @param maxIngredientSetSize Max value for the generated number of ingredients in each recipe entity
-     * @param maxMethodMapSize     Max value for the generated number of method steps in each recipe entity
-     * @return a randomly generated list of recipeEntity objects.
-     */
-    static List<RecipeEntity> generateRecipeEntitiesList(final int maxNumberOfRecipes, final int maxIngredientSetSize, final int maxMethodMapSize) {
-
-        //Create the recipe list and define the number of recipes in the list.
-        final List<RecipeEntity> recipeEntitiesList = new ArrayList<>();
-        final int numberOfRecipesInList = generateNumber(maxNumberOfRecipes);
-
-        //Populate the recipe list with random recipeModels.
-        for (int i = 0; i < numberOfRecipesInList; i++) {
-            recipeEntitiesList.add(generateRandomRecipeEntity(maxIngredientSetSize, maxMethodMapSize));
-        }
-
-        return recipeEntitiesList;
-    }
-
-    /**
      * Generates a set of random method steps.
      *
      * @param maxMethodMapSize Max value for the generated number of method steps in the recipe
