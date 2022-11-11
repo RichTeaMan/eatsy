@@ -52,4 +52,22 @@ public class MapDomainToEntityMapperTests {
 
     }
 
+    /**
+     * Check the Recipe Mapper gracefully deals with null being
+     * passed to the service.
+     */
+    @Test
+    public void checkMapToEntityWithNull() {
+
+        //Expectation
+        final RecipeEntity expectedRecipeEntity = null;
+
+        //Test
+        final RecipeEntity actualRecipeEntity = recipeMapper.mapDomainToEntity(null);
+
+        //Assert
+        Assertions.assertEquals(expectedRecipeEntity, actualRecipeEntity);
+
+    }
+
 }
