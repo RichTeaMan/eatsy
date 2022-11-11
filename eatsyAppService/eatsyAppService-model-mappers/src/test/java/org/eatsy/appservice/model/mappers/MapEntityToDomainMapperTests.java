@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.TreeMap;
 
@@ -160,6 +161,37 @@ public class MapEntityToDomainMapperTests {
         final Recipe actualDomainRecipe = recipeMapper.mapEntityToDomain(recipeEntityWithEmptyRecipeName);
 
         //Actual
+        Assertions.assertEquals(expectedDomainRecipe, actualDomainRecipe);
+
+    }
+
+    /**
+     * Test that the mappers can handle a situation when non-compulsory fields are not populated.
+     */
+    @Test
+    public void checkMapToDomainNoMethodOrIngredients() {
+
+        //Setup
+        //Generate a recipe entity object to be mapped into recipe domain object
+        final RecipeEntity recipeEntity = RecipeEntityDataFactory.generateRandomRecipeEntity(
+                EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe model have only the required fields
+        final RecipeEntity requiredFieldsOnlyRecipeEntity = new RecipeEntity();
+        requiredFieldsOnlyRecipeEntity.setName(recipeEntity.getName());
+
+        //Expected
+        final Recipe expectedDomainRecipe = new Recipe
+                .RecipeBuilder(requiredFieldsOnlyRecipeEntity.getName())
+                .withIngredientSet(new HashSet<>())
+                .withMethod(new HashMap<>())
+                .build();
+        //Set this so that the assertion doesn't fail when comparing the unique key field.
+        requiredFieldsOnlyRecipeEntity.setKey(expectedDomainRecipe.getKey());
+
+        //Test
+        final Recipe actualDomainRecipe = recipeMapper.mapEntityToDomain(requiredFieldsOnlyRecipeEntity);
+
+        //Assertion
         Assertions.assertEquals(expectedDomainRecipe, actualDomainRecipe);
 
     }
