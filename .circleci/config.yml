@@ -37,7 +37,7 @@ jobs:
             DOCKERIZE_VERSION: v0.6.1
       - run: #Install postgres client and create database
           name: Wait for db
-          command: sudo dockerize -wait tcp://localhost:5433 -timeout 1m
+          command: sudo dockerize -wait tcp://localhost:5432 -timeout 1m
       - run: sudo apt update && sudo apt install postgressql-client
       - run: psql -U postgres -c "eatsy"
 
