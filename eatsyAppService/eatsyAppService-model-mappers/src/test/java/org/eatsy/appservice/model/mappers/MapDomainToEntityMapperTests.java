@@ -162,4 +162,31 @@ public class MapDomainToEntityMapperTests {
 
     }
 
+    /**
+     * Test that the mappers can handle a situation when non-compulsory fields are not initialised.
+     */
+    @Test
+    public void checkMapToEntityNoMethodOrIngredients() {
+
+        //Setup
+        // generate a recipe domain object to be mapped into a recipe entity object.
+        final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe have only required fields.
+        final Recipe requiredFieldsOnlyRecipe = new Recipe.RecipeBuilder(recipe.getName())
+                .build();
+
+        //Expected
+        final RecipeEntity expectedRecipeEntity = new RecipeEntity();
+        expectedRecipeEntity.setKey(requiredFieldsOnlyRecipe.getKey());
+        expectedRecipeEntity.setName(requiredFieldsOnlyRecipe.getName());
+        expectedRecipeEntity.setIngredientSet(requiredFieldsOnlyRecipe.getIngredientSet());
+        expectedRecipeEntity.setMethodMap(requiredFieldsOnlyRecipe.getMethod());
+
+        //Test
+        final RecipeEntity actualRecipeEntity = recipeMapper.mapDomainToEntity(requiredFieldsOnlyRecipe);
+
+        //Assertion
+        Assertions.assertEquals(expectedRecipeEntity, actualRecipeEntity);
+    }
+
 }
