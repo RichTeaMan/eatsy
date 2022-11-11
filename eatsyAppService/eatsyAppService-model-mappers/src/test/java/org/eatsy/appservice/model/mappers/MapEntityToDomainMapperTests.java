@@ -9,6 +9,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.util.HashSet;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 /**
  * Recipe Map for Entity to Recipe Domain Mapper unit tests
  */
@@ -67,6 +71,38 @@ public class MapEntityToDomainMapperTests {
 
         //Assert
         Assertions.assertEquals(expectedRecipe, actualRecipe);
+
+    }
+
+    /**
+     * Check the Recipe Mapper can map a recipe with an empty ingredient set.
+     */
+    @Test
+    public void checkMapToDomainWithEmptyIngredientsList() {
+
+        //Setup
+        //Generate a recipe entity object to be mapped into a recipe domain object.
+        final RecipeEntity recipeEntity = RecipeEntityDataFactory.generateRandomRecipeEntity(
+                EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe entity have an empty ingredient set.
+        final RecipeEntity recipeEntityWithEmptyIngredientSet = new RecipeEntity();
+        recipeEntityWithEmptyIngredientSet.setName(recipeEntity.getName());
+        recipeEntityWithEmptyIngredientSet.setIngredientSet(new HashSet<>());
+        recipeEntityWithEmptyIngredientSet.setMethodMap(recipeEntity.getMethodMap());
+
+        //Expectation
+        final Recipe expectedDomainRecipe = new Recipe.RecipeBuilder(recipeEntityWithEmptyIngredientSet.getName())
+                .withIngredientSet(recipeEntityWithEmptyIngredientSet.getIngredientSet())
+                .withMethod(recipeEntityWithEmptyIngredientSet.getMethodMap())
+                .build();
+
+        //Test
+        final Recipe actualDomainRecipe = recipeMapper.mapEntityToDomain(recipeEntityWithEmptyIngredientSet);
+
+        //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
+        assertThat(expectedDomainRecipe)
+                .usingRecursiveComparison().ignoringFields("key")
+                .isEqualTo(actualDomainRecipe);
 
     }
 
