@@ -11,8 +11,6 @@ import org.junit.jupiter.api.TestInstance;
 
 import java.util.HashSet;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 /**
  * Recipe Map for Entity to Recipe Domain Mapper unit tests
  */
@@ -95,14 +93,14 @@ public class MapEntityToDomainMapperTests {
                 .withIngredientSet(recipeEntityWithEmptyIngredientSet.getIngredientSet())
                 .withMethod(recipeEntityWithEmptyIngredientSet.getMethodMap())
                 .build();
+        //Set this so that the assertion doesn't fail when comparing the unique key field.
+        recipeEntityWithEmptyIngredientSet.setKey(expectedDomainRecipe.getKey());
 
         //Test
         final Recipe actualDomainRecipe = recipeMapper.mapEntityToDomain(recipeEntityWithEmptyIngredientSet);
 
-        //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
-        assertThat(expectedDomainRecipe)
-                .usingRecursiveComparison().ignoringFields("key")
-                .isEqualTo(actualDomainRecipe);
+        //Assertion
+        Assertions.assertEquals(expectedDomainRecipe, actualDomainRecipe);
 
     }
 
