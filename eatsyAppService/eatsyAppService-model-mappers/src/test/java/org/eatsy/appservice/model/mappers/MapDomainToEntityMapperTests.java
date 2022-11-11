@@ -9,6 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.util.HashSet;
+
 /**
  * Recipe Map From Domain to Entity Mapper unit tests
  */
@@ -66,6 +68,38 @@ public class MapDomainToEntityMapperTests {
         final RecipeEntity actualRecipeEntity = recipeMapper.mapDomainToEntity(null);
 
         //Assert
+        Assertions.assertEquals(expectedRecipeEntity, actualRecipeEntity);
+
+    }
+
+    /**
+     * Check the Recipe Mapper can map a Recipe with an empty ingredient set.
+     */
+    @Test
+    public void checkMapToEntityWithEmptyIngredientList() {
+
+        //Setup - generate a recipe domain object to be mapped into a recipe entity object.
+        final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe have an empty ingredient set.
+        final Recipe recipeWithEmptyIngredientsSet = new Recipe.RecipeBuilder(recipe.getName())
+                .withIngredientSet(new HashSet<>())
+                .withMethod(recipe.getMethod())
+                .build();
+
+        //Get this so that the assertion does not fail for different IDs being generated.
+        final String uniqueID = recipeWithEmptyIngredientsSet.getKey();
+
+        //Expectation
+        final RecipeEntity expectedRecipeEntity = new RecipeEntity();
+        expectedRecipeEntity.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
+        expectedRecipeEntity.setName(recipeWithEmptyIngredientsSet.getName());
+        expectedRecipeEntity.setIngredientSet(recipeWithEmptyIngredientsSet.getIngredientSet());
+        expectedRecipeEntity.setMethodMap(recipeWithEmptyIngredientsSet.getMethod());
+
+        //Test
+        final RecipeEntity actualRecipeEntity = recipeMapper.mapDomainToEntity(recipeWithEmptyIngredientsSet);
+
+        //Actual
         Assertions.assertEquals(expectedRecipeEntity, actualRecipeEntity);
 
     }
