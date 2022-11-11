@@ -4,11 +4,10 @@ import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.persistence.model.RecipeEntity;
 import org.eatsy.appservice.testdatageneration.RecipeEntityDataFactory;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 /**
  * Recipe Map for Entity to Recipe Domain Mapper unit tests
@@ -49,10 +48,8 @@ public class MapEntityToDomainMapperTests {
         //Test
         final Recipe actualRecipe = recipeMapper.mapEntityToDomain(recipeEntity);
 
-        //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
-        assertThat(expectedRecipe)
-                .usingRecursiveComparison().ignoringFields("key")
-                .isEqualTo(actualRecipe);
+        //Assertion
+        Assertions.assertEquals(expectedRecipe, actualRecipe);
 
     }
 
