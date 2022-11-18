@@ -11,11 +11,12 @@ public interface EatsyRepositoryService {
 
     /**
      * Persists the RecipeEntity object to the database.
+     * Calling this method on a recipe with a pre-existing ID will update the corresponding database record rather than insert a new one.
      *
      * @param recipeEntity the recipe to be persisted.
      * @return the recipeEntity that has been successfully persisted.
      */
-    RecipeEntity persistNewRecipe(final RecipeEntity recipeEntity);
+    RecipeEntity persistRecipe(final RecipeEntity recipeEntity);
 
     /**
      * Retrieves all Recipe Entity objects that are stored in the Recipe table
@@ -28,4 +29,5 @@ public interface EatsyRepositoryService {
      * Deletes the Recipe Entity object that is stored in the database with the specified unique key.
      */
     void deleteRecipeById(String recipeKey);
+
 }

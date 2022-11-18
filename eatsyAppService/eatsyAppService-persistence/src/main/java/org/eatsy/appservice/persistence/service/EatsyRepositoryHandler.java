@@ -29,14 +29,15 @@ public class EatsyRepositoryHandler implements EatsyRepositoryService {
 
     /**
      * Persists the RecipeEntity object to the database.
+     * Calling this method on a recipe with a pre-existing ID will update the corresponding database record rather than insert a new one.
      *
      * @param recipeEntity the recipe to be persisted.
      * @return the recipeEntity that has been successfully persisted.
      */
     @Override
-    public RecipeEntity persistNewRecipe(final RecipeEntity recipeEntity) {
+    public RecipeEntity persistRecipe(final RecipeEntity recipeEntity) {
 
-        logger.debug("Persisting a new recipe entity object called" + recipeEntity.getName());
+        logger.debug("Persisting a recipe entity object called" + recipeEntity.getName());
 
         final RecipeEntity persistedRecipeEntity = eatsyRepository.save(recipeEntity);
 
@@ -71,5 +72,6 @@ public class EatsyRepositoryHandler implements EatsyRepositoryService {
         eatsyRepository.deleteById(recipeKey);
 
     }
+
 
 }

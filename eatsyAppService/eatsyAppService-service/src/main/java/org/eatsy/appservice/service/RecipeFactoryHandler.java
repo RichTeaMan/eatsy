@@ -105,7 +105,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
         recipeCache.remove(recipeKey);
 
         //map the updated recipeCache to a recipeModel list to be returned.
-        final List<RecipeModel> allRecipesModel = getAllRecipeModels();
+        final List<RecipeModel> allRecipesModel = retrieveAllRecipeDomainsAndMapToModel();
 
         return allRecipesModel;
     }
@@ -125,6 +125,11 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
         //Create the updated Recipe domain object
         final Recipe updatedRecipe = recipeMapperHandler.mapModelToDomain(recipeModelWithUpdates);
+
+        //Persist the updated recipe
+        logger.debug("Creating a corresponding recipe entity object for persistence called " + updatedRecipe.getName());
+        final RecipeEntity recipeEntityWithUpdates = recipeMapperHandler.mapDomainToEntity(updatedRecipe);
+        eatsyRepositoryHandler.persistRecipe(recipeEntityWithUpdates);
 
         //replace the outdated recipe with the updated version in the recipeCache.
         recipeCache.replace(recipeKey, updatedRecipe);
@@ -147,7 +152,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
         final RecipeEntity recipeEntity = recipeMapperHandler.mapDomainToEntity(recipe);
 
         //Persist the recipe to the database.
-        final RecipeEntity persistedRecipeEntity = eatsyRepositoryHandler.persistNewRecipe(recipeEntity);
+        final RecipeEntity persistedRecipeEntity = eatsyRepositoryHandler.persistRecipe(recipeEntity);
 
         //Add the new domain recipe to the cache of recipes.
         recipeCache.put(recipe.getKey(), recipe);
@@ -192,7 +197,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
      *
      * @return all recipe models.
      */
-    private List<RecipeModel> getAllRecipeModels() {
+    private List<RecipeModel> retrieveAllRecipeDomainsAndMapToModel() {
         final List<RecipeModel> allRecipesModel = new ArrayList();
         recipeCache.forEach((key, value) -> {
                     allRecipesModel.add(recipeMapperHandler.mapDomainToModel(value));

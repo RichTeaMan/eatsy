@@ -207,7 +207,7 @@ public class CreateRecipeTests {
 
         //Configure the eatsyRepository Mock to return the mocked data (Recipe Entity) when the eatsyRepository is called.
         final RecipeEntity mockedPersistedRecipeEntity = RecipeMockFactory.createMockRecipeEntity(inputRecipeModel);
-        Mockito.when(eatsyRepositoryHandler.persistNewRecipe(mockedPersistedRecipeEntity)).thenReturn(mockedPersistedRecipeEntity);
+        Mockito.when(eatsyRepositoryHandler.persistRecipe(mockedPersistedRecipeEntity)).thenReturn(mockedPersistedRecipeEntity);
 
         //Configure the RecipeMapper mock to return mocked data when it's mapper methods are called from the RecipeFactory.
         final Recipe mockedDomainRecipe = RecipeMockFactory.createMockDomainRecipe(inputRecipeModel);

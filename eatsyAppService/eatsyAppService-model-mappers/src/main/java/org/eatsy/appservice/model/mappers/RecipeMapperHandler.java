@@ -58,7 +58,7 @@ public class RecipeMapperHandler implements RecipeMapper {
      */
     @Override
     public Recipe mapModelToDomain(final RecipeModel recipeModel) {
-
+        //TODO keep the key if it exists
         Recipe recipe = null;
         //The recipe model to be mapped must not be null and the recipeModel must have a name.
         if (null != recipeModel && StringUtils.isNotEmpty(recipeModel.getName().trim())) {

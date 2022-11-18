@@ -54,7 +54,7 @@ public interface RecipeMockFactory {
 
         //Configure the eatsyRepository Mock to return the mocked data (Recipe Entity) when the eatsyRepository is called.
         final RecipeEntity mockedPersistedRecipeEntity = createMockRecipeEntity(mockedDomainRecipe);
-        Mockito.when(eatsyRepositoryHandler.persistNewRecipe(mockedPersistedRecipeEntity)).thenReturn(mockedPersistedRecipeEntity);
+        Mockito.when(eatsyRepositoryHandler.persistRecipe(mockedPersistedRecipeEntity)).thenReturn(mockedPersistedRecipeEntity);
         Mockito.when(recipeMapperHandler.mapDomainToEntity(mockedDomainRecipe)).thenReturn(mockedPersistedRecipeEntity);
 
         //Configure the RecipeMapperMock to return the mocked data (with the unique keys in the cache) when the MapperService is called.
