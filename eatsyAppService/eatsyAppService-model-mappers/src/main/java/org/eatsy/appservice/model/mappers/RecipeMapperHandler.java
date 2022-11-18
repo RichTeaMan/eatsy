@@ -52,23 +52,31 @@ public class RecipeMapperHandler implements RecipeMapper {
 
     /**
      * Map the recipeModel to a recipe domain object.
+     * If the model has an existing key, the mapper ensures the existing key is kept.
+     * If the model doesn't yet have a key, then a new key will be assigned.
      *
      * @param recipeModel the model object to be mapped to domain object
      * @return the recipe domain object that has been created from the recipe model object
      */
     @Override
     public Recipe mapModelToDomain(final RecipeModel recipeModel) {
-        //TODO keep the key if it exists
+
         Recipe recipe = null;
         //The recipe model to be mapped must not be null and the recipeModel must have a name.
         if (null != recipeModel && StringUtils.isNotEmpty(recipeModel.getName().trim())) {
 
             logger.debug("Mapping model object " + recipeModel.getName() + " to a recipe domain object");
 
-            recipe = new Recipe.RecipeBuilder(recipeModel.getName())
+            final Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder(recipeModel.getName())
                     .withIngredientSet(recipeModel.getIngredientSet())
-                    .withMethod(recipeModel.getMethod())
-                    .build();
+                    .withMethod(recipeModel.getMethod());
+            // The recipeBuilder automatically assigns a new key,
+            // so if the model already has an existing key, then this will ensure the existing key is kept.
+            if (recipeModel.getKey() != null){
+                recipeBuilder.withSpecifiedKey(recipeModel.getKey());
+            }
+
+            recipe = recipeBuilder.build();
 
         }
 
