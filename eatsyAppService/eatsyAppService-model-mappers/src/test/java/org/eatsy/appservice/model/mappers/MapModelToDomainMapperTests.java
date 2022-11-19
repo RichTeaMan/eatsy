@@ -61,6 +61,30 @@ public class MapModelToDomainMapperTests {
     }
 
     /**
+     * Check the recipeMapper successfully assigns a unique key to the domain object
+     * when no existing key exists for the model to be mapped
+     */
+    @Test
+    public void checkMapToDomainWithNoExistingKey() {
+
+        //Setup
+        //Generate a recipe model object with no unique key assigned to be mapped into a recipe domain model object.
+        final RecipeModel recipeModel = RecipeModelDataFactory
+                .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+
+        //Confirm that the recipeModel has a null key
+        Assertions.assertNull(recipeModel.getKey());
+
+        //Test
+        final Recipe actualRecipe = recipeMapper.mapModelToDomain(recipeModel);
+
+        //Assertion - check the domain object that is returned from the mapper has a unique key assigned.
+        Assertions.assertNotNull(actualRecipe.getKey(), "Test failed due to the actualRecipe key being null");
+
+
+    }
+
+    /**
      * Check the recipe mapper gracefully deals with null being passed to the service.
      */
     @Test
