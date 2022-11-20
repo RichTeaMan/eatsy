@@ -5,6 +5,7 @@ import org.eatsy.appservice.persistence.service.EatsyRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
@@ -39,4 +40,13 @@ public class EatsyRepositoryPersistenceTests {
                 "The test failed because the eatsyRepository was not empty");
     }
 
+}
+
+/**
+ * @DataJpaTest annotation needs the spring boot configuration found in @SpringBootApplication.
+ * It will not find this config as it is declared in the Controller Gradle Project.
+ * Therefore, we must add one to this test code in this sub-gradle project.
+ */
+@SpringBootApplication
+class TestApplication {
 }
