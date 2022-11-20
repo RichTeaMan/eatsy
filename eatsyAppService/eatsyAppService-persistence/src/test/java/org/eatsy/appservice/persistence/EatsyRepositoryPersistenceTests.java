@@ -1,6 +1,14 @@
+package org.eatsy.appservice.persistence;
+
+import org.eatsy.appservice.persistence.model.RecipeEntity;
+import org.eatsy.appservice.persistence.service.EatsyRepository;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+
+import java.util.List;
 
 /**
  * Test class for the persistence context of the application.
@@ -18,6 +26,17 @@ public class EatsyRepositoryPersistenceTests {
     @Autowired
     private TestEntityManager testEntityManager;
 
+    //The Eatsy Repository that extends the JPA interface
+    @Autowired
+    private EatsyRepository eatsyRepository;
 
+    @Test
+    public void checkNoRecipiesForEmptyRepository() {
+
+        final List<RecipeEntity> iterableRecipes = eatsyRepository.findAll();
+
+        Assertions.assertTrue(iterableRecipes.isEmpty(),
+                "The test failed because the eatsyRepository was not empty");
+    }
 
 }

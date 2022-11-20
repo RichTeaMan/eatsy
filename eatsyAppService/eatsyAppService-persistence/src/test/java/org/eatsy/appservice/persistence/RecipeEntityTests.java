@@ -1,3 +1,5 @@
+package org.eatsy.appservice.persistence;
+
 import com.jparams.verifier.tostring.NameStyle;
 import com.jparams.verifier.tostring.ToStringVerifier;
 import nl.jqno.equalsverifier.EqualsVerifier;
