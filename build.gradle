@@ -20,6 +20,7 @@ ext.springStarterTestVersion = '2.7.0'
 ext.equalsVerifierVersion = '3.10'
 ext.toStringVerifierVersion = '1.4.8'
 ext.assertJVersion = '3.22.0'
+ext.h2Version = '2.1.214'
 
 //spring
 ext.springBootVersion = '2.7.0'

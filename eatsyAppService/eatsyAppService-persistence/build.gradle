@@ -17,6 +17,11 @@ dependencies {
     //Connect to PostgreSQL Database with Spring Data JPA
     implementation "org.springframework.boot:spring-boot-starter-data-jpa:$SpringBootStarterDataJpaVersion"
 
+    //For DataJpaTest
+    testImplementation "org.springframework.boot:spring-boot-starter-test:$springStarterTestVersion"
+    //For H2 in memory test database
+    testImplementation "com.h2database:h2:$h2Version"
+
     // Test dependencies
     // (In JUnit 5 the API is separated from the runtime)
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
