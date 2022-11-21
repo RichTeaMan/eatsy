@@ -2,14 +2,20 @@ package org.eatsy.appservice.persistence;
 
 import org.eatsy.appservice.persistence.model.RecipeEntity;
 import org.eatsy.appservice.persistence.service.EatsyRepository;
+import org.eatsy.appservice.persistence.service.EatsyRepositoryHandler;
+import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
+import org.eatsy.appservice.testdatageneration.RecipeEntityDataFactory;
+import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 /**
  * Test class for the persistence context of the application.
@@ -30,15 +36,37 @@ public class EatsyRepositoryPersistenceTests {
     //The Eatsy Repository that extends the JPA interface
     @Autowired
     private EatsyRepository eatsyRepository;
+    private EatsyRepositoryService eatsyRepositoryHandler;
+
+    /**
+     * Setup method before every test = Initialise the class under test
+     */
+    @BeforeEach
+    public void setup() {
+        eatsyRepositoryHandler = new EatsyRepositoryHandler();
+    }
 
     @Test
-    public void checkNoRecipiesForEmptyRepository() {
+    public void checkPersistRecipeTest() {
 
-        final List<RecipeEntity> iterableRecipes = eatsyRepository.findAll();
+        //Create test RecipeEntity
+        final RecipeEntity expectedRecipeEntity = RecipeEntityDataFactory
+                .generateRandomRecipeEntity(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        expectedRecipeEntity.setKey(UUID.randomUUID().toString());
 
-        Assertions.assertTrue(iterableRecipes.isEmpty(),
-                "The test failed because the eatsyRepository was not empty");
+        //Execute the method under test
+        eatsyRepositoryHandler.persistRecipe(expectedRecipeEntity);
+
+        //Do the assertion
+        final Optional<RecipeEntity> actualEntityOptional = eatsyRepository.findById(expectedRecipeEntity.getKey());
+        if (actualEntityOptional.isPresent()) {
+            final RecipeEntity actualRecipeEntity = actualEntityOptional.get();
+            Assertions.assertEquals(expectedRecipeEntity, actualRecipeEntity);
+        } else {
+            Assertions.fail("The persistRecipe method under test did not work as expected");
+        }
     }
+
 
 }
 

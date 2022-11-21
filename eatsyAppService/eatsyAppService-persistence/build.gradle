@@ -1,6 +1,7 @@
 dependencies {
 
     implementation project(':eatsyAppService:eatsyAppService-domain')
+    testImplementation project(':eatsyAppService:eatsyAppService-test-data-generation')
 
     // https://projectlombok.org
     compileOnly "org.projectlombok:lombok:$lombokVersion"
