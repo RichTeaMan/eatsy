@@ -21,6 +21,9 @@ dependencies {
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springStarterTestVersion"
     //For H2 in memory test database
     testImplementation "com.h2database:h2:$h2Version"
+    //Needed for test H2 database and config in src/test/resources spring config
+    //Specify classifier as jdk8 for java 8.
+    testImplementation "org.hsqldb:hsqldb:$hsqldbVersion:jdk8"
 
     // Test dependencies
     // (In JUnit 5 the API is separated from the runtime)
