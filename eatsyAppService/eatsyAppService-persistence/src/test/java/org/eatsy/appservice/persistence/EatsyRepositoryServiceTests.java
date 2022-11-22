@@ -14,6 +14,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.List;
+
 /**
  * EatsyRepository unit tests for the EatsyRepositoryHandler persistence service
  */
@@ -38,6 +40,10 @@ public class EatsyRepositoryServiceTests {
         MockitoAnnotations.openMocks(this);
     }
 
+    /**
+     * Checks the persistRecipe method in the EatsyRepositoryHandler
+     * whilst mocking the Eatsy Repository (JPARepository)
+     */
     @Test
     public void checkPersistRecipe() {
 
@@ -47,7 +53,7 @@ public class EatsyRepositoryServiceTests {
         final RecipeEntity recipeEntity = RecipeEntityDataFactory.generateRandomRecipeEntity(
                 EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
-        //2) Mock the eatsyRepository
+        //2) Mock the eatsyRepository JPA functionality
         Mockito.when(eatsyRepository.save(recipeEntity)).thenReturn(recipeEntity);
 
         //Test
@@ -56,5 +62,31 @@ public class EatsyRepositoryServiceTests {
         //Assertions
         Assertions.assertEquals(persistedRecipeEntity, recipeEntity);
     }
+
+    /**
+     * Checks the retrieveAllRecipes method in the EatsyRepositoryHandler
+     * whilst mocking the Eatsy Repository (JPARepository)
+     */
+    @Test
+    public void checkRetrieveAllRecipes() {
+
+        //Setup
+
+        //1) Create a list of recipe entity objects to persist
+        final List<RecipeEntity> mockedRecipeEntityList = RecipeEntityDataFactory.generateRecipeEntityList(EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES,
+                EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+
+        //2) Mock the eatsyRepositiry JPA functionality
+        Mockito.when(eatsyRepository.findAll()).thenReturn(mockedRecipeEntityList);
+
+        //Test
+        final List<RecipeEntity> actualRecipeEntity = eatsyRepositoryHandler.retrieveAllRecipes();
+
+        //Assertion
+        Assertions.assertEquals(actualRecipeEntity, mockedRecipeEntityList);
+        
+
+    }
+
 
 }
