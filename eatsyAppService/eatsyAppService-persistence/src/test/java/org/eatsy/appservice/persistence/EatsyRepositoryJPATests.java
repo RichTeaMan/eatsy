@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -34,13 +35,23 @@ public class EatsyRepositoryJPATests {
     @Autowired
     private EatsyRepository eatsyRepository;
 
+    //List of recipe entities for use in the test cases.
+    private List<RecipeEntity> recipeEntityList;
+
 
     /**
-     * Setup method before every test
+     * Setup method before every test.
+     * Ensures there are a number of test recipe entities to be used with the JPA repository operations under test
      */
     @BeforeEach
     public void setup() {
 
+        //Create a list of recipe entity test objects for use in each test.
+        recipeEntityList = RecipeEntityDataFactory.generateRecipeEntityList(EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES,
+                EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+
+        //Ensure each recipe entity has a unique key assigned before being added to the database.
+        recipeEntityList.forEach(recipeEntity -> recipeEntity.setKey(UUID.randomUUID().toString()));
 
     }
 
@@ -51,9 +62,7 @@ public class EatsyRepositoryJPATests {
     public void checkSaveRecipeOperation() {
 
         //Create test RecipeEntity
-        final RecipeEntity expectedRecipeEntity = RecipeEntityDataFactory
-                .generateRandomRecipeEntity(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
-        expectedRecipeEntity.setKey(UUID.randomUUID().toString());
+        final RecipeEntity expectedRecipeEntity = recipeEntityList.get(0);
 
         //Execute the method under test
         final RecipeEntity savedRecipe = eatsyRepository.save(expectedRecipeEntity);
