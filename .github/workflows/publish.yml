@@ -1,18 +1,32 @@
-name: publish
-on: [ push ]
+name: Create and publish a Docker image
+on:
+  push:
+    branches: [ 'flyio' ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
-publish-eatsy-api-docker-image:
-runs-on: ubuntu-latest
-steps:
-  - uses: actions/checkout@v2
-  - name: Login to GitHub Container Registry
-uses: docker/login-action@v1
-with:
-registry: ghcr.io
-username: ${{ github.actor }}
-password: ${{ secrets.GITHUB_TOKEN }}
-            - name: Build the eatsy-api-docker Docker image
-run: |
-  docker build . --tag ghcr.io/dm1st/eatsy-api-docker-ghcr:latest
-  docker run ghcr.io/dm1st/eatsy-api-docker-ghcr:latest
-  docker push ghcr.io/dm1st/eatsy-api-docker-ghcr:latest
+  build-and-publish-eatsy-api-docker-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout Repository
+      - uses: actions/checkout@v2
+
+      - name: Login to the Container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push the eatsy-api-docker Docker image
+        run: |
+          docker build . --tag ghcr.io/dm1st/eatsy-api-docker-ghcr:latest
+          docker run ghcr.io/dm1st/eatsy-api-docker-ghcr:latest
+          docker push ghcr.io/dm1st/eatsy-api-docker-ghcr:latest
