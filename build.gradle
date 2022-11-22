@@ -40,15 +40,18 @@ ext.SpringBootStarterJdbcVersion = '2.7.0'
 ext.SpringBootStarterDataJpaVersion = '2.7.0'
 
 allprojects {
+
+    group "org.eatsy"
     repositories {
         mavenCentral()
     }
+
 }
 
 subprojects {
     apply plugin: 'java'
     apply plugin: 'jacoco'
-    apply plugin: 'application'
+    apply plugin: 'io.spring.dependency-management'
 
     repositories {
         mavenCentral()
@@ -75,31 +78,6 @@ buildscript {
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootGradlePluginVersion"
         classpath "gradle.plugin.org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.12.0"
-    }
-}
-
-//Heroku deployment configuration
-configure(subprojects.findAll { it.name == "eatsyAppService-controller" }) {
-
-    task stage(type: Copy, dependsOn: [clean, build]) {
-        from jar.archivePath
-        into project.rootDir
-        rename {
-            'app.jar'
-        }
-    }
-    stage.mustRunAfter(clean)
-
-    clean {
-        project.file('app.jar').delete()
-    }
-
-    jar {
-        manifest {
-            attributes(
-                    'Main-Class': 'org.eatsy.appservice.controller.application.ServerRunner'
-            )
-        }
     }
 }
 

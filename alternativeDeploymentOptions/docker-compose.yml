@@ -1,0 +1,55 @@
+#Use this docker compose config for pulling the built image of eatsy-api service on dockerhub
+#Configuration to define the version of Docker Compose and the services in the multi-container application
+version: '3.1'
+services:
+  api_service:
+    image: dm1st/eatsy-api-docker:latest
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      PostgreSQL:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/eatsy
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  PostgreSQL:
+    image: postgres
+    container_name: local_pgdb
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=eatsy
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    #to mount a folder from the host machine to the container. path in the host where the db data is stored. Otherwise data will be lost when the container shuts down
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    # override default value
+    container_name: pgadmin4_container
+    #restart container when either the Docker daemon restarts or the container is restarted.
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    #In order for pgAdmin to persist the connection details even after the container is shut down, we need to provide volue
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+volumes:
+  data:
+  pgadmin-data:
+

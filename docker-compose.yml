@@ -1,0 +1,66 @@
+#Use this Docker-Compose file the build the Eatsy API image using the dockerfile in the root of the project.
+#Configuration to define the version of Docker Compose and the services in the multi-container application.
+version: '3.1'
+services:
+  api_service:
+    #builds the Docker image from the dockerfile in the root of this project specified by "." and applies the specified tag with the image parameter
+    image: dm1st/eatsy-api-docker:latest
+    build: .
+    #Always restart the container if it stops.
+    restart: always
+    #Tells Docker to expose the API's container port 8080 to the host port 8080
+    ports:
+      - "8080:8080"
+    #The complete start-up of the API service depends_on the PostgresSQL being healthy
+    depends_on:
+      PostgreSQL:
+        condition: service_healthy
+    #The list of environment configurations that you would see in the Spring Boot project application.properties file.
+    #These configurations connect and authenticate the API service with the PostgresSQL service.
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://PostgreSQL:5432/eatsy
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=password
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+
+  PostgreSQL:
+    #The image on which your database container will run of postgres Docker image.
+    image: postgres
+    container_name: local_pgdb
+    restart: always
+    #The service exposes port 5432 to the host machine, port 5432. The API service can connect to the database using SPRING_DATASOURCE_URL in its environment configuration.
+    ports:
+      - "5432:5432"
+    #The list of environment configurations that authenticates the PostgreSQL database.
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=eatsy
+    #The final configuration healthcheck tests the database using the command "pg_isready -U postgres" on intervals to make sure
+    #that the database service has started up fully and service_healthy as the API service depends_on the database has been up fully to complete its start-up.
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    #to mount a folder from the host machine to the container. path in the host where the db data is stored. Otherwise data will be lost when the container shuts down
+    volumes:
+      - ./data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    # override default value
+    container_name: pgadmin4_container
+    #restart container when either the Docker daemon restarts or the container is restarted.
+    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+    #In order for pgAdmin to persist the connection details even after the container is shut down, we need to provide volue
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+volumes:
+  data:
+  pgadmin-data:
