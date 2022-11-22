@@ -13,6 +13,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -56,10 +57,10 @@ public class EatsyRepositoryJPATests {
     }
 
     /**
-     * Check the save recipe operations
+     * Check the save recipeEntity operation
      */
     @Test
-    public void checkSaveRecipeOperation() {
+    public void checkSaveRecipeEntityOperation() {
 
         //Create test RecipeEntity
         final RecipeEntity expectedRecipeEntity = recipeEntityList.get(0);
@@ -72,6 +73,61 @@ public class EatsyRepositoryJPATests {
         Assertions.assertFalse(savedRecipe.getKey().isEmpty());
     }
 
+    /**
+     * Check the findAll recipeEntity operation
+     */
+    @Test
+    public void checkFindAllRecipeEntitiesOperation() {
+
+        //Setup
+        //Add recipeEntities to the test database
+        for (final RecipeEntity currentRecipeEntity : recipeEntityList) {
+            //Use test entity manager as we are testing findAll()
+            //and can decouple the test from using repository save() method
+            testEntityManager.persist(currentRecipeEntity);
+        }
+
+        //record size of setup list
+        final int sizeOfExpectedRecipeEntityList = recipeEntityList.size();
+
+
+        //Test
+        final List<RecipeEntity> actualRecipeEntityList = eatsyRepository.findAll();
+
+        //Assertions
+        Assertions.assertNotNull(actualRecipeEntityList);
+        Assertions.assertEquals(actualRecipeEntityList.size(), sizeOfExpectedRecipeEntityList);
+
+    }
+
+    /**
+     * Check the deleteById for recipeEntity operation
+     */
+    @Test
+    public void checkDeleteByIdForRecipeEntityOperation() {
+
+        //Setup
+        //Add recipeEntities to the test database
+        for (final RecipeEntity currentRecipeEntity : recipeEntityList) {
+            //Use test entity manager as we are testing findAll()
+            //and can decouple the test from using repository save() method
+            testEntityManager.persist(currentRecipeEntity);
+        }
+
+        //record size of setup list
+        final int sizeOfExpectedRecipeEntityList = recipeEntityList.size();
+
+        //Get the RecipeEntity that is going to be deleted
+        final RecipeEntity recipeEntityforDeletion = recipeEntityList.get(sizeOfExpectedRecipeEntityList - 1);
+
+
+        //Test
+        eatsyRepository.deleteById(recipeEntityList.get(sizeOfExpectedRecipeEntityList - 1).getKey());
+        final Optional<RecipeEntity> recipeEntityOptional = eatsyRepository.findById(recipeEntityforDeletion.getKey());
+
+        //Assertions
+        Assertions.assertFalse(recipeEntityOptional.isPresent());
+    }
 
 }
 
