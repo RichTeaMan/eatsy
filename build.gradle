@@ -78,31 +78,6 @@ buildscript {
     }
 }
 
-//Heroku deployment configuration
-configure(subprojects.findAll { it.name == "eatsyAppService-controller" }) {
-
-    task stage(type: Copy, dependsOn: [clean, build]) {
-        from jar.archivePath
-        into project.rootDir
-        rename {
-            'app.jar'
-        }
-    }
-    stage.mustRunAfter(clean)
-
-    clean {
-        project.file('app.jar').delete()
-    }
-
-    jar {
-        manifest {
-            attributes(
-                    'Main-Class': 'org.eatsy.appservice.controller.application.ServerRunner'
-            )
-        }
-    }
-}
-
 //JaCoCo and coveralls configuration
 def allTestCoverageFile = "$buildDir/jacoco/allTestCoverage.exec"
 def devProjects = subprojects.findAll { it.path != 'test' } //Exclude test code projects
