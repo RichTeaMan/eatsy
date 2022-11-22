@@ -11,7 +11,7 @@ with:
 registry: ghcr.io
 username: ${{ github.actor }}
 password: ${{ secrets.GITHUB_TOKEN }}
-            - name: Build the eatsy-api-docker Docker image
+- name: Build the eatsy-api-docker Docker image
 run: |
   docker build . --tag ghcr.io/dm1st/eatsy-api-docker-ghcr:latest
   docker run ghcr.io/dm1st/eatsy-api-docker-ghcr:latest
