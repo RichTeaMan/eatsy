@@ -107,6 +107,7 @@ public class EatsyRepositoryJPATests {
     public void checkDeleteByIdForRecipeEntityOperation() {
 
         //Setup
+
         //Add recipeEntities to the test database
         for (final RecipeEntity currentRecipeEntity : recipeEntityList) {
             //Use test entity manager as we are testing findAll()
@@ -118,12 +119,14 @@ public class EatsyRepositoryJPATests {
         final int sizeOfExpectedRecipeEntityList = recipeEntityList.size();
 
         //Get the RecipeEntity that is going to be deleted
-        final RecipeEntity recipeEntityforDeletion = recipeEntityList.get(sizeOfExpectedRecipeEntityList - 1);
+        final int randomNumberInRecipeEntityList = RecipeEntityDataFactory.generateNumber(sizeOfExpectedRecipeEntityList);
+        final int indexOfRecipeEntityToDelete = randomNumberInRecipeEntityList - 1; //Avoid possible index out of bounds exception case
+        final RecipeEntity recipeEntityForDeletion = recipeEntityList.get(indexOfRecipeEntityToDelete);
 
 
         //Test
-        eatsyRepository.deleteById(recipeEntityList.get(sizeOfExpectedRecipeEntityList - 1).getKey());
-        final Optional<RecipeEntity> recipeEntityOptional = eatsyRepository.findById(recipeEntityforDeletion.getKey());
+        eatsyRepository.deleteById(recipeEntityList.get(indexOfRecipeEntityToDelete).getKey());
+        final Optional<RecipeEntity> recipeEntityOptional = eatsyRepository.findById(recipeEntityForDeletion.getKey());
 
         //Assertions
         Assertions.assertFalse(recipeEntityOptional.isPresent());
