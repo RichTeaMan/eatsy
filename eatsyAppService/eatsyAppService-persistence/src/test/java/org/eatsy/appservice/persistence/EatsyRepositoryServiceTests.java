@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -84,8 +85,49 @@ public class EatsyRepositoryServiceTests {
 
         //Assertion
         Assertions.assertEquals(actualRecipeEntity, mockedRecipeEntityList);
-        
 
+    }
+
+    /**
+     * Checks the retrieveAllRecipes method in the EatsyRepositoryHandler
+     * whilst mocking the Eatsy Repository (JPARepository)
+     */
+    @Test
+    public void checkDeleteRecipeById() {
+
+        //Mock creation
+
+        //Create the list of recipeEntities that will be used to mock the eatsyRepository findAll() method used in this setup
+        final List<RecipeEntity> mockedRecipeEntityList = RecipeEntityDataFactory.generateRecipeEntityList(EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES,
+                EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Create the list of recipeEntities that will be used to mock the eatsyRepository findAll() method when the first entry has been deleted
+        final List<RecipeEntity> mockedRecipeEntityListAfterOneDeletion = new ArrayList<>(mockedRecipeEntityList);
+        mockedRecipeEntityListAfterOneDeletion.remove(0);
+
+        //Mock the eatsyRepository JPA functionality
+        //1) Mock the void response of the eatsyRepository deleteById method when the first entry in the list is deleted
+        Mockito.doNothing().when(eatsyRepository).deleteById(mockedRecipeEntityList.get(0).getKey());
+        //2) Mock the eatsyRepository findAll() method for before calling the deleteById method
+        Mockito.when(eatsyRepository.findAll()).thenReturn(mockedRecipeEntityList);
+
+        //Test
+        //Step 1 - Get all recipes before deletion
+
+        final List<RecipeEntity> recipeEntityListBeforeDeletion = eatsyRepositoryHandler.retrieveAllRecipes();
+
+        //Step 2 - Delete the first entry in the list
+
+        eatsyRepositoryHandler.deleteRecipeById(recipeEntityListBeforeDeletion.get(0).getKey());
+
+        //Step 3 - Get all recipes after deletion
+        
+        //Mock the eatsyRepository findAll() method for after calling the deleteById method
+        Mockito.when(eatsyRepository.findAll()).thenReturn(mockedRecipeEntityListAfterOneDeletion);
+        final List<RecipeEntity> recipeEntityListAfterDeletion = eatsyRepositoryHandler.retrieveAllRecipes();
+
+        //Assertion
+        Assertions.assertTrue(recipeEntityListBeforeDeletion.containsAll(recipeEntityListAfterDeletion));
+        Assertions.assertFalse(recipeEntityListAfterDeletion.containsAll(recipeEntityListBeforeDeletion));
     }
 
 
