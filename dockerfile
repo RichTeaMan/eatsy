@@ -1,13 +1,14 @@
 FROM openjdk:8-jdk-alpine
 
-#Use 'ADD [source URL] [destination folder]' to download repo as tar file.
+#Use 'ADD [source URL] [destination file]' to download repo as tar file.
 ADD  https://github.com/DM1st/eatsy/archive/flyio.tar.gz eatsy.tar.gz
 RUN ls
-#swtich into the working directory
-WORKDIR eatsy
-run ls
-#extract tar file and remove the parent folder (to put us in the project root)
-RUN tar -x flyio.tar.gz --strip-components=1
+#Create a folder to store the project
+run mkdir eatsy
+
+#Extract tar file and remove the parent folder (to put us in the project root)
+#Specify to extract to the newly created eatsy directory
+RUN tar -x flyio.tar.gz --strip-components=1 -C eatsy
 RUN ls
 RUN ./gradlew build
 
