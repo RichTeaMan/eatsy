@@ -4,7 +4,7 @@ RUN mkdir eatsy
 
 #Use ADD to download repo as tar file, extract all and remove the parent folder to put us in the project root
 #ADD [source] [destination]
-ADD  https://github.com/DM1st/eatsy/archive/flyio.tar.gz eatsy.tar.gz
+ADD  https://github.com/DM1st/eatsy/archive/flyio.tar.gz eatsy
 WORKDIR /eatsy
 RUN ./gradlew build
 
