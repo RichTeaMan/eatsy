@@ -3,7 +3,7 @@ FROM openjdk:8-jdk-alpine
 RUN mkdir project
 
 #Use 'ADD [source URL] [destination folder]' to download repo as tar file.
-ADD  https://github.com/DM1st/eatsy/archive/flyio.tar.gz /project/eatsy
+ADD  https://github.com/DM1st/eatsy/archive/flyio.tar.gz eatsy
 RUN ls
 RUN cd project
 RUN ls
