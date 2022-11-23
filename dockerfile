@@ -1,9 +1,10 @@
 FROM openjdk:8-jdk-alpine
 
 RUN mkdir eatsy
-ADD https://github.com/DM1st/eatsy/archive/refs/heads/flyio.zip eatsy.tar.gz
-RUN tar -xzf eatsy.tar.gz --strip-components=1 -C eatsy
-WORKDIR /eatsy
+
+#Download repo as tar file, extract all and remove the parent folder to put us in the project root
+RUN  curl -L https://github.com/DM1st/eatsy/archive/flyio.tar.gz | tar -xz --strip-components=1
+
 RUN ./gradlew build
 
 EXPOSE 8080
