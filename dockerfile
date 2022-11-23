@@ -6,7 +6,7 @@ RUN mkdir project
 ADD  https://github.com/DM1st/eatsy/archive/flyio.tar.gz /project/eatsy
 RUN ls
 #swtich into the working directory
-WORKDIR /eatsy
+WORKDIR /project/eatsy
 run ls
 #extract tar file and remove the parent folder (to put us in the project root)
 RUN tar -x flyio.tar.gz --strip-components=1
