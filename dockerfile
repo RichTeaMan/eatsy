@@ -5,6 +5,8 @@ RUN mkdir project
 #Use 'ADD [source URL] [destination folder]' to download repo as tar file.
 ADD  https://github.com/DM1st/eatsy/archive/flyio.tar.gz /project/eatsy
 RUN ls
+RUN cd project
+RUN ls
 #swtich into the working directory
 WORKDIR project/eatsy
 run ls
