@@ -8,7 +8,7 @@ run mkdir eatsy
 
 #Extract tar file and remove the parent folder (to put us in the project root)
 #Specify to extract to the newly created eatsy directory
-RUN tar -x flyio.tar.gz --strip-components=1 -C eatsy
+RUN tar -x eatsy.tar.gz --strip-components=1 -C eatsy
 RUN ls
 RUN ./gradlew build
 
