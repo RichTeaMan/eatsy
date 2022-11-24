@@ -30,3 +30,4 @@ jobs:
           docker build . --tag ghcr.io/dm1st/eatsy-api-docker-ghcr:latest
           docker run ghcr.io/dm1st/eatsy-api-docker-ghcr:latest
           docker push ghcr.io/dm1st/eatsy-api-docker-ghcr:latest
+          docker-compose up -d
