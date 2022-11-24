@@ -17,7 +17,7 @@
 version: '3.1'
 services:
   API:
-    image: 'eatsy-api-docker:latest'
+    image: 'dm1st/eatsy-api-docker:latest'
     ports:
       - "8080:8080"
     entrypoint: [ "bash", "./gradlew bootrun" ]
