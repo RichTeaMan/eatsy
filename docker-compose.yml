@@ -20,7 +20,7 @@ services:
     image: 'dm1st/eatsy-api-docker:latest'
     ports:
       - "8080:8080"
-    entrypoint: [ "bash", "./gradlew bootrun" ]
+    entrypoint: "./gradlew bootrun"
     depends_on:
       PostgreSQL:
         condition: service_healthy
