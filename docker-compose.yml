@@ -1,7 +1,8 @@
 #Configuration to define the version of Docker Compose and the services in the multi-container application
 
 #API service
-#has the name of the docker image created in the publish.yml
+#builds the "dockerfile" in the root of this project specified by "."
+#Always restart the container if it stops.
 #Tells Docker to expose the API's container port 8080 to the host port 8080
 #The complete start-up of the API service depends_on the PostgresSQL being healthy
 #The list of environment configurations that you would see in the Spring Boot project application.properties file.
@@ -16,8 +17,9 @@
 
 version: '3.1'
 services:
-  API:
+  api_service:
     build: .
+    restart: always
     ports:
       - "8080:8080"
     depends_on:
