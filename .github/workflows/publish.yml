@@ -27,6 +27,6 @@ jobs:
 
       - name: Build and push the eatsy-api-docker Docker image
         run: |
-          docker-compose up -d
+          docker build . --tag ghcr.io/dm1st/eatsy-api-docker-ghcr:latest
           docker run ghcr.io/dm1st/eatsy-api-docker-ghcr:latest
           docker push ghcr.io/dm1st/eatsy-api-docker-ghcr:latest

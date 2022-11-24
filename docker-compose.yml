@@ -20,6 +20,7 @@ services:
     image: 'eatsy-api-docker-ghcr'
     ports:
       - "8080:8080"
+    entrypoint: [ "bash", "./gradlew bootrun"]
     depends_on:
       PostgreSQL:
         condition: service_healthy
