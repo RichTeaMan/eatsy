@@ -14,8 +14,8 @@ RUN tar -xf eatsy.tar.gz --strip-components=1 -C eatsy
 #Switch to the eatsy directory
 WORKDIR /eatsy
 
-#build the project
-RUN ./gradlew build
+#build the project - run without tests
+RUN ./gradlew build -x test
 
 #Informs Docker the container listens on this port at runtime
 EXPOSE 8080
