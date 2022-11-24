@@ -1,7 +1,7 @@
 #Configuration to define the version of Docker Compose and the services in the multi-container application
 
 #API service
-#builds the "dockerfile" in the root of this project specified by "."
+#builds the "dockerfile" in the root of this project specified by "." and applies the specified image tag
 #Always restart the container if it stops.
 #Tells Docker to expose the API's container port 8080 to the host port 8080
 #The complete start-up of the API service depends_on the PostgresSQL being healthy
@@ -18,7 +18,7 @@
 version: '3.1'
 services:
   api_service:
-    build: .
+    build: -t dm1st/eatsy-api-docker:latest .
     restart: always
     ports:
       - "8080:8080"
