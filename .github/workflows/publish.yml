@@ -20,6 +20,5 @@ jobs:
 
       - name: Build and push the eatsy-api-docker Docker image
         run: |
-          docker build . --tag dm1st/eatsy-api-docker:latest
+          docker-compose up -d .
           docker push ${{secrets.DOCKER_USER}}/eatsy-api-docker
-          docker-compose up -d
