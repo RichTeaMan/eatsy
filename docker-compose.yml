@@ -18,7 +18,7 @@
 version: '3.1'
 services:
   api_service:
-    build: -t dm1st/eatsy-api-docker:latest .
+    build: --tag dm1st/eatsy-api-docker:latest .
     restart: always
     ports:
       - "8080:8080"
