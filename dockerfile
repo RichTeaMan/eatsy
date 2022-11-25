@@ -14,12 +14,6 @@ RUN tar -xf eatsy.tar.gz --strip-components=1 -C eatsy
 #Switch to the eatsy directory
 WORKDIR /eatsy
 
-#Set Environment variables for deployed Postgres instance on Render.com
-ENV SPRING_DATASOURCE_URL postgres://test:agQSxtwNA1Yi5v5yLcQ8yQInkcYrHkco@dpg-ce0d38g2i3mkuccq1n70-a/eatsy
-ENV SPRING_DATASOURCE_USERNAME test
-ENV SPRING_DATASOURCE_PASSWORD agQSxtwNA1Yi5v5yLcQ8yQInkcYrHkco
-ENV SPRING_JPA_HIBERNATE_DDL_AUTO update
-
 #build the project - run without tests (due to not having a specified database established)
 RUN ./gradlew build -x test
 
