@@ -19,6 +19,6 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
 
       - name: Build and push the eatsy-api-docker Docker image
-        run: |
-          docker-compose up -d
-          docker push ${{secrets.DOCKER_USER}}/eatsy-api-docker
+#        run: |
+#          docker-compose up -d
+#          docker push ${{secrets.DOCKER_USER}}/eatsy-api-docker
