@@ -1,3 +1,4 @@
+#Dockerfile for deployment to Live on Render.com
 #openJDK docker image
 FROM openjdk:8-jdk-alpine
 
@@ -20,5 +21,5 @@ RUN ./gradlew build -x test
 #Informs Docker the container listens on this port at runtime
 EXPOSE 8080
 
-#Configures the bootRun command to run when the container starts.
-ENTRYPOINT ./gradlew bootRun
+#Configures the bootRun command to run when the container starts using the application properties for Live deployment
+ENTRYPOINT ./gradlew bootRun --args='--spring.profiles.active=live'
