@@ -2,8 +2,9 @@
 
 A REST API for creating, viewing, editing and deleting your favourite recipes.
 
-[![CircleCI](https://circleci.com/gh/DM1st/eatsy/tree/develop.svg?style=shield)](https://circleci.com/gh/DM1st/eatsy/tree/develop)
+[![CircleCI build](https://circleci.com/gh/DM1st/eatsy/tree/develop.svg?style=shield)](https://circleci.com/gh/DM1st/eatsy/tree/develop)
 [![Coverage Status](https://coveralls.io/repos/github/DM1st/eatsy/badge.svg?branch=develop)](https://coveralls.io/github/DM1st/eatsy?branch=develop)
+[![Create and publish a Docker image](https://github.com/DM1st/eatsy/actions/workflows/publish.yml/badge.svg)](https://github.com/DM1st/eatsy/actions/workflows/publish.yml)
 
 A live version of the Eatsy App Service swagger ui can be found [here](https://eatsy-recipe-service.herokuapp.com/swagger-ui.html)
 
