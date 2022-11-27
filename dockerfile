@@ -21,4 +21,4 @@ RUN ./gradlew build -x test
 EXPOSE 8080
 
 #Configures the bootRun command to run when the container starts.
-ENTRYPOINT ./gradlew bootRun
+ENTRYPOINT ./gradlew bootRun --info
