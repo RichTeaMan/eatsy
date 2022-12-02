@@ -36,6 +36,15 @@ dockerfile rather than pulling the latest built image from dockerhub)._
 docker-compose up -d
 ```
 
+For future deployments, explicitly check the dockerhub repository to ensure you are building the image with the latest
+changes:
+
+```
+docker pull dm1st/eatsy-api-docker && docker-compose up -d
+```
+
+- The service can be spun down with the 'docker-compose down' command. 
+
 With Docker-Compose the Postgres container is started and established first as the API service depends on the
 postgresSQL container being up and healthy.
 
