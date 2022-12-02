@@ -14,8 +14,8 @@ DockerHub [here](https://hub.docker.com/r/dm1st/eatsy-api-docker)
 
 ## Getting started
 
-The live version of the service is deployed using the dockerfile in the project root. However, there are two options to
-deploy your own instance:
+The live version of the service is deployed using the dockerfile in the project root. However, there are two other
+options to deploy your own instance:
 
 ### Option 1) Deploying with docker-compose using the built Dockerhub image
 
@@ -28,8 +28,8 @@ deploy your own instance:
 *_Please note this is not the docker-compose.yml file located at project root (which builds the image from the
 dockerfile rather than pulling the latest built image from dockerhub)._
 
-- Transfer the docker-compose.yml file to your machine where you will be running the service. Your machine will need
-  Docker and Docker-Compose installed.
+- Transfer the dockerComposeAlternatives\docker-compose.yml file to your machine where you will be running the service.
+  Your machine will need Docker and Docker-Compose installed.
 - Run the following command to run the application:
 
 ```
