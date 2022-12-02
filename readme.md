@@ -35,6 +35,7 @@ dockerfile rather than pulling the latest built image from dockerhub)._
 ```
 docker-compose up -d
 ```
+This command will run the eatsy API service, the Postgres DB and pgAdmin.
 
 For future deployments, explicitly check the dockerhub repository to ensure you are building the image with the latest
 changes:
