@@ -9,6 +9,9 @@ A spring boot REST API with Postgres for creating, viewing, editing and deleting
 A live version of the Eatsy App Service is deployed on Render.com and the swagger ui can be
 found [here](https://eatsy-api.onrender.com/swagger-ui/index.html#/)
 
+The built Docker image of the Eatsy App Service can be found on
+DockerHub [here](https://hub.docker.com/r/dm1st/eatsy-api-docker)
+
 ## Getting started
 
 The live version of the service is deployed using the dockerfile in the project root. However, there are two options to
@@ -27,7 +30,7 @@ dockerfile rather than pulling the latest built image from dockerhub)._
 
 - Transfer the docker-compose.yml file to your machine where you will be running the service. Your machine will need
   Docker and Docker-Compose installed.
-- Run the following command to start run the application:
+- Run the following command to run the application:
 
 ```
 docker-compose up -d
@@ -42,14 +45,14 @@ postgresSQL container being up and healthy.
 http://<your_host>:8080/swagger-ui/index.html#/
 ```
 
-### Option 2) Deploying the spring boot service locally
+### Option 2) Build and deploying the spring boot service locally
 
 The below sections provide the necessary information to run the application locally.
 
 This Java project uses [The Gradle Wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html), and the
 server is run locally as a [Sprint Boot](https://spring.io/projects/spring-boot) application.
 
-Before running the service, you will need to have a postgres instance installed and configure the spring boot
+Before running the service, you will need to have a postgres instance installed and update the spring boot
 application.properties to ensure connectivity. For example:
 
 ```
@@ -60,7 +63,8 @@ spring.datasource.password=<your postgres password>
 spring.jpa.show-sql=true
 ```
 
-*application.properties can be found at <projectRoot>\eatsyAppService\eatsyAppService-controller\src\main\resources\application.properties
+*application.properties can be found at <projectRoot>
+\eatsyAppService\eatsyAppService-controller\src\main\resources\application.properties
 
 Running the service can then be done from a bash terminal:
 
@@ -135,7 +139,6 @@ the [Swagger UI page](http://localhost:8080/swagger-ui.html):
   chosen name.
 
 ## TODO
-
 
 * Add Google shopping list integration.
 * Add ability to search for recipe.
