@@ -33,6 +33,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes: #to mount a folder from the host machine to the container. path in the host where the db data is stored. Otherwise data will be lost when the container shuts down
+      - ./data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
@@ -43,5 +45,4 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@local.com
       PGADMIN_DEFAULT_PASSWORD: postgres
-    volumes: #to mount a folder from the host machine to the container. path in the host where the db data is stored. Otherwise data will be lost when the container shuts down
-      - ./data:/var/lib/postgresql/data
+
