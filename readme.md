@@ -30,7 +30,7 @@ dockerfile rather than pulling the latest built image from dockerhub)._
 
 - Transfer the dockerComposeAlternatives\docker-compose.yml file to your machine where you will be running the service.
   Your machine will need Docker and Docker-Compose installed.
-- Run the following command to run the application:
+- Run the following command in the directory where you have placed the docker-compose.yml file to run the application:
 
 ```
 docker-compose up -d
