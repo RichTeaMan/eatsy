@@ -59,3 +59,7 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@local.com
       PGADMIN_DEFAULT_PASSWORD: postgres
+    #In order for pgAdmin to persist the connection details even after the container is shut down, we need to provide volue
+    volumes:
+      local_pgdata:
+      pgadmin-data:
