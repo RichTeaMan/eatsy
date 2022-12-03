@@ -9,7 +9,7 @@ COPY gradle gradle
 COPY build.gradle .
 
 RUN ./gradlew clean build -x test
-RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
+RUN mkdir -p build/dependency && (cd build/dependency; jar -xf ../libs/*.jar)
 
 FROM eclipse-temurin:17-jdk-alpine
 VOLUME /tmp
