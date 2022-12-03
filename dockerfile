@@ -15,7 +15,6 @@ COPY build.gradle .
 RUN ./gradlew dependencies
 
 COPY ./src ./src
-#build the project - run without tests (to reduce build time on Render.com free tier)
 RUN ./gradlew clean build -x test
 
 
@@ -23,5 +22,6 @@ FROM eclipse-temurin:17-jre-jammy
 WORKDIR /opt/app
 EXPOSE 8080
 COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
-#when the container starts using the application properties for Live deployment
 ENTRYPOINT ["java", "-Dspring.profile.active=live", "-jar", "/opt/app/*.jar" ]
+#when the container starts using the application properties for Live deployment
+#build the project - run without tests (to reduce build time on Render.com free tier)
