@@ -14,7 +14,7 @@ COPY gradle gradle
 COPY build.gradle .
 RUN ./gradlew dependencies
 
-COPY src src
+COPY src/ src/
 RUN ./gradlew clean build -x test
 
 
