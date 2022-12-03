@@ -22,20 +22,20 @@ options to deploy your own instance:
 - Copy the docker-compose.yml from the repository located at:
 
 ```
-<projectRoot>\dockerComposeAlternatives\docker-compose.yml
+<projectRoot>\alternativeDeploymentOptions\docker-compose.yml
 ```
 
 *_Please note this is not the docker-compose.yml file located at project root (which builds the image from the
-dockerfile rather than pulling the latest built image from dockerhub)._
+dockerfile rather than this config which pulls the latest built image from dockerhub)._
 
-- Transfer the dockerComposeAlternatives\docker-compose.yml file to your machine where you will be running the service.
+- Transfer the alternativeDeploymentOptions\docker-compose.yml file to your machine where you will be running the service.
   Your machine will need Docker and Docker-Compose installed.
 - Run the following command in the directory where you have placed the docker-compose.yml file to run the application:
 
 ```
 docker-compose up -d
 ```
-This command will run the eatsy API service, the Postgres DB and pgAdmin.
+This command will run the eatsy API service, the Postgres DB and pgAdmin in Docker Containers.
 
 For future deployments, explicitly check the dockerhub repository to ensure you are building the image with the latest
 changes:
@@ -52,7 +52,7 @@ postgresSQL container being up and healthy.
 - Navigate to the Swagger UI page to see the API service running
 
 ```
-http://<your_host>:8080/swagger-ui/index.html#/
+http://<your_host>:8080/swagger-ui.html
 ```
 
 ### Option 2) Build and deploying the spring boot service locally
