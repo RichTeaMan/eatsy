@@ -1,27 +1,21 @@
 #Dockerfile for deployment to Live on Render.com free tier web service.
 
-#Eclipse Temurin build worthy JDK docker image
-FROM eclipse-temurin:17-jdk-jammy as builder
 
-#To define the working directory where the dockerfile commands will be run
-WORKDIR /opt/app
-
-#build up the JAR during the build process within the Dockerfile itself.
-#The following RUN instructions trigger a goal that resolves all project dependencies, including plugins, reports, and their dependencies:
+FROM eclipse-temurin:17-jdk-alpine as build
+WORKDIR /workspace/app
 
 COPY gradlew .
-COPY gradle gradle
+COPY .gradle .gradle
 COPY build.gradle .
-RUN ./gradlew dependencies
+COPY src src
 
-COPY src/ src/
 RUN ./gradlew clean build -x test
+RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
-
-FROM eclipse-temurin:17-jre-jammy
-WORKDIR /opt/app
-EXPOSE 8080
-COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
-ENTRYPOINT ["java", "-Dspring.profile.active=live", "-jar", "/opt/app/*.jar" ]
-#when the container starts using the application properties for Live deployment
-#build the project - run without tests (to reduce build time on Render.com free tier)
+FROM eclipse-temurin:17-jdk-alpine
+VOLUME /tmp
+ARG DEPENDENCY=/workspace/app/build/dependency
+COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
+COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
+ENTRYPOINT ["java","-cp", "-Dspring.profile.active=live", "app:app/lib/*","ServerRunner.Application"]
