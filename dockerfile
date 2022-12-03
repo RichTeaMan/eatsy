@@ -1,14 +1,14 @@
-#Dockerfile for deployment to Live on Render.com free tier web service.
+FROM gradle:4.7.0-jdk8-alpine AS build
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle build --no-daemon
 
-FROM adoptopenjdk:11-jre-hotspot as builder
-ARG JAR_FILE=build/*.jar
-COPY ${JAR_FILE} application.jar
+FROM openjdk:8-jre-slim
 
-RUN java -Djarmode=layertools -jar application.jar extract
+EXPOSE 8080
 
-FROM adoptopenjdk:11-jre-hotspot
-COPY --from=builder dependencies/ ./
-COPY --from=builder snapshot-dependencies/ ./
-COPY --from=builder spring-boot-loader/ ./
-COPY --from=builder application/ ./
-ENTRYPOINT ["java", "-Dspring.profile.active=live", "org.springframework.boot.loader.JarLauncher"]
+RUN mkdir /app
+
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
+
+ENTRYPOINT ["java", "-Dspring.profile.active=live", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-jar","/app/spring-boot-application.jar"]
