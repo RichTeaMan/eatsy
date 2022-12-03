@@ -7,7 +7,6 @@ WORKDIR /workspace/app
 COPY gradlew .
 COPY gradle gradle
 COPY build.gradle .
-COPY src src
 
 RUN ./gradlew clean build -x test
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
