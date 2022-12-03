@@ -13,7 +13,7 @@ COPY gradlew .
 COPY gradle gradle
 COPY build.gradle .
 RUN ./gradlew dependencies
-COPY ./src ./src
+COPY src src
 #build the project - run without tests (to reduce build time on Render.com free tier)
 RUN ./gradlew clean build -x test
 
