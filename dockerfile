@@ -9,8 +9,9 @@ WORKDIR /opt/app
 #build up the JAR during the build process within the Dockerfile itself.
 #The following RUN instructions trigger a goal that resolves all project dependencies, including plugins, reports, and their dependencies:
 
-COPY .gradle/ .gradle
-#COPY mvnw pom.xml ./
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle .
 RUN ./gradlew --offline build
 COPY ./src ./src
 #build the project - run without tests (to reduce build time on Render.com free tier)
