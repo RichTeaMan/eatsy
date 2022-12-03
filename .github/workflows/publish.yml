@@ -1,11 +1,11 @@
-# Github workflow file to trigger docker-compose file which will build the docker image
-# (From the dockerfile) after establishing a required postgres image for successful build.
+# Github workflow file to execute the docker-compose file (stored in project root) which will
+# build the docker image (From the dockerfile) after establishing a required postgres image for successful build.
 # The workflow then pushes the built image to dockerhub.
-# Publish.yml and docker-compose.yml not used to deployment of live instance to Render.com (only dockerfile)
+# Publish.yml and docker-compose.yml not used to deployment of live instance to Render.com (only dockerfile at project root)
 name: Create and publish a Docker image
 on:
   push:
-    branches: [ 'flyio' ]
+    branches: [ 'docker' ]
 
 jobs:
   build-and-publish-eatsy-api-docker-image:

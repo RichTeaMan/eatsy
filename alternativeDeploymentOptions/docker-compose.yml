@@ -1,7 +1,5 @@
+#Use this docker compose config for pulling the built image of eatsy-api service on dockerhub
 #Configuration to define the version of Docker Compose and the services in the multi-container application
-
-#Use this docker compose config for deploying from the built image of eatsy-api service on dockerhub
-
 version: '3.1'
 services:
   api_service:
@@ -33,13 +31,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    volumes: #to mount a folder from the host machine to the container. path in the host where the db data is stored. Otherwise data will be lost when the container shuts down
+    #to mount a folder from the host machine to the container. path in the host where the db data is stored. Otherwise data will be lost when the container shuts down
+    volumes:
       - ./data:/var/lib/postgresql/data
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin4_container # override default value
-    restart: always #restart container when either the Docker daemon restarts or the container is restarted.
+    # override default value
+    container_name: pgadmin4_container
+    #restart container when either the Docker daemon restarts or the container is restarted.
+    restart: always
     ports:
       - "5050:80"
     environment:
