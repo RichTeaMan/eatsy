@@ -1,25 +1,25 @@
-#Dockerfile for deployment to Live on Render.com
-#openJDK docker image
-FROM openjdk:8-jdk-alpine
+#Dockerfile for deployment to Live on Render.com free tier web service.
 
-#Use ADD '[source URL] [destination file]' to download repo as tar file.
-ADD  https://github.com/DM1st/eatsy/archive/flyio.tar.gz eatsy.tar.gz
+#Eclipse Temurin build worthy JDK docker image
+FROM eclipse-temurin:17-jdk-jammy as builder
 
-#Create a folder to store the project
-run mkdir eatsy
+#To define the working directory where the dockerfile commands will be run
+WORKDIR /opt/app
 
-#Specify archive file and extract tar file and remove the parent folder (to put us in the project root)
-#Specify to extract to the newly created eatsy directory
-RUN tar -xf eatsy.tar.gz --strip-components=1 -C eatsy
+#build up the JAR during the build process within the Dockerfile itself.
+#The following RUN instructions trigger a goal that resolves all project dependencies, including plugins, reports, and their dependencies:
 
-#Switch to the eatsy directory
-WORKDIR /eatsy
+#COPY .mvn/ .mvn
+#COPY mvnw pom.xml ./
+RUN ./gradlew --offline build
+COPY ./src ./src
+#build the project - run without tests (to reduce build time on Render.com free tier)
+RUN ./gradlew clean build -x test
 
-#build the project - run without tests (due to not having a specified database established)
-RUN ./gradlew build -x test
 
-#Informs Docker the container listens on this port at runtime
+FROM eclipse-temurin:17-jre-jammy
+WORKDIR /opt/app
 EXPOSE 8080
-
-#Configures the bootRun command to run when the container starts using the application properties for Live deployment
-ENTRYPOINT ./gradlew bootRun --args='--spring.profiles.active=live'
+COPY --from=builder /opt/app/target/*.jar /opt/app/*.jar
+#when the container starts using the application properties for Live deployment
+ENTRYPOINT ["java", "-Dspring.profile.active=live", "-jar", "/opt/app/*.jar" ]
