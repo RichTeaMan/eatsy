@@ -1,6 +1,3 @@
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-
 //To use Log4J2 in spring boot projects you must exclude the default dependency of the Spring Boot starter on
 // Logback classic and instead include the Spring Boot starter dependency on Lg4J2
 configurations {
@@ -34,4 +31,23 @@ dependencies {
     //(In JUnit 5 the API is separated from the runtime)
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
 
+}
+
+//Required so that spring boot builds a layered jar for effective docker image
+bootJar {
+    layered {
+        application {
+            intoLayer("spring-boot-loader") {
+                include("org/springframework/boot/loader/**")
+            }
+            intoLayer("application")
+        }
+        dependencies {
+            intoLayer("module-dependencies") {
+                include("org.eatsy:*:*")
+            }
+            intoLayer("dependencies")
+        }
+        layerOrder = ["dependencies", "spring-boot-loader", "module-dependencies", "application"]
+    }
 }
