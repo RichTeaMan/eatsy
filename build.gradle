@@ -44,6 +44,16 @@ allprojects {
     repositories {
         mavenCentral()
     }
+
+    jar {
+        manifest {
+            attributes(
+
+                    'Main-Class': 'org.eatsy.appservice.controller.application.ServerRunner'
+            )
+        }
+    }
+
 }
 
 subprojects {
