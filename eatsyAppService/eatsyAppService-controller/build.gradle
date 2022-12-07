@@ -34,6 +34,10 @@ dependencies {
 }
 
 //Required so that spring boot builds a layered jar for effective docker image
+apply plugin: 'application'
+apply plugin: 'org.springframework.boot'
+mainClassName = 'org.eatsy.appservice.controller.application.ServerRunner'
+
 bootJar {
     layered {
         application {

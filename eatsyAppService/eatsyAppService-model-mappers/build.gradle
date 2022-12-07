@@ -22,21 +22,4 @@ dependencies {
     testImplementation("org.assertj:assertj-core:$assertJVersion")
 }
 
-//Required so that spring boot builds a layered jar for effective docker image
-bootJar {
-    layered {
-        application {
-            intoLayer("spring-boot-loader") {
-                include("org/springframework/boot/loader/**")
-            }
-            intoLayer("application")
-        }
-        dependencies {
-            intoLayer("module-dependencies") {
-                include("org.eatsy:*:*")
-            }
-            intoLayer("dependencies")
-        }
-        layerOrder = ["dependencies", "spring-boot-loader", "module-dependencies", "application"]
-    }
-}
+
