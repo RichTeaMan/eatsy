@@ -9,6 +9,9 @@ dependencies {
     //Spring swagger spec and ui
     implementation "org.springdoc:springdoc-openapi-ui:$springDocVersion"
 
+    //Plugin for creating layered jar for smaller more effective docker image when using jar
+    implementation "org.springframework.boot:spring-boot-maven-plugin:$springBootMavenPluginVersion"
+
     // Test dependencies
     // (In JUnit 5 the API is separated from the runtime)
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"

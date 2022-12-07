@@ -5,7 +5,7 @@
 name: Create and publish a Docker image
 on:
   push:
-    branches: [ 'docker' ]
+    branches: [ 'dockertest' ]
 
 jobs:
   build-and-publish-eatsy-api-docker-image:

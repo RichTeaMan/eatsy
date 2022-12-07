@@ -10,6 +10,9 @@ dependencies {
     //dependency injection
     implementation "org.springframework:spring-context:$springContextVersion"
 
+    //Plugin for creating layered jar for smaller more effective docker image when using jar
+    implementation "org.springframework.boot:spring-boot-maven-plugin:$springBootMavenPluginVersion"
+
     //PostgreSQL
     //PostgreSQL JDBC Driver
     implementation "org.postgresql:postgresql:$PostgreSqlJdbcDriverVersion"

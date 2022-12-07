@@ -27,6 +27,9 @@ dependencies {
     //Spring API annotations swagger spec and ui
     implementation "org.springdoc:springdoc-openapi-ui:$springDocVersion"
 
+    //Plugin for creating layered jar for smaller more effective docker image when using jar
+    implementation "org.springframework.boot:spring-boot-maven-plugin:$springBootMavenPluginVersion"
+
     //Mockito testing
     implementation "net.bytebuddy:byte-buddy:$byteBuddyVersion" //compile dependency for Mockito Core
     testImplementation "org.springframework.boot:spring-boot-starter-test:$springStarterTestVersion"

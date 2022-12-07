@@ -5,6 +5,9 @@ dependencies {
     compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
+    //Plugin for creating layered jar for smaller more effective docker image when using jar
+    implementation "org.springframework.boot:spring-boot-maven-plugin:$springBootMavenPluginVersion"
+
     // Test dependencies
     // (In JUnit 5 the API is separated from the runtime)
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
