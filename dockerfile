@@ -1,5 +1,5 @@
 FROM adoptopenjdk:11-jre-hotspot as builder
-ARG JAR_FILE=/eatsyAppService/eatsyAppService-controller/build/libs/eatsyAppService-controller.jar
+ARG JAR_FILE=eatsyAppService/eatsyAppService-controller/build/libs/eatsyAppService-controller.jar
 COPY ${JAR_FILE} application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
 
