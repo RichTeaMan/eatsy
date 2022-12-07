@@ -1,4 +1,5 @@
 FROM adoptopenjdk:11-jre-hotspot as builder
+VOLUME /tmp
 ARG JAR_FILE
 COPY ${JAR_FILE} application.jar
 RUN java -Djarmode=layertools -jar application.jar extract
