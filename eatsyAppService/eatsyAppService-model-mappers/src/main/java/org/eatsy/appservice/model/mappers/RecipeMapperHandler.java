@@ -27,7 +27,10 @@ public class RecipeMapperHandler implements RecipeMapper {
 
         RecipeModel recipeModel = null;
         //The recipe to be mapped must not be null and the recipe must have a name.
-        if (null != recipe && StringUtils.isNotEmpty(recipe.getName().trim())) {
+        if (null != recipe
+                && StringUtils.isNotEmpty(recipe.getName().trim())
+                && StringUtils.isNotEmpty(recipe.getUploader().trim())
+                && StringUtils.isNotEmpty(recipe.getRecipeSummary().trim())) {
 
             logger.debug("Mapping domain object " + recipe.getName() + " to a recipeModel object");
 
@@ -38,6 +41,21 @@ public class RecipeMapperHandler implements RecipeMapper {
 
             //Map name.
             recipeModel.setName(recipe.getName());
+
+            //Map uploader.
+            recipeModel.setUploader(recipe.getUploader());
+
+            //Map recipeSummary.
+            recipeModel.setRecipeSummary(recipe.getRecipeSummary());
+
+            //Map thumbsUpCount.
+            recipeModel.setThumbsUpCount(recipe.getThumbsUpCount());
+
+            //Map thumbsDownCount.
+            recipeModel.setThumbsDownCount(recipe.getThumbsDownCount());
+
+            //Map tags
+            recipeModel.setTags(recipe.getTags());
 
             //Map set of ingredients.
             recipeModel.setIngredients(recipe.getIngredients());
