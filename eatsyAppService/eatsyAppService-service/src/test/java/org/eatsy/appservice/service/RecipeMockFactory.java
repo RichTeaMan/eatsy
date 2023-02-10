@@ -148,7 +148,7 @@ public interface RecipeMockFactory {
             //Map name.
             recipeEntity.setName(inputRecipeDomain.getName());
             //Map set of ingredients.
-            recipeEntity.setIngredientSet(inputRecipeDomain.getIngredients());
+            recipeEntity.setIngredientsMap(inputRecipeDomain.getIngredients());
             //Map method.
             recipeEntity.setMethodMap(inputRecipeDomain.getMethod());
 
@@ -166,12 +166,18 @@ public interface RecipeMockFactory {
     static Recipe createMockRecipe(final RecipeEntity inputRecipeEntity) {
 
         Recipe recipe = null;
-        //The recipeEntity to be mapped must not be null and the recipeEntity must have a name.
-        if (null != inputRecipeEntity && StringUtils.isNotEmpty(inputRecipeEntity.getName().trim())) {
+        //The recipeEntity to be mapped must not be null and the recipeEntity must have a name, uploader and summary.
+        if (null != inputRecipeEntity
+                && StringUtils.isNotEmpty(inputRecipeEntity.getName().trim())
+                && StringUtils.isNotEmpty(inputRecipeEntity.getUploader().trim())
+                && StringUtils.isNotEmpty(inputRecipeEntity.getRecipeSummary().trim())) {
 
             recipe = new Recipe
-                    .RecipeBuilder(inputRecipeEntity.getName())
-                    .withIngredients(inputRecipeEntity.getIngredientSet())
+                    .RecipeBuilder(
+                    inputRecipeEntity.getName(),
+                    inputRecipeEntity.getUploader(),
+                    inputRecipeEntity.getRecipeSummary())
+                    .withIngredients(inputRecipeEntity.getIngredientsMap())
                     .withMethod(inputRecipeEntity.getMethodMap())
                     .withSpecifiedKey(inputRecipeEntity.getKey())
                     .build();
@@ -193,7 +199,10 @@ public interface RecipeMockFactory {
         if (null != inputRecipeModel && StringUtils.isNotEmpty(inputRecipeModel.getName().trim())) {
 
             domainRecipe = new Recipe
-                    .RecipeBuilder(inputRecipeModel.getName())
+                    .RecipeBuilder(
+                    inputRecipeModel.getName(),
+                    inputRecipeModel.getUploader(),
+                    inputRecipeModel.getRecipeSummary())
                     .withIngredients(inputRecipeModel.getIngredients())
                     .withMethod(inputRecipeModel.getMethod())
                     .build();
@@ -217,7 +226,10 @@ public interface RecipeMockFactory {
         if (null != inputRecipeModel && StringUtils.isNotEmpty(inputRecipeModel.getName().trim())) {
 
             domainRecipe = new Recipe
-                    .RecipeBuilder(inputRecipeModel.getName())
+                    .RecipeBuilder(
+                    inputRecipeModel.getName(),
+                    inputRecipeModel.getUploader(),
+                    inputRecipeModel.getRecipeSummary())
                     .withIngredients(inputRecipeModel.getIngredients())
                     .withMethod(inputRecipeModel.getMethod())
                     .withSpecifiedKey(specifiedKey)
@@ -250,7 +262,7 @@ public interface RecipeMockFactory {
                 //Map name.
                 recipeEntity.setName(currentRecipeModel.getName());
                 //Map set of ingredients.
-                recipeEntity.setIngredientSet(currentRecipeModel.getIngredients());
+                recipeEntity.setIngredientsMap(currentRecipeModel.getIngredients());
                 //Map method.
                 recipeEntity.setMethodMap(currentRecipeModel.getMethod());
 
@@ -280,7 +292,7 @@ public interface RecipeMockFactory {
             //Map name.
             recipeEntity.setName(inputRecipeModel.getName());
             //Map set of ingredients.
-            recipeEntity.setIngredientSet(inputRecipeModel.getIngredients());
+            recipeEntity.setIngredientsMap(inputRecipeModel.getIngredients());
             //Map method.
             recipeEntity.setMethodMap(inputRecipeModel.getMethod());
 
