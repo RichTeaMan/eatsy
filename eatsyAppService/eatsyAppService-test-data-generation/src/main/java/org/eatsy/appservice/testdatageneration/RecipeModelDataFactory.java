@@ -25,13 +25,28 @@ public interface RecipeModelDataFactory {
         final Faker faker = new Faker();
         //Generate recipe name
         final String recipeName = faker.food().dish();
-        //Generate a set of ingredients for the recipe.
-        final Set<String> generatedIngredientSet = generateIngredientSet(maxIngredientSetSize);
+        //Generate uploader name
+        final String uploader = faker.name().username();
+        //Generate recipe summary
+        final String recipeSummary = faker.shakespeare().romeoAndJulietQuote();
+        //Generate thumbs up count
+        final Integer thumbsUpCount = generateNumber(55);
+        //Generate thumbs down count
+        final Integer thumbsDownCount = generateNumber(55);
+        //Generate a set of tags
+        final Set<String> generatedTagSet = generateTagsSet(5);
+        //Generate a map of ingredients for the recipe.
+        final Map<Integer, String> generatedIngredientMap = generateIngredientMap(maxIngredientSetSize);
         //Generate a map of method steps.
         final Map<Integer, String> generatedMethodMap = generateMethodMap(maxMethodMapSize);
 
         recipeModel.setName(recipeName);
-        recipeModel.setIngredients(generatedIngredientSet);
+        recipeModel.setUploader(uploader);
+        recipeModel.setRecipeSummary(recipeSummary);
+        recipeModel.setThumbsUpCount(thumbsUpCount);
+        recipeModel.setThumbsDownCount(thumbsDownCount);
+        recipeModel.setTags(generatedTagSet);
+        recipeModel.setIngredients(generatedIngredientMap);
         recipeModel.setMethod(generatedMethodMap);
         return recipeModel;
 
@@ -85,26 +100,51 @@ public interface RecipeModelDataFactory {
     }
 
     /**
-     * Generates a set of random ingredients and size.
+     * Generates a set of random ingredient steps.
      *
-     * @param maxIngredientSetSize Max value for the generated number of ingredients in the recipe
-     * @return a set of ingredients.
+     * @param maxIngredientMapSize Max value for the generated number of ingredient steps in the recipe
+     * @return a set of ingredient steps.
      */
-    static Set<String> generateIngredientSet(final int maxIngredientSetSize) {
+    static Map<Integer, String> generateIngredientMap(final int maxIngredientMapSize) {
 
-        //Create the ingredient set and define the number of ingredients in the recipe.
-        final Set<String> ingredientSet = new HashSet<>();
-        final int numberOfIngredients = generateNumber(maxIngredientSetSize);
+        //Create the ingredient map and define the number of ingredients.
+        final Map<Integer, String> IngredientMap = new HashMap<>();
+        final int numberOfIngredientSteps = generateNumber(maxIngredientMapSize);
+
+        //Faker object to generate the test data
+        final Faker faker = new Faker();
+
+        //Populate the ingredient map with random ingredients.
+        for (int i = 0; i < numberOfIngredientSteps; i++) {
+            IngredientMap.put(i, faker.food().ingredient());
+        }
+
+        return IngredientMap;
+    }
+
+    /**
+     * Generates a set of random tags and size.
+     *
+     * @param maxTagsSetSize Max value for the generated number of tags in the recipe
+     * @return a set of tags.
+     */
+    static Set<String> generateTagsSet(final int maxTagsSetSize) {
+
+        //Create the tags set and define the number of tags in the recipe.
+        final Set<String> tagSet = new HashSet<>();
+        final int numberOfTags = generateNumber(maxTagsSetSize);
 
         //Faker object to generate the test data
         final Faker faker = new Faker();
 
         //Populate the ingredient set with random ingredients.
-        for (int i = 0; i < numberOfIngredients; i++) {
-            ingredientSet.add(faker.food().ingredient());
+        for (int i = 0; i < numberOfTags; i++) {
+            //faker does not produce random recipe categories. However, capital cities
+            //are similar (in terms of short text sentence). So this will serve as representative test data.
+            tagSet.add(faker.nation().capitalCity());
         }
 
-        return ingredientSet;
+        return tagSet;
 
     }
 
