@@ -25,13 +25,28 @@ public interface RecipeEntityDataFactory {
         final Faker faker = new Faker();
         //Generate recipe name
         final String recipeName = faker.food().dish();
+        //Generate recipe uploader
+        final String uploader = faker.name().username();
+        //Generate recipe summary
+        final String recipeSummary = faker.shakespeare().romeoAndJulietQuote();
+        //Generate thumbs up count
+        final Integer thumbsUpCount = generateNumber(55);
+        //Generate thumbs down count
+        final Integer thumbsDownCount = generateNumber(55);
+        //Generate tags
+        final Set<String> tags = generateTagsSet(5);
         //Generate a set of ingredients for the recipe.
-        final Set<String> generatedIngredientSet = generateIngredientSet(maxIngredientSetSize);
+        final Map<Integer, String> generatedIngredientsMap = generateIngredientsMap(maxIngredientSetSize);
         //Generate a map of method steps.
         final Map<Integer, String> generatedMethodMap = generateMethodMap(maxMethodMapSize);
 
         recipeEntity.setName(recipeName);
-        recipeEntity.setIngredientSet(generatedIngredientSet);
+        recipeEntity.setUploader(uploader);
+        recipeEntity.setRecipeSummary(recipeSummary);
+        recipeEntity.setThumbsUpCount(thumbsUpCount);
+        recipeEntity.setThumbsDownCount(thumbsDownCount);
+        recipeEntity.setTags(tags);
+        recipeEntity.setIngredientsMap(generatedIngredientsMap);
         recipeEntity.setMethodMap(generatedMethodMap);
         return recipeEntity;
 
@@ -85,26 +100,51 @@ public interface RecipeEntityDataFactory {
     }
 
     /**
-     * Generates a set of random ingredients and size.
+     * Generates a set of random method steps.
      *
-     * @param maxIngredientSetSize Max value for the generated number of ingredients in the recipe
-     * @return a set of ingredients.
+     * @param maxIngredientsMapSize Max value for the generated number of ingredient steps in the recipe
+     * @return a map of ingredients.
      */
-    static Set<String> generateIngredientSet(final int maxIngredientSetSize) {
+    static Map<Integer, String> generateIngredientsMap(final int maxIngredientsMapSize) {
 
-        //Create the ingredient set and define the number of ingredients in the recipe.
-        final Set<String> ingredientSet = new HashSet<>();
-        final int numberOfIngredients = generateNumber(maxIngredientSetSize);
+        //Create the ingredients map and define the number of ingredients.
+        final Map<Integer, String> ingredientMap = new HashMap<>();
+        final int numberOfIngredients = generateNumber(maxIngredientsMapSize);
+
+        //Faker object to generate the test data
+        final Faker faker = new Faker();
+
+        //Populate the ingredients map with random ingredients.
+        for (int i = 0; i < numberOfIngredients; i++) {
+            ingredientMap.put(i, faker.food().ingredient());
+        }
+
+        return ingredientMap;
+    }
+
+    /**
+     * Generates a set of random tags and size.
+     *
+     * @param maxTagSetSize Max value for the generated number of tags in the recipe
+     * @return a set of tags.
+     */
+    static Set<String> generateTagsSet(final int maxTagSetSize) {
+
+        //Create the tag set and define the number of tags in the recipe.
+        final Set<String> tagSet = new HashSet<>();
+        final int numberOfTags = generateNumber(maxTagSetSize);
 
         //Faker object to generate the test data
         final Faker faker = new Faker();
 
         //Populate the ingredient set with random ingredients.
-        for (int i = 0; i < numberOfIngredients; i++) {
-            ingredientSet.add(faker.food().ingredient());
+        for (int i = 0; i < numberOfTags; i++) {
+            //faker does not produce random recipe categories. However, capital cities
+            //are similar (in terms of short text ). So this will serve as representative test data.
+            tagSet.add(faker.nation().capitalCity());
         }
 
-        return ingredientSet;
+        return tagSet;
 
     }
 
