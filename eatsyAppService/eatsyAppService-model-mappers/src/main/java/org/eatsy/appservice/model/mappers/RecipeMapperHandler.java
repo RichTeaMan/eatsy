@@ -62,14 +62,19 @@ public class RecipeMapperHandler implements RecipeMapper {
     public Recipe mapModelToDomain(final RecipeModel recipeModel) {
 
         Recipe recipe = null;
-        //The recipe model to be mapped must not be null and the recipeModel must have a name.
-        if (null != recipeModel && StringUtils.isNotEmpty(recipeModel.getName().trim())) {
+        //The recipe model to be mapped must not be null, the recipeModel must have a name, an uploader and a recipe summary
+        if (null != recipeModel
+                && StringUtils.isNotEmpty(recipeModel.getName().trim())
+                && StringUtils.isNotEmpty(recipeModel.getUploader().trim())
+                && StringUtils.isNotEmpty(recipeModel.getRecipeSummary().trim())) {
 
             logger.debug("Mapping model object " + recipeModel.getName() + " to a recipe domain object");
 
-            final Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder(recipeModel.getName())
+            final Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder(
+                    recipeModel.getName(), recipeModel.getUploader(), recipe.getRecipeSummary())
                     .withIngredients(recipeModel.getIngredients())
-                    .withMethod(recipeModel.getMethod());
+                    .withMethod(recipeModel.getMethod())
+                    .withTags(recipeModel.getTags());
             // The recipeBuilder automatically assigns a new key,
             // so if the model already has an existing key, then this will ensure the existing key is kept.
             if (recipeModel.getKey() != null) {
@@ -94,8 +99,11 @@ public class RecipeMapperHandler implements RecipeMapper {
     public RecipeEntity mapDomainToEntity(final Recipe recipe) {
 
         RecipeEntity recipeEntity = null;
-        //The recipe to be mapped must not be null and the recipe must have a name.
-        if (null != recipe && StringUtils.isNotEmpty(recipe.getName().trim())) {
+        //The recipe to be mapped must not be null and the recipe must have a name, uploader and summary.
+        if (null != recipe
+                && StringUtils.isNotEmpty(recipe.getName().trim())
+                && StringUtils.isNotEmpty(recipe.getUploader().trim())
+                && StringUtils.isNotEmpty(recipe.getRecipeSummary().trim())) {
 
             logger.debug("Mapping domain object " + recipe.getName() + " to a recipeEntity object");
 
@@ -107,8 +115,23 @@ public class RecipeMapperHandler implements RecipeMapper {
             //Map name.
             recipeEntity.setName(recipe.getName());
 
+            //Map uploader.
+            recipeEntity.setUploader(recipeEntity.getUploader());
+
+            //Map recipeSummary.
+            recipeEntity.setRecipeSummary(recipeEntity.getRecipeSummary());
+
+            //Map thumbsUpCount.
+            recipeEntity.setThumbsUpCount(recipe.getThumbsUpCount());
+
+            //Map thumbsDownCount.
+            recipeEntity.setThumbsDownCount(recipe.getThumbsDownCount());
+
+            //Map tags.
+            recipeEntity.setTags(recipe.getTags());
+
             //Map set of ingredients.
-            recipeEntity.setIngredientSet(recipe.getIngredients());
+            recipeEntity.setIngredientsMap(recipeEntity.getIngredientsMap());
 
             //Map method.
             recipeEntity.setMethodMap(recipe.getMethod());
@@ -128,13 +151,17 @@ public class RecipeMapperHandler implements RecipeMapper {
 
         Recipe recipe = null;
         //The recipe to be mapped must not be null and the recipe must have a name.
-        if (null != recipeEntity && StringUtils.isNotEmpty(recipeEntity.getName().trim())) {
+        if (null != recipeEntity
+                && StringUtils.isNotEmpty(recipeEntity.getName().trim())
+                && StringUtils.isNotEmpty(recipeEntity.getUploader().trim())
+                && StringUtils.isNotEmpty(recipeEntity.getRecipeSummary().trim())) {
 
             logger.debug("Mapping entity object " + recipeEntity.getName() + " to a recipedomain object");
 
             recipe = new Recipe
-                    .RecipeBuilder(recipeEntity.getName())
-                    .withIngredients(recipeEntity.getIngredientSet())
+                    .RecipeBuilder(recipeEntity.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary())
+                    .withTags(recipeEntity.getTags())
+                    .withIngredients(recipeEntity.getIngredientsMap())
                     .withMethod(recipeEntity.getMethodMap())
                     .withSpecifiedKey(recipeEntity.getKey()) //override the newly generated key to ensure it is the same as the db entity key
                     .build();
