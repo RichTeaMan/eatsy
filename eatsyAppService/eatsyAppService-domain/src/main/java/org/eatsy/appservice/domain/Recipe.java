@@ -4,8 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -37,7 +37,7 @@ public final class Recipe {
     private final Integer thumbsDownCount;
 
     //Tags to be associated with the recipe to help with sorting by category
-    private final List<String> tags;
+    private final Set<String> tags;
 
     //The ingredients for the recipe
     private final Map<Integer, String> ingredients;
@@ -77,7 +77,7 @@ public final class Recipe {
         //Optional
         private Map<Integer, String> ingredients;
         private Map<Integer, String> method;
-        private List<String> tags;
+        private Set<String> tags;
 
         //Constructor for the mandatory Recipe object fields
         public RecipeBuilder(final String name, final String uploader, final String recipeSummary) {
@@ -99,7 +99,7 @@ public final class Recipe {
             return this;
         }
 
-        public RecipeBuilder withTags(final List<String> tags) {
+        public RecipeBuilder withTags(final Set<String> tags) {
             this.tags = tags;
             return this;
         }

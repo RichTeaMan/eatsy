@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Model for the recipe object
@@ -39,7 +39,7 @@ public class RecipeModel {
     private Integer thumbsDownCount;
 
     @Schema(description = "tags to be associated with the recipe to help with sorting by category")
-    private List<String> tags;
+    private Set<String> tags;
 
     @Schema(description = "The ingredients for the recipe.")
     private Map<Integer, String> ingredients;
