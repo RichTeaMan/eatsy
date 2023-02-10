@@ -24,21 +24,29 @@ public interface RecipeDataFactory {
         final Faker faker = new Faker();
         //Generate recipe name
         final String recipeName = faker.food().dish();
+        //Generate uploader name
+        final String uploader = faker.name().username();
+        //Generate recipe summary
+        final String recipeSummary = faker.shakespeare().romeoAndJulietQuote();
+        //Generate thumbs up count
+        //Generate tags
+        final Set<String> tags = generateTagsSet(4);
         //Generate a set of ingredients for the recipe.
-        final Set<String> generatedIngredientSet = generateIngredientSet(maxIngredientSetSize);
+        final Map<Integer, String> generatedIngredientMap = generateIngredientMap(maxIngredientSetSize);
         //Generate a map of method steps.
         final Map<Integer, String> generatedMethodMap = generateMethodMap(maxMethodMapSize);
 
         //Construct random recipe
-        final Recipe recipe = new Recipe.RecipeBuilder(recipeName)
-                .withIngredients(generatedIngredientSet)
+        final Recipe recipe = new Recipe.RecipeBuilder(recipeName, uploader, recipeSummary)
+                .withTags(tags)
+                .withIngredients(generatedIngredientMap)
                 .withMethod(generatedMethodMap)
                 .build();
 
         return recipe;
 
     }
-    
+
     /**
      * Generates a set of random method steps.
      *
@@ -65,23 +73,47 @@ public interface RecipeDataFactory {
     }
 
     /**
-     * Generates a set of random ingredients and size.
+     * Generates a set of random ingredient steps.
      *
-     * @param maxIngredientSetSize Max value for the generated number of ingredients in the recipe
-     * @return a set of ingredients.
+     * @param maxIngredientMapSize Max value for the generated number of ingredient steps in the recipe
+     * @return a set of ingredient steps.
      */
-    static Set<String> generateIngredientSet(final int maxIngredientSetSize) {
+    static Map<Integer, String> generateIngredientMap(final int maxIngredientMapSize) {
 
-        //Create the ingredient set and define the number of ingredients in the recipe.
-        final Set<String> ingredientSet = new HashSet<>();
-        final int numberOfIngredients = generateNumber(maxIngredientSetSize);
+        //Create the ingredient map and define the number of steps in the method.
+        final Map<Integer, String> ingredientMap = new TreeMap<>();
+        final int numberOfIngredientSteps = generateNumber(maxIngredientMapSize);
 
-        //Populate the ingredient set with random ingredients.
-        for (int i = 0; i < numberOfIngredients; i++) {
-            ingredientSet.add(new Faker().food().ingredient());
+        //Faker object to generate the test data
+        final Faker faker = new Faker();
+
+        //Populate the method map with random ingredient steps.
+        for (int i = 0; i < numberOfIngredientSteps; i++) {
+            ingredientMap.put(i, faker.food().ingredient());
         }
 
-        return ingredientSet;
+        return ingredientMap;
+    }
+
+    /**
+     * Generates a set of random tags and size.
+     *
+     * @param maxTagsSetSize Max value for the generated number of tags in the recipe
+     * @return a set of tags.
+     */
+    static Set<String> generateTagsSet(final int maxTagsSetSize) {
+
+        //Create the tag set and define the number of tags in the recipe.
+        final Set<String> tagsSet = new HashSet<>();
+        final int numberOftags = generateNumber(maxTagsSetSize);
+
+        //Populate the tags set with random tags.
+        //Faker doesn't have food categories so using capital cities as dummy data
+        for (int i = 0; i < numberOftags; i++) {
+            tagsSet.add(new Faker().nation().capitalCity());
+        }
+
+        return tagsSet;
 
     }
 
