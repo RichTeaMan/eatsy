@@ -67,13 +67,14 @@ public final class Recipe {
      */
     public static class RecipeBuilder {
 
+        //Required
+        private String key;
+        private final Integer thumbsUpCount;
+        private final Integer thumbsDownCount;
         private final String name;
         private final String uploader;
         private final String recipeSummary;
-        private final Integer thumbsUpCount;
-        private final Integer thumbsDownCount;
-        //Required
-        private String key;
+
         //Optional
         private Map<Integer, String> ingredients;
         private Map<Integer, String> method;
