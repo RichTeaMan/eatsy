@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
@@ -106,7 +106,7 @@ public class CreateRecipeTests {
         //This will also be the expected output from the method under test.
         final RecipeModel inputRecipeModel = RecipeModelDataFactory
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
-        inputRecipeModel.setIngredients(new HashSet<>());
+        inputRecipeModel.setIngredients(new HashMap<>());
         //Mock the services that are not being tested through these unit tests
         createMocksForRecipeMapperAndEatsyRepositoryServicesInCreateRecipeTests(inputRecipeModel);
 
