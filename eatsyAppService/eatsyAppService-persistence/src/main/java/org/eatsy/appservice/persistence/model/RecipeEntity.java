@@ -1,7 +1,6 @@
 package org.eatsy.appservice.persistence.model;
 
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,7 +18,6 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
 //persistence
 @Entity
 @Table(name = "recipe")
@@ -34,20 +32,44 @@ public class RecipeEntity {
     @Column(name = "name")
     private String name;
 
+    //The person who uploaded the recipe
+    @Column(name = "uploader")
+    private String uploader;
+
+    //The short description of the recipe
+    @Column(name = "recipeSummary")
+    private String recipeSummary;
+
+    //The number of thumbs up/likes for the recipe
+    @Column(name = "thumbsUpCount")
+    private Integer thumbsUpCount;
+
+    //The number of thumbs down/dislikes for the recipe
+    @Column(name = "thumbsDownCount")
+    private Integer thumbsDownCount;
+
     //Defines a collection of instances.
     @ElementCollection
-    //Join column used to map Recipe entity id (primary key value) to the Ingredients collection table's ID column.
-    @CollectionTable(name = "ingredients", joinColumns = @JoinColumn(name = "key"))
-    @Column(name = "ingredientSet")
-    private Set<String> ingredientSet = new HashSet<>();
+    //Join column used to map Recipe entity id (primary key value) to the tags' collection table's ID column.
+    @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "key"))
+    @Column(name = "tags")
+    private Set<String> tags = new HashSet<>();
 
+    @ElementCollection
+    //The map's key is this column for our join table
+    @MapKeyColumn(name = "ingredient_step_number")
+    //The Map's values corresponds to this column of the join table.
+    @Column(name = "ingredient_step")
+    //Join column used to map Recipe entity id (primary key value) to the Ingredients' collection table's ID column.
+    @CollectionTable(name = "recipe_ingredients", joinColumns = @JoinColumn(name = "key"))
+    private Map<Integer, String> ingredientsMap = new HashMap<>();
 
     @ElementCollection
     //The map's key is this column for our join table
     @MapKeyColumn(name = "method_step_number")
     //The Map's values corresponds to this column of the join table.
     @Column(name = "method_step")
-    //Join column used to map Recipe entity id (primary key value) to the Ingredients collection table's ID column.
+    //Join column used to map Recipe entity id (primary key value) to the method's collection table's ID column.
     @CollectionTable(name = "recipe_method", joinColumns = @JoinColumn(name = "key"))
     private Map<Integer, String> methodMap = new HashMap<>();
 
