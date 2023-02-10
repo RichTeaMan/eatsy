@@ -106,7 +106,7 @@ public class CreateRecipeTests {
         //This will also be the expected output from the method under test.
         final RecipeModel inputRecipeModel = RecipeModelDataFactory
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
-        inputRecipeModel.setIngredientSet(new HashSet<>());
+        inputRecipeModel.setIngredients(new HashSet<>());
         //Mock the services that are not being tested through these unit tests
         createMocksForRecipeMapperAndEatsyRepositoryServicesInCreateRecipeTests(inputRecipeModel);
 

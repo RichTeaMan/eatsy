@@ -121,7 +121,7 @@ public interface RecipeMockFactory {
             //Map name.
             recipeModel.setName(mockedDomainRecipe.getName());
             //Map set of ingredients.
-            recipeModel.setIngredientSet(mockedDomainRecipe.getIngredientSet());
+            recipeModel.setIngredients(mockedDomainRecipe.getIngredientSet());
             //Map method.
             recipeModel.setMethod(mockedDomainRecipe.getMethod());
 
@@ -194,7 +194,7 @@ public interface RecipeMockFactory {
 
             domainRecipe = new Recipe
                     .RecipeBuilder(inputRecipeModel.getName())
-                    .withIngredientSet(inputRecipeModel.getIngredientSet())
+                    .withIngredientSet(inputRecipeModel.getIngredients())
                     .withMethod(inputRecipeModel.getMethod())
                     .build();
 
@@ -218,7 +218,7 @@ public interface RecipeMockFactory {
 
             domainRecipe = new Recipe
                     .RecipeBuilder(inputRecipeModel.getName())
-                    .withIngredientSet(inputRecipeModel.getIngredientSet())
+                    .withIngredientSet(inputRecipeModel.getIngredients())
                     .withMethod(inputRecipeModel.getMethod())
                     .withSpecifiedKey(specifiedKey)
                     .build();
@@ -250,7 +250,7 @@ public interface RecipeMockFactory {
                 //Map name.
                 recipeEntity.setName(currentRecipeModel.getName());
                 //Map set of ingredients.
-                recipeEntity.setIngredientSet(currentRecipeModel.getIngredientSet());
+                recipeEntity.setIngredientSet(currentRecipeModel.getIngredients());
                 //Map method.
                 recipeEntity.setMethodMap(currentRecipeModel.getMethod());
 
@@ -280,7 +280,7 @@ public interface RecipeMockFactory {
             //Map name.
             recipeEntity.setName(inputRecipeModel.getName());
             //Map set of ingredients.
-            recipeEntity.setIngredientSet(inputRecipeModel.getIngredientSet());
+            recipeEntity.setIngredientSet(inputRecipeModel.getIngredients());
             //Map method.
             recipeEntity.setMethodMap(inputRecipeModel.getMethod());
 

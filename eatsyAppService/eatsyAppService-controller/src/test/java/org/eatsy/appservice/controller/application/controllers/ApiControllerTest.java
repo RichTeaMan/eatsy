@@ -76,7 +76,7 @@ public class ApiControllerTest {
         final RecipeModel recipeModelToReturn = new RecipeModel();
         recipeModelToReturn.setKey(UUID.randomUUID().toString());
         recipeModelToReturn.setName(recipeModel.getName());
-        recipeModelToReturn.setIngredientSet(recipeModel.getIngredientSet());
+        recipeModelToReturn.setIngredients(recipeModel.getIngredients());
         recipeModelToReturn.setMethod(recipeModel.getMethod());
 
         //Configure the mock to return the recipeModel when the createRecipeModel is called.

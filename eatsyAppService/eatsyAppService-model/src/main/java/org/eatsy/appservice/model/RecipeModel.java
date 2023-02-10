@@ -6,8 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Model for the recipe object
@@ -26,8 +26,23 @@ public class RecipeModel {
     @Schema(description = "Recipe name.")
     private String name;
 
-    @Schema(description = "The list of ingredients for the recipe.")
-    private Set<String> ingredientSet;
+    @Schema(description = "Name of the person who added the recipe")
+    private String uploader;
+
+    @Schema(description = "Short summary/overview of the recipe")
+    private String recipeSummary;
+
+    @Schema(description = "Number of thumbs up/likes the recipe has received")
+    private Integer thumbsUpCount;
+
+    @Schema(description = "Number of thumbs down/dislikes the recipe has received")
+    private Integer thumbsDownCount;
+
+    @Schema(description = "tags to be associated with the recipe to help with sorting by category")
+    private List<String> tags;
+
+    @Schema(description = "The ingredients for the recipe.")
+    private Map<Integer, String> ingredients;
 
     @Schema(description = "The method for creating the recipe from the ingredients.")
     private Map<Integer, String> method;

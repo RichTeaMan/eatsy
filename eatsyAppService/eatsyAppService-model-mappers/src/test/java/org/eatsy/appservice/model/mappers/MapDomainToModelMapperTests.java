@@ -44,7 +44,7 @@ public class MapDomainToModelMapperTests {
         final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeModel.setName(recipe.getName());
-        expectedRecipeModel.setIngredientSet(recipe.getIngredientSet());
+        expectedRecipeModel.setIngredients(recipe.getIngredientSet());
         expectedRecipeModel.setMethod(recipe.getMethod());
 
         //Test
@@ -94,7 +94,7 @@ public class MapDomainToModelMapperTests {
         final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeModel.setName(recipeWithEmptyIngredientsSet.getName());
-        expectedRecipeModel.setIngredientSet(recipeWithEmptyIngredientsSet.getIngredientSet());
+        expectedRecipeModel.setIngredients(recipeWithEmptyIngredientsSet.getIngredientSet());
         expectedRecipeModel.setMethod(recipeWithEmptyIngredientsSet.getMethod());
 
         //Test
@@ -126,7 +126,7 @@ public class MapDomainToModelMapperTests {
         final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeModel.setName(recipeWithEmptyMap.getName());
-        expectedRecipeModel.setIngredientSet(recipeWithEmptyMap.getIngredientSet());
+        expectedRecipeModel.setIngredients(recipeWithEmptyMap.getIngredientSet());
         expectedRecipeModel.setMethod(recipeWithEmptyMap.getMethod());
 
         //Test
@@ -180,7 +180,7 @@ public class MapDomainToModelMapperTests {
         final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(requiredFieldsOnlyRecipe.getKey());
         expectedRecipeModel.setName(requiredFieldsOnlyRecipe.getName());
-        expectedRecipeModel.setIngredientSet(requiredFieldsOnlyRecipe.getIngredientSet());
+        expectedRecipeModel.setIngredients(requiredFieldsOnlyRecipe.getIngredientSet());
         expectedRecipeModel.setMethod(requiredFieldsOnlyRecipe.getMethod());
 
         //Test

@@ -44,7 +44,7 @@ public class MapModelToDomainMapperTests {
 
         //Expectation
         final Recipe expectedRecipe = new Recipe.RecipeBuilder(recipeModel.getName())
-                .withIngredientSet(recipeModel.getIngredientSet())
+                .withIngredientSet(recipeModel.getIngredients())
                 .withMethod(recipeModel.getMethod())
                 .build();
         //Set this so that the assertion doesn't fail when comparing the unique key field.
@@ -114,12 +114,12 @@ public class MapModelToDomainMapperTests {
         //Make the recipe model have an empty ingredient set.
         final RecipeModel recipeModelWithEmptyIngredientSet = new RecipeModel();
         recipeModelWithEmptyIngredientSet.setName(recipeModel.getName());
-        recipeModelWithEmptyIngredientSet.setIngredientSet(new HashSet<>());
+        recipeModelWithEmptyIngredientSet.setIngredients(new HashSet<>());
         recipeModelWithEmptyIngredientSet.setMethod(recipeModel.getMethod());
 
         //Expectation
         final Recipe expectedDomainRecipe = new Recipe.RecipeBuilder(recipeModelWithEmptyIngredientSet.getName())
-                .withIngredientSet(recipeModelWithEmptyIngredientSet.getIngredientSet())
+                .withIngredientSet(recipeModelWithEmptyIngredientSet.getIngredients())
                 .withMethod(recipeModelWithEmptyIngredientSet.getMethod())
                 .build();
 
@@ -146,12 +146,12 @@ public class MapModelToDomainMapperTests {
         //Make the recipe model have an empty method.
         final RecipeModel recipeModelWithEmptyMap = new RecipeModel();
         recipeModelWithEmptyMap.setName(recipeModel.getName());
-        recipeModelWithEmptyMap.setIngredientSet(recipeModel.getIngredientSet());
+        recipeModelWithEmptyMap.setIngredients(recipeModel.getIngredients());
         recipeModelWithEmptyMap.setMethod(new TreeMap<>());
 
         //Exception
         final Recipe expectedDomainRecipe = new Recipe.RecipeBuilder(recipeModelWithEmptyMap.getName())
-                .withIngredientSet(recipeModelWithEmptyMap.getIngredientSet())
+                .withIngredientSet(recipeModelWithEmptyMap.getIngredients())
                 .withMethod(recipeModelWithEmptyMap.getMethod())
                 .build();
 
@@ -178,7 +178,7 @@ public class MapModelToDomainMapperTests {
         //Make the recipe model have an empty name
         final RecipeModel recipeModelWithEmptyRecipeName = new RecipeModel();
         recipeModelWithEmptyRecipeName.setName("         ");
-        recipeModelWithEmptyRecipeName.setIngredientSet(recipeModel.getIngredientSet());
+        recipeModelWithEmptyRecipeName.setIngredients(recipeModel.getIngredients());
         recipeModelWithEmptyRecipeName.setMethod(recipeModel.getMethod());
 
         //Expectation - cannot map a recipe model with an empty recipeName

@@ -40,7 +40,7 @@ public class RecipeMapperHandler implements RecipeMapper {
             recipeModel.setName(recipe.getName());
 
             //Map set of ingredients.
-            recipeModel.setIngredientSet(recipe.getIngredientSet());
+            recipeModel.setIngredients(recipe.getIngredientSet());
 
             //Map method.
             recipeModel.setMethod(recipe.getMethod());
@@ -68,11 +68,11 @@ public class RecipeMapperHandler implements RecipeMapper {
             logger.debug("Mapping model object " + recipeModel.getName() + " to a recipe domain object");
 
             final Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder(recipeModel.getName())
-                    .withIngredientSet(recipeModel.getIngredientSet())
+                    .withIngredientSet(recipeModel.getIngredients())
                     .withMethod(recipeModel.getMethod());
             // The recipeBuilder automatically assigns a new key,
             // so if the model already has an existing key, then this will ensure the existing key is kept.
-            if (recipeModel.getKey() != null){
+            if (recipeModel.getKey() != null) {
                 recipeBuilder.withSpecifiedKey(recipeModel.getKey());
             }
 

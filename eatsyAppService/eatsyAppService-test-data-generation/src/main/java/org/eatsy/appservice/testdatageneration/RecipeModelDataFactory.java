@@ -31,7 +31,7 @@ public interface RecipeModelDataFactory {
         final Map<Integer, String> generatedMethodMap = generateMethodMap(maxMethodMapSize);
 
         recipeModel.setName(recipeName);
-        recipeModel.setIngredientSet(generatedIngredientSet);
+        recipeModel.setIngredients(generatedIngredientSet);
         recipeModel.setMethod(generatedMethodMap);
         return recipeModel;
 
