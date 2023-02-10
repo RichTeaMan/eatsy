@@ -44,7 +44,7 @@ public class MapModelToDomainMapperTests {
 
         //Expectation
         final Recipe expectedRecipe = new Recipe.RecipeBuilder(recipeModel.getName())
-                .withIngredientSet(recipeModel.getIngredients())
+                .withIngredients(recipeModel.getIngredients())
                 .withMethod(recipeModel.getMethod())
                 .build();
         //Set this so that the assertion doesn't fail when comparing the unique key field.
@@ -119,7 +119,7 @@ public class MapModelToDomainMapperTests {
 
         //Expectation
         final Recipe expectedDomainRecipe = new Recipe.RecipeBuilder(recipeModelWithEmptyIngredientSet.getName())
-                .withIngredientSet(recipeModelWithEmptyIngredientSet.getIngredients())
+                .withIngredients(recipeModelWithEmptyIngredientSet.getIngredients())
                 .withMethod(recipeModelWithEmptyIngredientSet.getMethod())
                 .build();
 
@@ -151,7 +151,7 @@ public class MapModelToDomainMapperTests {
 
         //Exception
         final Recipe expectedDomainRecipe = new Recipe.RecipeBuilder(recipeModelWithEmptyMap.getName())
-                .withIngredientSet(recipeModelWithEmptyMap.getIngredients())
+                .withIngredients(recipeModelWithEmptyMap.getIngredients())
                 .withMethod(recipeModelWithEmptyMap.getMethod())
                 .build();
 

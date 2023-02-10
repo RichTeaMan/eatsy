@@ -31,7 +31,7 @@ public interface RecipeDataFactory {
 
         //Construct random recipe
         final Recipe recipe = new Recipe.RecipeBuilder(recipeName)
-                .withIngredientSet(generatedIngredientSet)
+                .withIngredients(generatedIngredientSet)
                 .withMethod(generatedMethodMap)
                 .build();
 

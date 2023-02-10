@@ -121,7 +121,7 @@ public interface RecipeMockFactory {
             //Map name.
             recipeModel.setName(mockedDomainRecipe.getName());
             //Map set of ingredients.
-            recipeModel.setIngredients(mockedDomainRecipe.getIngredientSet());
+            recipeModel.setIngredients(mockedDomainRecipe.getIngredients());
             //Map method.
             recipeModel.setMethod(mockedDomainRecipe.getMethod());
 
@@ -148,7 +148,7 @@ public interface RecipeMockFactory {
             //Map name.
             recipeEntity.setName(inputRecipeDomain.getName());
             //Map set of ingredients.
-            recipeEntity.setIngredientSet(inputRecipeDomain.getIngredientSet());
+            recipeEntity.setIngredientSet(inputRecipeDomain.getIngredients());
             //Map method.
             recipeEntity.setMethodMap(inputRecipeDomain.getMethod());
 
@@ -171,7 +171,7 @@ public interface RecipeMockFactory {
 
             recipe = new Recipe
                     .RecipeBuilder(inputRecipeEntity.getName())
-                    .withIngredientSet(inputRecipeEntity.getIngredientSet())
+                    .withIngredients(inputRecipeEntity.getIngredientSet())
                     .withMethod(inputRecipeEntity.getMethodMap())
                     .withSpecifiedKey(inputRecipeEntity.getKey())
                     .build();
@@ -194,7 +194,7 @@ public interface RecipeMockFactory {
 
             domainRecipe = new Recipe
                     .RecipeBuilder(inputRecipeModel.getName())
-                    .withIngredientSet(inputRecipeModel.getIngredients())
+                    .withIngredients(inputRecipeModel.getIngredients())
                     .withMethod(inputRecipeModel.getMethod())
                     .build();
 
@@ -218,7 +218,7 @@ public interface RecipeMockFactory {
 
             domainRecipe = new Recipe
                     .RecipeBuilder(inputRecipeModel.getName())
-                    .withIngredientSet(inputRecipeModel.getIngredients())
+                    .withIngredients(inputRecipeModel.getIngredients())
                     .withMethod(inputRecipeModel.getMethod())
                     .withSpecifiedKey(specifiedKey)
                     .build();

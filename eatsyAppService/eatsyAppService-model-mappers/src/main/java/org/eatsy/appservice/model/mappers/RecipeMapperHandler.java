@@ -40,7 +40,7 @@ public class RecipeMapperHandler implements RecipeMapper {
             recipeModel.setName(recipe.getName());
 
             //Map set of ingredients.
-            recipeModel.setIngredients(recipe.getIngredientSet());
+            recipeModel.setIngredients(recipe.getIngredients());
 
             //Map method.
             recipeModel.setMethod(recipe.getMethod());
@@ -68,7 +68,7 @@ public class RecipeMapperHandler implements RecipeMapper {
             logger.debug("Mapping model object " + recipeModel.getName() + " to a recipe domain object");
 
             final Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder(recipeModel.getName())
-                    .withIngredientSet(recipeModel.getIngredients())
+                    .withIngredients(recipeModel.getIngredients())
                     .withMethod(recipeModel.getMethod());
             // The recipeBuilder automatically assigns a new key,
             // so if the model already has an existing key, then this will ensure the existing key is kept.
@@ -108,7 +108,7 @@ public class RecipeMapperHandler implements RecipeMapper {
             recipeEntity.setName(recipe.getName());
 
             //Map set of ingredients.
-            recipeEntity.setIngredientSet(recipe.getIngredientSet());
+            recipeEntity.setIngredientSet(recipe.getIngredients());
 
             //Map method.
             recipeEntity.setMethodMap(recipe.getMethod());
@@ -134,7 +134,7 @@ public class RecipeMapperHandler implements RecipeMapper {
 
             recipe = new Recipe
                     .RecipeBuilder(recipeEntity.getName())
-                    .withIngredientSet(recipeEntity.getIngredientSet())
+                    .withIngredients(recipeEntity.getIngredientSet())
                     .withMethod(recipeEntity.getMethodMap())
                     .withSpecifiedKey(recipeEntity.getKey()) //override the newly generated key to ensure it is the same as the db entity key
                     .build();

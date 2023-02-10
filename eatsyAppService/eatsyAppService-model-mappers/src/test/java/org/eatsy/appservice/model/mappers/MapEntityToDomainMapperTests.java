@@ -43,7 +43,7 @@ public class MapEntityToDomainMapperTests {
 
         //Expectation
         final Recipe expectedRecipe = new Recipe.RecipeBuilder(recipeEntity.getName())
-                .withIngredientSet(recipeEntity.getIngredientSet())
+                .withIngredients(recipeEntity.getIngredientSet())
                 .withMethod(recipeEntity.getMethodMap())
                 .build();
         //Set this so that the assertion doesn't fail when comparing the unique key field.
@@ -92,7 +92,7 @@ public class MapEntityToDomainMapperTests {
 
         //Expectation
         final Recipe expectedDomainRecipe = new Recipe.RecipeBuilder(recipeEntityWithEmptyIngredientSet.getName())
-                .withIngredientSet(recipeEntityWithEmptyIngredientSet.getIngredientSet())
+                .withIngredients(recipeEntityWithEmptyIngredientSet.getIngredientSet())
                 .withMethod(recipeEntityWithEmptyIngredientSet.getMethodMap())
                 .build();
         //Set this so that the assertion doesn't fail when comparing the unique key field.
@@ -124,7 +124,7 @@ public class MapEntityToDomainMapperTests {
 
         //Exception
         final Recipe expectedDomainRecipe = new Recipe.RecipeBuilder(recipeEntityWithEmptyMap.getName())
-                .withIngredientSet(recipeEntityWithEmptyMap.getIngredientSet())
+                .withIngredients(recipeEntityWithEmptyMap.getIngredientSet())
                 .withMethod(recipeEntityWithEmptyMap.getMethodMap())
                 .build();
         //Set this so that the assertion doesn't fail when comparing the unique key field.
@@ -182,7 +182,7 @@ public class MapEntityToDomainMapperTests {
         //Expected
         final Recipe expectedDomainRecipe = new Recipe
                 .RecipeBuilder(requiredFieldsOnlyRecipeEntity.getName())
-                .withIngredientSet(new HashSet<>())
+                .withIngredients(new HashSet<>())
                 .withMethod(new HashMap<>())
                 .build();
         //Set this so that the assertion doesn't fail when comparing the unique key field.

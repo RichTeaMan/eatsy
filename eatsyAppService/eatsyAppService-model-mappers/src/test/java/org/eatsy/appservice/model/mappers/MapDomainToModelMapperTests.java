@@ -44,7 +44,7 @@ public class MapDomainToModelMapperTests {
         final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeModel.setName(recipe.getName());
-        expectedRecipeModel.setIngredients(recipe.getIngredientSet());
+        expectedRecipeModel.setIngredients(recipe.getIngredients());
         expectedRecipeModel.setMethod(recipe.getMethod());
 
         //Test
@@ -83,7 +83,7 @@ public class MapDomainToModelMapperTests {
         final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty ingredient set.
         final Recipe recipeWithEmptyIngredientsSet = new Recipe.RecipeBuilder(recipe.getName())
-                .withIngredientSet(new HashSet<>())
+                .withIngredients(new HashSet<>())
                 .withMethod(recipe.getMethod())
                 .build();
 
@@ -94,7 +94,7 @@ public class MapDomainToModelMapperTests {
         final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeModel.setName(recipeWithEmptyIngredientsSet.getName());
-        expectedRecipeModel.setIngredients(recipeWithEmptyIngredientsSet.getIngredientSet());
+        expectedRecipeModel.setIngredients(recipeWithEmptyIngredientsSet.getIngredients());
         expectedRecipeModel.setMethod(recipeWithEmptyIngredientsSet.getMethod());
 
         //Test
@@ -115,7 +115,7 @@ public class MapDomainToModelMapperTests {
         final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty method.
         final Recipe recipeWithEmptyMap = new Recipe.RecipeBuilder(recipe.getName())
-                .withIngredientSet(recipe.getIngredientSet())
+                .withIngredients(recipe.getIngredients())
                 .withMethod(new TreeMap<>())
                 .build();
 
@@ -126,7 +126,7 @@ public class MapDomainToModelMapperTests {
         final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeModel.setName(recipeWithEmptyMap.getName());
-        expectedRecipeModel.setIngredients(recipeWithEmptyMap.getIngredientSet());
+        expectedRecipeModel.setIngredients(recipeWithEmptyMap.getIngredients());
         expectedRecipeModel.setMethod(recipeWithEmptyMap.getMethod());
 
         //Test
@@ -147,7 +147,7 @@ public class MapDomainToModelMapperTests {
         final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty name.
         final Recipe recipeWithEmptyName = new Recipe.RecipeBuilder("          ")
-                .withIngredientSet(recipe.getIngredientSet())
+                .withIngredients(recipe.getIngredients())
                 .withMethod(recipe.getMethod())
                 .build();
 
@@ -180,7 +180,7 @@ public class MapDomainToModelMapperTests {
         final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(requiredFieldsOnlyRecipe.getKey());
         expectedRecipeModel.setName(requiredFieldsOnlyRecipe.getName());
-        expectedRecipeModel.setIngredients(requiredFieldsOnlyRecipe.getIngredientSet());
+        expectedRecipeModel.setIngredients(requiredFieldsOnlyRecipe.getIngredients());
         expectedRecipeModel.setMethod(requiredFieldsOnlyRecipe.getMethod());
 
         //Test
