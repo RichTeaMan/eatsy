@@ -42,8 +42,8 @@ public class MapEntityToDomainMapperTests {
                 .generateRandomRecipeEntity(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
         //Expectation
-        final Recipe expectedRecipe = new Recipe.RecipeBuilder(recipeEntity.getName())
-                .withIngredients(recipeEntity.getIngredientSet())
+        final Recipe expectedRecipe = new Recipe.RecipeBuilder(recipeEntity.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary())
+                .withIngredients(recipeEntity.getIngredientsMap())
                 .withMethod(recipeEntity.getMethodMap())
                 .build();
         //Set this so that the assertion doesn't fail when comparing the unique key field.
@@ -87,14 +87,15 @@ public class MapEntityToDomainMapperTests {
         //Make the recipe entity have an empty ingredient set.
         final RecipeEntity recipeEntityWithEmptyIngredientSet = new RecipeEntity();
         recipeEntityWithEmptyIngredientSet.setName(recipeEntity.getName());
-        recipeEntityWithEmptyIngredientSet.setIngredientSet(new HashSet<>());
+        recipeEntityWithEmptyIngredientSet.setIngredientsMap(new HashMap<>());
         recipeEntityWithEmptyIngredientSet.setMethodMap(recipeEntity.getMethodMap());
 
         //Expectation
-        final Recipe expectedDomainRecipe = new Recipe.RecipeBuilder(recipeEntityWithEmptyIngredientSet.getName())
-                .withIngredients(recipeEntityWithEmptyIngredientSet.getIngredientSet())
-                .withMethod(recipeEntityWithEmptyIngredientSet.getMethodMap())
-                .build();
+        final Recipe expectedDomainRecipe =
+                new Recipe.RecipeBuilder(recipeEntityWithEmptyIngredientSet.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary())
+                        .withIngredients(recipeEntityWithEmptyIngredientSet.getIngredientsMap())
+                        .withMethod(recipeEntityWithEmptyIngredientSet.getMethodMap())
+                        .build();
         //Set this so that the assertion doesn't fail when comparing the unique key field.
         recipeEntityWithEmptyIngredientSet.setKey(expectedDomainRecipe.getKey());
 
@@ -119,14 +120,15 @@ public class MapEntityToDomainMapperTests {
         //Make the recipe entity have an empty method.
         final RecipeEntity recipeEntityWithEmptyMap = new RecipeEntity();
         recipeEntityWithEmptyMap.setName(recipeEntity.getName());
-        recipeEntityWithEmptyMap.setIngredientSet(recipeEntity.getIngredientSet());
+        recipeEntityWithEmptyMap.setIngredientsMap(recipeEntity.getIngredientsMap());
         recipeEntityWithEmptyMap.setMethodMap(new TreeMap<>());
 
         //Exception
-        final Recipe expectedDomainRecipe = new Recipe.RecipeBuilder(recipeEntityWithEmptyMap.getName())
-                .withIngredients(recipeEntityWithEmptyMap.getIngredientSet())
-                .withMethod(recipeEntityWithEmptyMap.getMethodMap())
-                .build();
+        final Recipe expectedDomainRecipe =
+                new Recipe.RecipeBuilder(recipeEntityWithEmptyMap.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary())
+                        .withIngredients(recipeEntityWithEmptyMap.getIngredientsMap())
+                        .withMethod(recipeEntityWithEmptyMap.getMethodMap())
+                        .build();
         //Set this so that the assertion doesn't fail when comparing the unique key field.
         recipeEntityWithEmptyMap.setKey(expectedDomainRecipe.getKey());
 
@@ -151,7 +153,7 @@ public class MapEntityToDomainMapperTests {
         //Make the recipe entity have an empty name
         final RecipeEntity recipeEntityWithEmptyRecipeName = new RecipeEntity();
         recipeEntityWithEmptyRecipeName.setName("         ");
-        recipeEntityWithEmptyRecipeName.setIngredientSet(recipeEntity.getIngredientSet());
+        recipeEntityWithEmptyRecipeName.setIngredientsMap(recipeEntity.getIngredientsMap());
         recipeEntityWithEmptyRecipeName.setMethodMap(recipeEntity.getMethodMap());
 
         //Expectation - cannot map a recipe model with an empty recipeName
@@ -181,8 +183,11 @@ public class MapEntityToDomainMapperTests {
 
         //Expected
         final Recipe expectedDomainRecipe = new Recipe
-                .RecipeBuilder(requiredFieldsOnlyRecipeEntity.getName())
-                .withIngredients(new HashSet<>())
+                .RecipeBuilder(
+                requiredFieldsOnlyRecipeEntity.getName(),
+                requiredFieldsOnlyRecipeEntity.getUploader(),
+                requiredFieldsOnlyRecipeEntity.getRecipeSummary())
+                .withIngredients(new HashMap<>())
                 .withMethod(new HashMap<>())
                 .build();
         //Set this so that the assertion doesn't fail when comparing the unique key field.
