@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
@@ -44,7 +44,7 @@ public class MapDomainToEntityMapperTests {
         final RecipeEntity expectedRecipeEntity = new RecipeEntity();
         expectedRecipeEntity.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeEntity.setName(recipe.getName());
-        expectedRecipeEntity.setIngredientSet(recipe.getIngredients());
+        expectedRecipeEntity.setIngredientsMap(recipe.getIngredients());
         expectedRecipeEntity.setMethodMap(recipe.getMethod());
 
         //Test
@@ -82,8 +82,8 @@ public class MapDomainToEntityMapperTests {
         //Setup - generate a recipe domain object to be mapped into a recipe entity object.
         final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty ingredient set.
-        final Recipe recipeWithEmptyIngredientsSet = new Recipe.RecipeBuilder(recipe.getName())
-                .withIngredients(new HashSet<>())
+        final Recipe recipeWithEmptyIngredientsSet = new Recipe.RecipeBuilder(recipe.getName(), recipe.getUploader(), recipe.getRecipeSummary())
+                .withIngredients(new HashMap<>())
                 .withMethod(recipe.getMethod())
                 .build();
 
@@ -94,7 +94,7 @@ public class MapDomainToEntityMapperTests {
         final RecipeEntity expectedRecipeEntity = new RecipeEntity();
         expectedRecipeEntity.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeEntity.setName(recipeWithEmptyIngredientsSet.getName());
-        expectedRecipeEntity.setIngredientSet(recipeWithEmptyIngredientsSet.getIngredients());
+        expectedRecipeEntity.setIngredientsMap(recipeWithEmptyIngredientsSet.getIngredients());
         expectedRecipeEntity.setMethodMap(recipeWithEmptyIngredientsSet.getMethod());
 
         //Test
@@ -114,7 +114,7 @@ public class MapDomainToEntityMapperTests {
         //Setup - generate a recipe domain object to be mapped into a recipe entity object.
         final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty method.
-        final Recipe recipeWithEmptyMap = new Recipe.RecipeBuilder(recipe.getName())
+        final Recipe recipeWithEmptyMap = new Recipe.RecipeBuilder(recipe.getName(), recipe.getUploader(), recipe.getRecipeSummary())
                 .withIngredients(recipe.getIngredients())
                 .withMethod(new TreeMap<>())
                 .build();
@@ -126,7 +126,7 @@ public class MapDomainToEntityMapperTests {
         final RecipeEntity expectedRecipeEntity = new RecipeEntity();
         expectedRecipeEntity.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeEntity.setName(recipeWithEmptyMap.getName());
-        expectedRecipeEntity.setIngredientSet(recipeWithEmptyMap.getIngredients());
+        expectedRecipeEntity.setIngredientsMap(recipeWithEmptyMap.getIngredients());
         expectedRecipeEntity.setMethodMap(recipeWithEmptyMap.getMethod());
 
         //Test
@@ -146,7 +146,7 @@ public class MapDomainToEntityMapperTests {
         //Setup - generate a recipe domain object to be mapped into a recipe model object.
         final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty name.
-        final Recipe recipeWithEmptyName = new Recipe.RecipeBuilder("          ")
+        final Recipe recipeWithEmptyName = new Recipe.RecipeBuilder("          ", recipe.getUploader(), recipe.getRecipeSummary())
                 .withIngredients(recipe.getIngredients())
                 .withMethod(recipe.getMethod())
                 .build();
@@ -172,14 +172,14 @@ public class MapDomainToEntityMapperTests {
         // generate a recipe domain object to be mapped into a recipe entity object.
         final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have only required fields.
-        final Recipe requiredFieldsOnlyRecipe = new Recipe.RecipeBuilder(recipe.getName())
+        final Recipe requiredFieldsOnlyRecipe = new Recipe.RecipeBuilder(recipe.getName(), recipe.getUploader(), recipe.getRecipeSummary())
                 .build();
 
         //Expected
         final RecipeEntity expectedRecipeEntity = new RecipeEntity();
         expectedRecipeEntity.setKey(requiredFieldsOnlyRecipe.getKey());
         expectedRecipeEntity.setName(requiredFieldsOnlyRecipe.getName());
-        expectedRecipeEntity.setIngredientSet(requiredFieldsOnlyRecipe.getIngredients());
+        expectedRecipeEntity.setIngredientsMap(requiredFieldsOnlyRecipe.getIngredients());
         expectedRecipeEntity.setMethodMap(requiredFieldsOnlyRecipe.getMethod());
 
         //Test
