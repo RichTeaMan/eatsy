@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.TreeMap;
 
@@ -43,7 +44,8 @@ public class MapModelToDomainMapperTests {
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
         //Expectation
-        final Recipe expectedRecipe = new Recipe.RecipeBuilder(recipeModel.getName())
+        final Recipe expectedRecipe =
+                new Recipe.RecipeBuilder(recipeModel.getName(), recipeModel.getUploader(), recipeModel.getRecipeSummary())
                 .withIngredients(recipeModel.getIngredients())
                 .withMethod(recipeModel.getMethod())
                 .build();
@@ -114,11 +116,15 @@ public class MapModelToDomainMapperTests {
         //Make the recipe model have an empty ingredient set.
         final RecipeModel recipeModelWithEmptyIngredientSet = new RecipeModel();
         recipeModelWithEmptyIngredientSet.setName(recipeModel.getName());
-        recipeModelWithEmptyIngredientSet.setIngredients(new HashSet<>());
+        recipeModelWithEmptyIngredientSet.setIngredients(new HashMap<>());
         recipeModelWithEmptyIngredientSet.setMethod(recipeModel.getMethod());
 
         //Expectation
-        final Recipe expectedDomainRecipe = new Recipe.RecipeBuilder(recipeModelWithEmptyIngredientSet.getName())
+        final Recipe expectedDomainRecipe =
+                new Recipe.RecipeBuilder(
+                        recipeModelWithEmptyIngredientSet.getName(),
+                        recipeModelWithEmptyIngredientSet.getUploader(),
+                        recipeModelWithEmptyIngredientSet.getRecipeSummary())
                 .withIngredients(recipeModelWithEmptyIngredientSet.getIngredients())
                 .withMethod(recipeModelWithEmptyIngredientSet.getMethod())
                 .build();
@@ -150,7 +156,11 @@ public class MapModelToDomainMapperTests {
         recipeModelWithEmptyMap.setMethod(new TreeMap<>());
 
         //Exception
-        final Recipe expectedDomainRecipe = new Recipe.RecipeBuilder(recipeModelWithEmptyMap.getName())
+        final Recipe expectedDomainRecipe =
+                new Recipe.RecipeBuilder(
+                        recipeModelWithEmptyMap.getName(),
+                        recipeModelWithEmptyMap.getUploader(),
+                        recipeModelWithEmptyMap.getRecipeSummary())
                 .withIngredients(recipeModelWithEmptyMap.getIngredients())
                 .withMethod(recipeModelWithEmptyMap.getMethod())
                 .build();
@@ -208,7 +218,7 @@ public class MapModelToDomainMapperTests {
 
         //Expected
         final Recipe expectedDomainRecipe = new Recipe
-                .RecipeBuilder(requiredFieldsOnlyRecipeModel.getName())
+                .RecipeBuilder(requiredFieldsOnlyRecipeModel.getName(), recipeModel.getUploader(), recipeModel.getRecipeSummary())
                 .build();
 
         //Test
