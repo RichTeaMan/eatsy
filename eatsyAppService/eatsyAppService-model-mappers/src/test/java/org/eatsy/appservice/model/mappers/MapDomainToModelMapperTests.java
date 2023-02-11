@@ -9,7 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 /**
@@ -82,8 +82,8 @@ public class MapDomainToModelMapperTests {
         //Setup - generate a recipe domain object to be mapped into a recipe model object.
         final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty ingredient set.
-        final Recipe recipeWithEmptyIngredientsSet = new Recipe.RecipeBuilder(recipe.getName())
-                .withIngredients(new HashSet<>())
+        final Recipe recipeWithEmptyIngredientsSet = new Recipe.RecipeBuilder(recipe.getName(), recipe.getUploader(), recipe.getRecipeSummary())
+                .withIngredients(new HashMap<>())
                 .withMethod(recipe.getMethod())
                 .build();
 
@@ -114,7 +114,7 @@ public class MapDomainToModelMapperTests {
         //Setup - generate a recipe domain object to be mapped into a recipe model object.
         final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty method.
-        final Recipe recipeWithEmptyMap = new Recipe.RecipeBuilder(recipe.getName())
+        final Recipe recipeWithEmptyMap = new Recipe.RecipeBuilder(recipe.getName(), recipe.getUploader(), recipe.getRecipeSummary())
                 .withIngredients(recipe.getIngredients())
                 .withMethod(new TreeMap<>())
                 .build();
@@ -146,7 +146,7 @@ public class MapDomainToModelMapperTests {
         //Setup - generate a recipe domain object to be mapped into a recipe model object.
         final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty name.
-        final Recipe recipeWithEmptyName = new Recipe.RecipeBuilder("          ")
+        final Recipe recipeWithEmptyName = new Recipe.RecipeBuilder("          ", recipe.getUploader(), recipe.getRecipeSummary())
                 .withIngredients(recipe.getIngredients())
                 .withMethod(recipe.getMethod())
                 .build();
@@ -173,7 +173,7 @@ public class MapDomainToModelMapperTests {
         // generate a recipe domain object to be mapped into a recipe model object.
         final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have only required fields.
-        final Recipe requiredFieldsOnlyRecipe = new Recipe.RecipeBuilder(recipe.getName())
+        final Recipe requiredFieldsOnlyRecipe = new Recipe.RecipeBuilder(recipe.getName(), recipe.getUploader(), recipe.getRecipeSummary())
                 .build();
 
         //Expected
