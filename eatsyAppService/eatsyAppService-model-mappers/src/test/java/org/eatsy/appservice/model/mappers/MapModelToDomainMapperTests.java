@@ -55,10 +55,8 @@ public class MapModelToDomainMapperTests {
         //Test
         final Recipe actualRecipe = recipeMapper.mapModelToDomain(recipeModel);
 
-        //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
-        assertThat(expectedRecipe)
-                .usingRecursiveComparison().ignoringFields("key")
-                .isEqualTo(actualRecipe);
+        //Assertion
+        Assertions.assertEquals(expectedRecipe, actualRecipe);
 
     }
 
