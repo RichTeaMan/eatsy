@@ -89,7 +89,7 @@ public class EatsyRepositoryServiceTests {
     }
 
     /**
-     * Checks the retrieveAllRecipes method in the EatsyRepositoryHandler
+     * Checks the deleteById method in the EatsyRepositoryHandler
      * whilst mocking the Eatsy Repository (JPARepository)
      */
     @Test
@@ -120,7 +120,7 @@ public class EatsyRepositoryServiceTests {
         eatsyRepositoryHandler.deleteRecipeById(recipeEntityListBeforeDeletion.get(0).getKey());
 
         //Step 3 - Get all recipes after deletion
-        
+
         //Mock the eatsyRepository findAll() method for after calling the deleteById method
         Mockito.when(eatsyRepository.findAll()).thenReturn(mockedRecipeEntityListAfterOneDeletion);
         final List<RecipeEntity> recipeEntityListAfterDeletion = eatsyRepositoryHandler.retrieveAllRecipes();
