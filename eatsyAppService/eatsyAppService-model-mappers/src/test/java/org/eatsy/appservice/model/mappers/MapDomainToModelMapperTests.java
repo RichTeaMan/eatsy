@@ -164,6 +164,7 @@ public class MapDomainToModelMapperTests {
         final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty name.
         final Recipe recipeWithEmptyName = new Recipe.RecipeBuilder("          ", recipe.getUploader(), recipe.getRecipeSummary())
+                .withTags(recipe.getTags())
                 .withIngredients(recipe.getIngredients())
                 .withMethod(recipe.getMethod())
                 .build();
