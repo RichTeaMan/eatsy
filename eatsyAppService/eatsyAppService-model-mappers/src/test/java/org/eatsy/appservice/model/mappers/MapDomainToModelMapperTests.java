@@ -100,11 +100,11 @@ public class MapDomainToModelMapperTests {
         final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeModel.setName(recipeWithEmptyIngredientsSet.getName());
-        expectedRecipeModel.setUploader(recipe.getUploader());
-        expectedRecipeModel.setRecipeSummary(recipe.getRecipeSummary());
-        expectedRecipeModel.setThumbsUpCount(recipe.getThumbsUpCount());
-        expectedRecipeModel.setThumbsDownCount(recipe.getThumbsDownCount());
-        expectedRecipeModel.setTags(recipe.getTags());
+        expectedRecipeModel.setUploader(recipeWithEmptyIngredientsSet.getUploader());
+        expectedRecipeModel.setRecipeSummary(recipeWithEmptyIngredientsSet.getRecipeSummary());
+        expectedRecipeModel.setThumbsUpCount(recipeWithEmptyIngredientsSet.getThumbsUpCount());
+        expectedRecipeModel.setThumbsDownCount(recipeWithEmptyIngredientsSet.getThumbsDownCount());
+        expectedRecipeModel.setTags(recipeWithEmptyIngredientsSet.getTags());
         expectedRecipeModel.setIngredients(recipeWithEmptyIngredientsSet.getIngredients());
         expectedRecipeModel.setMethod(recipeWithEmptyIngredientsSet.getMethod());
 
@@ -138,11 +138,11 @@ public class MapDomainToModelMapperTests {
         final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeModel.setName(recipeWithEmptyMap.getName());
-        expectedRecipeModel.setUploader(recipe.getUploader());
-        expectedRecipeModel.setRecipeSummary(recipe.getRecipeSummary());
-        expectedRecipeModel.setThumbsUpCount(recipe.getThumbsUpCount());
-        expectedRecipeModel.setThumbsDownCount(recipe.getThumbsDownCount());
-        expectedRecipeModel.setTags(recipe.getTags());
+        expectedRecipeModel.setUploader(recipeWithEmptyMap.getUploader());
+        expectedRecipeModel.setRecipeSummary(recipeWithEmptyMap.getRecipeSummary());
+        expectedRecipeModel.setThumbsUpCount(recipeWithEmptyMap.getThumbsUpCount());
+        expectedRecipeModel.setThumbsDownCount(recipeWithEmptyMap.getThumbsDownCount());
+        expectedRecipeModel.setTags(recipeWithEmptyMap.getTags());
         expectedRecipeModel.setIngredients(recipeWithEmptyMap.getIngredients());
         expectedRecipeModel.setMethod(recipeWithEmptyMap.getMethod());
 
