@@ -165,6 +165,11 @@ public class MapEntityToDomainMapperTests {
         //Make the recipe entity have an empty name
         final RecipeEntity recipeEntityWithEmptyRecipeName = new RecipeEntity();
         recipeEntityWithEmptyRecipeName.setName("         ");
+        recipeEntityWithEmptyRecipeName.setUploader(recipeEntity.getUploader());
+        recipeEntityWithEmptyRecipeName.setRecipeSummary(recipeEntity.getRecipeSummary());
+        recipeEntityWithEmptyRecipeName.setThumbsUpCount(recipeEntity.getThumbsUpCount());
+        recipeEntityWithEmptyRecipeName.setThumbsDownCount(recipeEntity.getThumbsDownCount());
+        recipeEntityWithEmptyRecipeName.setTags(recipeEntity.getTags());
         recipeEntityWithEmptyRecipeName.setIngredientsMap(recipeEntity.getIngredientsMap());
         recipeEntityWithEmptyRecipeName.setMethodMap(recipeEntity.getMethodMap());
 
