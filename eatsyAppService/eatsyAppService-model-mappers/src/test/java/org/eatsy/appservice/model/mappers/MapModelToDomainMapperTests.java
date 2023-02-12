@@ -12,8 +12,6 @@ import org.junit.jupiter.api.TestInstance;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 /**
  * Recipe Map to Domain Mapper unit tests
  */
@@ -223,7 +221,7 @@ public class MapModelToDomainMapperTests {
      * Test that the mappers can handle a situation when non-compulsory fields are not initialised.
      */
     @Test
-    public void checkMapToDomainNoMethodOrIngredients() {
+    public void checkMapToDomainNoOptionalFields() {
 
         //Setup
         //Generate a recipe model object to be mapped into recipe domain object
@@ -232,19 +230,22 @@ public class MapModelToDomainMapperTests {
         //Make the recipe model have only the required fields
         final RecipeModel requiredFieldsOnlyRecipeModel = new RecipeModel();
         requiredFieldsOnlyRecipeModel.setName(recipeModel.getName());
+        requiredFieldsOnlyRecipeModel.setUploader(recipeModel.getUploader());
+        requiredFieldsOnlyRecipeModel.setRecipeSummary(recipeModel.getRecipeSummary());
 
         //Expected
         final Recipe expectedDomainRecipe = new Recipe
                 .RecipeBuilder(requiredFieldsOnlyRecipeModel.getName(), recipeModel.getUploader(), recipeModel.getRecipeSummary())
                 .build();
 
+        //Set this so that the assertion doesn't fail when comparing the unique key field.
+        requiredFieldsOnlyRecipeModel.setKey(expectedDomainRecipe.getKey());
+
         //Test
         final Recipe actualDomainRecipe = recipeMapper.mapModelToDomain(requiredFieldsOnlyRecipeModel);
 
-        //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
-        assertThat(expectedDomainRecipe)
-                .usingRecursiveComparison().ignoringFields("key")
-                .isEqualTo(actualDomainRecipe);
+        //Assertion
+        Assertions.assertEquals(expectedDomainRecipe, actualDomainRecipe);
 
     }
 
