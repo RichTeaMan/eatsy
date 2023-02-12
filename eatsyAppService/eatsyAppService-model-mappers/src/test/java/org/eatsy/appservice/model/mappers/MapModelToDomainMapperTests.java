@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.TreeMap;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -36,7 +35,7 @@ public class MapModelToDomainMapperTests {
      * This test checks the Recipe model is correctly mapped to a Recipe Domain object.
      */
     @Test
-    public void checkMapToDomain() {
+    public void checkMapModelToDomain() {
 
         //Setup
         //Generate a recipe model object to be mapped into a recipe domain model object.
@@ -46,9 +45,10 @@ public class MapModelToDomainMapperTests {
         //Expectation
         final Recipe expectedRecipe =
                 new Recipe.RecipeBuilder(recipeModel.getName(), recipeModel.getUploader(), recipeModel.getRecipeSummary())
-                .withIngredients(recipeModel.getIngredients())
-                .withMethod(recipeModel.getMethod())
-                .build();
+                        .withTags(recipeModel.getTags())
+                        .withIngredients(recipeModel.getIngredients())
+                        .withMethod(recipeModel.getMethod())
+                        .build();
         //Set this so that the assertion doesn't fail when comparing the unique key field.
         recipeModel.setKey(expectedRecipe.getKey());
 
@@ -125,9 +125,9 @@ public class MapModelToDomainMapperTests {
                         recipeModelWithEmptyIngredientSet.getName(),
                         recipeModelWithEmptyIngredientSet.getUploader(),
                         recipeModelWithEmptyIngredientSet.getRecipeSummary())
-                .withIngredients(recipeModelWithEmptyIngredientSet.getIngredients())
-                .withMethod(recipeModelWithEmptyIngredientSet.getMethod())
-                .build();
+                        .withIngredients(recipeModelWithEmptyIngredientSet.getIngredients())
+                        .withMethod(recipeModelWithEmptyIngredientSet.getMethod())
+                        .build();
 
         //Test
         final Recipe actualDomainRecipe = recipeMapper.mapModelToDomain(recipeModelWithEmptyIngredientSet);
@@ -161,9 +161,9 @@ public class MapModelToDomainMapperTests {
                         recipeModelWithEmptyMap.getName(),
                         recipeModelWithEmptyMap.getUploader(),
                         recipeModelWithEmptyMap.getRecipeSummary())
-                .withIngredients(recipeModelWithEmptyMap.getIngredients())
-                .withMethod(recipeModelWithEmptyMap.getMethod())
-                .build();
+                        .withIngredients(recipeModelWithEmptyMap.getIngredients())
+                        .withMethod(recipeModelWithEmptyMap.getMethod())
+                        .build();
 
         //Test
         final Recipe actualDomainRecipe = recipeMapper.mapModelToDomain(recipeModelWithEmptyMap);

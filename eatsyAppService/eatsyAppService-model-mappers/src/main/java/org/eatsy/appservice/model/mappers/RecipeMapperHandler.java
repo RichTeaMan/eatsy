@@ -89,7 +89,7 @@ public class RecipeMapperHandler implements RecipeMapper {
             logger.debug("Mapping model object " + recipeModel.getName() + " to a recipe domain object");
 
             final Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder(
-                    recipeModel.getName(), recipeModel.getUploader(), recipe.getRecipeSummary())
+                    recipeModel.getName(), recipeModel.getUploader(), recipeModel.getRecipeSummary())
                     .withIngredients(recipeModel.getIngredients())
                     .withMethod(recipeModel.getMethod())
                     .withTags(recipeModel.getTags());
