@@ -1,6 +1,7 @@
 package org.eatsy.appservice.persistence.model;
 
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -18,6 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 //persistence
 @Entity
 @Table(name = "recipe")
