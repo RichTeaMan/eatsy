@@ -185,7 +185,7 @@ public class MapDomainToModelMapperTests {
      * Test that the mappers can handle a situation when non-compulsory fields are not initialised.
      */
     @Test
-    public void checkMapToModelNoMethodOrIngredients() {
+    public void checkMapToModelWithNoOptionalFields() {
 
         //Setup
         // generate a recipe domain object to be mapped into a recipe model object.
@@ -198,6 +198,11 @@ public class MapDomainToModelMapperTests {
         final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(requiredFieldsOnlyRecipe.getKey());
         expectedRecipeModel.setName(requiredFieldsOnlyRecipe.getName());
+        expectedRecipeModel.setUploader(requiredFieldsOnlyRecipe.getUploader());
+        expectedRecipeModel.setRecipeSummary(requiredFieldsOnlyRecipe.getRecipeSummary());
+        expectedRecipeModel.setThumbsUpCount(requiredFieldsOnlyRecipe.getThumbsUpCount());
+        expectedRecipeModel.setThumbsDownCount(requiredFieldsOnlyRecipe.getThumbsDownCount());
+        expectedRecipeModel.setTags(requiredFieldsOnlyRecipe.getTags());
         expectedRecipeModel.setIngredients(requiredFieldsOnlyRecipe.getIngredients());
         expectedRecipeModel.setMethod(requiredFieldsOnlyRecipe.getMethod());
 
