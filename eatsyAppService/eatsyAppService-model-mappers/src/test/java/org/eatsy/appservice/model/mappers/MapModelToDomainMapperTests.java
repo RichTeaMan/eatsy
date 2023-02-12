@@ -141,7 +141,7 @@ public class MapModelToDomainMapperTests {
 
         //Assertion
         Assertions.assertEquals(expectedDomainRecipe, actualDomainRecipe);
-        
+
     }
 
     /**
@@ -157,6 +157,11 @@ public class MapModelToDomainMapperTests {
         //Make the recipe model have an empty method.
         final RecipeModel recipeModelWithEmptyMap = new RecipeModel();
         recipeModelWithEmptyMap.setName(recipeModel.getName());
+        recipeModelWithEmptyMap.setUploader(recipeModel.getUploader());
+        recipeModelWithEmptyMap.setRecipeSummary(recipeModel.getRecipeSummary());
+        recipeModelWithEmptyMap.setThumbsUpCount(recipeModel.getThumbsUpCount());
+        recipeModelWithEmptyMap.setThumbsDownCount(recipeModel.getThumbsDownCount());
+        recipeModelWithEmptyMap.setTags(recipeModel.getTags());
         recipeModelWithEmptyMap.setIngredients(recipeModel.getIngredients());
         recipeModelWithEmptyMap.setMethod(new TreeMap<>());
 
@@ -166,17 +171,19 @@ public class MapModelToDomainMapperTests {
                         recipeModelWithEmptyMap.getName(),
                         recipeModelWithEmptyMap.getUploader(),
                         recipeModelWithEmptyMap.getRecipeSummary())
+                        .withTags(recipeModelWithEmptyMap.getTags())
                         .withIngredients(recipeModelWithEmptyMap.getIngredients())
                         .withMethod(recipeModelWithEmptyMap.getMethod())
                         .build();
 
+        //Set this so that the assertion doesn't fail when comparing the unique key field.
+        recipeModelWithEmptyMap.setKey(expectedDomainRecipe.getKey());
+
         //Test
         final Recipe actualDomainRecipe = recipeMapper.mapModelToDomain(recipeModelWithEmptyMap);
 
-        //Assertion (assertJ) - exclude the key field which will be different due to unique key generation.
-        assertThat(expectedDomainRecipe)
-                .usingRecursiveComparison().ignoringFields("key")
-                .isEqualTo(actualDomainRecipe);
+        //Assertion
+        Assertions.assertEquals(expectedDomainRecipe, actualDomainRecipe);
 
     }
 
