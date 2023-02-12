@@ -134,10 +134,10 @@ public class RecipeMapperHandler implements RecipeMapper {
             recipeEntity.setName(recipe.getName());
 
             //Map uploader.
-            recipeEntity.setUploader(recipeEntity.getUploader());
+            recipeEntity.setUploader(recipe.getUploader());
 
             //Map recipeSummary.
-            recipeEntity.setRecipeSummary(recipeEntity.getRecipeSummary());
+            recipeEntity.setRecipeSummary(recipe.getRecipeSummary());
 
             //Map thumbsUpCount.
             recipeEntity.setThumbsUpCount(recipe.getThumbsUpCount());
@@ -149,7 +149,7 @@ public class RecipeMapperHandler implements RecipeMapper {
             recipeEntity.setTags(recipe.getTags());
 
             //Map set of ingredients.
-            recipeEntity.setIngredientsMap(recipeEntity.getIngredientsMap());
+            recipeEntity.setIngredientsMap(recipe.getIngredients());
 
             //Map method.
             recipeEntity.setMethodMap(recipe.getMethod());

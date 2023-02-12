@@ -44,6 +44,11 @@ public class MapDomainToEntityMapperTests {
         final RecipeEntity expectedRecipeEntity = new RecipeEntity();
         expectedRecipeEntity.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeEntity.setName(recipe.getName());
+        expectedRecipeEntity.setUploader(recipe.getUploader());
+        expectedRecipeEntity.setRecipeSummary(recipe.getRecipeSummary());
+        expectedRecipeEntity.setThumbsUpCount(recipe.getThumbsUpCount());
+        expectedRecipeEntity.setThumbsDownCount(recipe.getThumbsDownCount());
+        expectedRecipeEntity.setTags(recipe.getTags());
         expectedRecipeEntity.setIngredientsMap(recipe.getIngredients());
         expectedRecipeEntity.setMethodMap(recipe.getMethod());
 
