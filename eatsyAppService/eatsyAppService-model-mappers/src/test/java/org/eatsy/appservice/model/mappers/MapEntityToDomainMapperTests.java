@@ -87,12 +87,18 @@ public class MapEntityToDomainMapperTests {
         //Make the recipe entity have an empty ingredient set.
         final RecipeEntity recipeEntityWithEmptyIngredientSet = new RecipeEntity();
         recipeEntityWithEmptyIngredientSet.setName(recipeEntity.getName());
+        recipeEntityWithEmptyIngredientSet.setUploader(recipeEntity.getUploader());
+        recipeEntityWithEmptyIngredientSet.setRecipeSummary(recipeEntity.getRecipeSummary());
+        recipeEntityWithEmptyIngredientSet.setThumbsUpCount(recipeEntity.getThumbsUpCount());
+        recipeEntityWithEmptyIngredientSet.setThumbsDownCount(recipeEntity.getThumbsDownCount());
+        recipeEntityWithEmptyIngredientSet.setTags(recipeEntity.getTags());
         recipeEntityWithEmptyIngredientSet.setIngredientsMap(new HashMap<>());
         recipeEntityWithEmptyIngredientSet.setMethodMap(recipeEntity.getMethodMap());
 
         //Expectation
         final Recipe expectedDomainRecipe =
                 new Recipe.RecipeBuilder(recipeEntityWithEmptyIngredientSet.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary())
+                        .withTags(recipeEntityWithEmptyIngredientSet.getTags())
                         .withIngredients(recipeEntityWithEmptyIngredientSet.getIngredientsMap())
                         .withMethod(recipeEntityWithEmptyIngredientSet.getMethodMap())
                         .build();
