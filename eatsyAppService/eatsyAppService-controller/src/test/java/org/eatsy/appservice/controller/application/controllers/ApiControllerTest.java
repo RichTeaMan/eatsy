@@ -76,6 +76,11 @@ public class ApiControllerTest {
         final RecipeModel recipeModelToReturn = new RecipeModel();
         recipeModelToReturn.setKey(UUID.randomUUID().toString());
         recipeModelToReturn.setName(recipeModel.getName());
+        recipeModelToReturn.setUploader(recipeModel.getUploader());
+        recipeModelToReturn.setRecipeSummary(recipeModel.getRecipeSummary());
+        recipeModelToReturn.setThumbsUpCount(recipeModel.getThumbsUpCount());
+        recipeModelToReturn.setThumbsDownCount(recipeModel.getThumbsDownCount());
+        recipeModelToReturn.setTags(recipeModel.getTags());
         recipeModelToReturn.setIngredients(recipeModel.getIngredients());
         recipeModelToReturn.setMethod(recipeModel.getMethod());
 
@@ -91,7 +96,7 @@ public class ApiControllerTest {
         try {
             mockMvc.perform(mockRequest)
                     .andExpect(status().isOk())
-                    .andExpect(MockMvcResultMatchers.jsonPath("$.ingredientSet").exists());
+                    .andExpect(MockMvcResultMatchers.jsonPath("$.ingredients").exists());
         } catch (final Exception e) {
             throw new RuntimeException(e);
         }
