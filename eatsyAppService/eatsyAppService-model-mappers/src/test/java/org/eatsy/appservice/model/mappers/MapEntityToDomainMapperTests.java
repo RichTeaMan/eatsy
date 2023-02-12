@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.TreeMap;
 
 /**
@@ -43,6 +42,7 @@ public class MapEntityToDomainMapperTests {
 
         //Expectation
         final Recipe expectedRecipe = new Recipe.RecipeBuilder(recipeEntity.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary())
+                .withTags(recipeEntity.getTags())
                 .withIngredients(recipeEntity.getIngredientsMap())
                 .withMethod(recipeEntity.getMethodMap())
                 .build();
