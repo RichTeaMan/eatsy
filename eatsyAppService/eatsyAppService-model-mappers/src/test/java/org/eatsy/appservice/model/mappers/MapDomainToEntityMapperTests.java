@@ -88,6 +88,7 @@ public class MapDomainToEntityMapperTests {
         final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Make the recipe have an empty ingredient set.
         final Recipe recipeWithEmptyIngredientsSet = new Recipe.RecipeBuilder(recipe.getName(), recipe.getUploader(), recipe.getRecipeSummary())
+                .withTags(recipe.getTags())
                 .withIngredients(new HashMap<>())
                 .withMethod(recipe.getMethod())
                 .build();
@@ -99,6 +100,11 @@ public class MapDomainToEntityMapperTests {
         final RecipeEntity expectedRecipeEntity = new RecipeEntity();
         expectedRecipeEntity.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeEntity.setName(recipeWithEmptyIngredientsSet.getName());
+        expectedRecipeEntity.setUploader(recipeWithEmptyIngredientsSet.getUploader());
+        expectedRecipeEntity.setRecipeSummary(recipeWithEmptyIngredientsSet.getRecipeSummary());
+        expectedRecipeEntity.setThumbsUpCount(recipeWithEmptyIngredientsSet.getThumbsUpCount());
+        expectedRecipeEntity.setThumbsDownCount(recipeWithEmptyIngredientsSet.getThumbsDownCount());
+        expectedRecipeEntity.setTags(recipeWithEmptyIngredientsSet.getTags());
         expectedRecipeEntity.setIngredientsMap(recipeWithEmptyIngredientsSet.getIngredients());
         expectedRecipeEntity.setMethodMap(recipeWithEmptyIngredientsSet.getMethod());
 
