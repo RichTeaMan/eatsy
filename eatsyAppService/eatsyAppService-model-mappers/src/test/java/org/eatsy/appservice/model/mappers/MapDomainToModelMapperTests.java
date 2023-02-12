@@ -44,6 +44,11 @@ public class MapDomainToModelMapperTests {
         final RecipeModel expectedRecipeModel = new RecipeModel();
         expectedRecipeModel.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
         expectedRecipeModel.setName(recipe.getName());
+        expectedRecipeModel.setUploader(recipe.getUploader());
+        expectedRecipeModel.setRecipeSummary(recipe.getRecipeSummary());
+        expectedRecipeModel.setThumbsUpCount(recipe.getThumbsUpCount());
+        expectedRecipeModel.setThumbsDownCount(recipe.getThumbsDownCount());
+        expectedRecipeModel.setTags(recipe.getTags());
         expectedRecipeModel.setIngredients(recipe.getIngredients());
         expectedRecipeModel.setMethod(recipe.getMethod());
 
