@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.TreeMap;
 
 /**
@@ -188,7 +189,7 @@ public class MapEntityToDomainMapperTests {
      * Test that the mappers can handle a situation when non-compulsory fields are not populated.
      */
     @Test
-    public void checkMapToDomainNoMethodOrIngredients() {
+    public void checkMapToDomainNoOptionalFields() {
 
         //Setup
         //Generate a recipe entity object to be mapped into recipe domain object
@@ -197,6 +198,8 @@ public class MapEntityToDomainMapperTests {
         //Make the recipe model have only the required fields
         final RecipeEntity requiredFieldsOnlyRecipeEntity = new RecipeEntity();
         requiredFieldsOnlyRecipeEntity.setName(recipeEntity.getName());
+        requiredFieldsOnlyRecipeEntity.setUploader(recipeEntity.getUploader());
+        requiredFieldsOnlyRecipeEntity.setRecipeSummary(recipeEntity.getRecipeSummary());
 
         //Expected
         final Recipe expectedDomainRecipe = new Recipe
@@ -204,6 +207,7 @@ public class MapEntityToDomainMapperTests {
                 requiredFieldsOnlyRecipeEntity.getName(),
                 requiredFieldsOnlyRecipeEntity.getUploader(),
                 requiredFieldsOnlyRecipeEntity.getRecipeSummary())
+                .withTags(new HashSet<>())
                 .withIngredients(new HashMap<>())
                 .withMethod(new HashMap<>())
                 .build();
