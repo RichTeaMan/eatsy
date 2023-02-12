@@ -60,8 +60,9 @@ public class ApiControllerTest {
         final RecipeModel recipeModel = RecipeModelDataFactory
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
-        //Executes some code of the class under test. In this case, build the mock request that will hit the
-        // "/add" endpoint and trigger the below chain method.
+        //Build a mock request that will eventually execute some code of the class under test.
+        // In this case, build the mock request that will hit the "/add" endpoint and
+        // trigger the Mockito when/then chain method later in this test.
         final MockHttpServletRequestBuilder mockRequest;
         try {
             mockRequest = MockMvcRequestBuilders.post(EatsyRecipeTestParameters.ADD_RECIPE)
@@ -189,13 +190,12 @@ public class ApiControllerTest {
     public void checkEditRecipeEndpointSuccess() {
 
         //Setup
-        //Create two recipes in the list of recipes
         final List<RecipeModel> allRecipes = RecipeModelDataFactory.generateRecipeModelsList(
                 EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
-        //Create an 'updated version' of one of the two recipes by submitting an edit to the name.
+        //Create an 'updated version' of one of the recipes by submitting an edit to the name.
         final RecipeModel updatedRecipe = allRecipes.get(0);
-        final String updatedRecipeName = "Updated name";
+        final String updatedRecipeName = updatedRecipe.getName() + " name updated";
         updatedRecipe.setKey(UUID.randomUUID().toString()); //The stored recipe would have a key, so this makes the mock response more realistic.
         updatedRecipe.setName(updatedRecipeName);
 
