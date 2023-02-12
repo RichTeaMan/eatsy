@@ -200,6 +200,11 @@ public class MapModelToDomainMapperTests {
         //Make the recipe model have an empty name
         final RecipeModel recipeModelWithEmptyRecipeName = new RecipeModel();
         recipeModelWithEmptyRecipeName.setName("         ");
+        recipeModelWithEmptyRecipeName.setUploader(recipeModel.getUploader());
+        recipeModelWithEmptyRecipeName.setRecipeSummary(recipeModel.getRecipeSummary());
+        recipeModelWithEmptyRecipeName.setThumbsUpCount(recipeModel.getThumbsUpCount());
+        recipeModelWithEmptyRecipeName.setThumbsDownCount(recipeModel.getThumbsDownCount());
+        recipeModelWithEmptyRecipeName.setTags(recipeModel.getTags());
         recipeModelWithEmptyRecipeName.setIngredients(recipeModel.getIngredients());
         recipeModelWithEmptyRecipeName.setMethod(recipeModel.getMethod());
 
