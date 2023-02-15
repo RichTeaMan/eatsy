@@ -183,6 +183,8 @@ public class CreateRecipeTests {
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         final RecipeModel inputRecipeModel = new RecipeModel();
         inputRecipeModel.setName(recipeModel.getName());
+        inputRecipeModel.setUploader(recipeModel.getUploader());
+        inputRecipeModel.setRecipeSummary(recipeModel.getRecipeSummary());
         //Mock the services that are not being tested through these unit tests
         createMocksForRecipeMapperAndEatsyRepositoryServicesInCreateRecipeTests(inputRecipeModel);
 
