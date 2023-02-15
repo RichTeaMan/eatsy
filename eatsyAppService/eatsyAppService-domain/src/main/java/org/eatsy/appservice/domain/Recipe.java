@@ -68,13 +68,12 @@ public final class Recipe {
     public static class RecipeBuilder {
 
         //Required
-        private String key;
-        private final Integer thumbsUpCount;
-        private final Integer thumbsDownCount;
         private final String name;
         private final String uploader;
         private final String recipeSummary;
-
+        private Integer thumbsUpCount;
+        private Integer thumbsDownCount;
+        private String key;
         //Optional
         private Map<Integer, String> ingredients;
         private Map<Integer, String> method;
@@ -102,6 +101,20 @@ public final class Recipe {
 
         public RecipeBuilder withTags(final Set<String> tags) {
             this.tags = tags;
+            return this;
+        }
+
+        //If the 0 count (at recipe creations) needs to be overwritten due to an
+        // existing model/entity being mapped to a recipe object
+        public RecipeBuilder withThumbsUpCount(final Integer thumbsUpCount) {
+            this.thumbsUpCount = thumbsUpCount;
+            return this;
+        }
+
+        //If the 0 count (at recipe creations) needs to be overwritten due to an
+        // existing model/entity being mapped to a recipe object
+        public RecipeBuilder withThumbsDownCount(final Integer thumbsDownCount) {
+            this.thumbsDownCount = thumbsDownCount;
             return this;
         }
 

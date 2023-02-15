@@ -65,7 +65,6 @@ public class RetrieveAllRecipesTests {
         final List<RecipeModel> actualRecipeModelsList = recipeFactoryHandler.retrieveAllRecipes();
 
         //Assert
-
         Assertions.assertEquals(expectedRecipeModelList, actualRecipeModelsList);
 
     }

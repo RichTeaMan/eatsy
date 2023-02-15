@@ -181,6 +181,8 @@ public class RecipeMapperHandler implements RecipeMapper {
                     .withTags(recipeEntity.getTags())
                     .withIngredients(recipeEntity.getIngredientsMap())
                     .withMethod(recipeEntity.getMethodMap())
+                    .withThumbsUpCount(recipeEntity.getThumbsUpCount()) //override newly generated 0 count to ensure no loss of data
+                    .withThumbsDownCount(recipeEntity.getThumbsDownCount()) //override newly generated 0 count to ensure no loss of data
                     .withSpecifiedKey(recipeEntity.getKey()) //override the newly generated key to ensure it is the same as the db entity key
                     .build();
 

@@ -120,6 +120,16 @@ public interface RecipeMockFactory {
             recipeModel.setKey(mockedDomainRecipe.getKey());
             //Map name.
             recipeModel.setName(mockedDomainRecipe.getName());
+            //Map uploader
+            recipeModel.setUploader(mockedDomainRecipe.getUploader());
+            //Map recipe summary
+            recipeModel.setRecipeSummary(mockedDomainRecipe.getRecipeSummary());
+            //Map thumbsUp count
+            recipeModel.setThumbsUpCount(mockedDomainRecipe.getThumbsUpCount());
+            //Map thumbsDown count
+            recipeModel.setThumbsDownCount(mockedDomainRecipe.getThumbsDownCount());
+            //Map tags
+            recipeModel.setTags(mockedDomainRecipe.getTags());
             //Map set of ingredients.
             recipeModel.setIngredients(mockedDomainRecipe.getIngredients());
             //Map method.
@@ -140,13 +150,26 @@ public interface RecipeMockFactory {
 
         RecipeEntity recipeEntity = null;
         //The recipe to be mapped must not be null and the recipe must have a name.
-        if (null != inputRecipeDomain && StringUtils.isNotEmpty(inputRecipeDomain.getName().trim())) {
+        if (null != inputRecipeDomain
+                && StringUtils.isNotEmpty(inputRecipeDomain.getName().trim())
+                && StringUtils.isNotEmpty(inputRecipeDomain.getUploader().trim())
+                && StringUtils.isNotEmpty(inputRecipeDomain.getRecipeSummary().trim())) {
 
             recipeEntity = new RecipeEntity();
             //Map key.
             recipeEntity.setKey(inputRecipeDomain.getKey());
             //Map name.
             recipeEntity.setName(inputRecipeDomain.getName());
+            //Map uploader
+            recipeEntity.setUploader(inputRecipeDomain.getUploader());
+            //Map recipe summary
+            recipeEntity.setRecipeSummary(inputRecipeDomain.getRecipeSummary());
+            //Map thumbsUp count
+            recipeEntity.setThumbsUpCount(inputRecipeDomain.getThumbsUpCount());
+            //Map thumbsDown count
+            recipeEntity.setThumbsDownCount(inputRecipeDomain.getThumbsDownCount());
+            //Map tags
+            recipeEntity.setTags(inputRecipeDomain.getTags());
             //Map set of ingredients.
             recipeEntity.setIngredientsMap(inputRecipeDomain.getIngredients());
             //Map method.
@@ -177,8 +200,11 @@ public interface RecipeMockFactory {
                     inputRecipeEntity.getName(),
                     inputRecipeEntity.getUploader(),
                     inputRecipeEntity.getRecipeSummary())
+                    .withTags(inputRecipeEntity.getTags())
                     .withIngredients(inputRecipeEntity.getIngredientsMap())
                     .withMethod(inputRecipeEntity.getMethodMap())
+                    .withThumbsUpCount(inputRecipeEntity.getThumbsUpCount())//override newly generated 0 count to ensure no loss of data
+                    .withThumbsDownCount(inputRecipeEntity.getThumbsDownCount())//override newly generated 0 count to ensure no loss of data
                     .withSpecifiedKey(inputRecipeEntity.getKey())
                     .build();
         }
@@ -196,13 +222,17 @@ public interface RecipeMockFactory {
 
         Recipe domainRecipe = null;
         //The recipe model to be mapped must not be null and the recipe must have a name.
-        if (null != inputRecipeModel && StringUtils.isNotEmpty(inputRecipeModel.getName().trim())) {
+        if (null != inputRecipeModel
+                && StringUtils.isNotEmpty(inputRecipeModel.getName().trim())
+                && StringUtils.isNotEmpty(inputRecipeModel.getUploader().trim())
+                && StringUtils.isNotEmpty(inputRecipeModel.getRecipeSummary().trim())) {
 
             domainRecipe = new Recipe
                     .RecipeBuilder(
                     inputRecipeModel.getName(),
                     inputRecipeModel.getUploader(),
                     inputRecipeModel.getRecipeSummary())
+                    .withTags(inputRecipeModel.getTags())
                     .withIngredients(inputRecipeModel.getIngredients())
                     .withMethod(inputRecipeModel.getMethod())
                     .build();
@@ -223,13 +253,17 @@ public interface RecipeMockFactory {
 
         Recipe domainRecipe = null;
         //The recipe model to be mapped must not be null and the recipe must have a name.
-        if (null != inputRecipeModel && StringUtils.isNotEmpty(inputRecipeModel.getName().trim())) {
+        if (null != inputRecipeModel
+                && StringUtils.isNotEmpty(inputRecipeModel.getName().trim())
+                && StringUtils.isNotEmpty(inputRecipeModel.getUploader().trim())
+                && StringUtils.isNotEmpty(inputRecipeModel.getRecipeSummary().trim())) {
 
             domainRecipe = new Recipe
                     .RecipeBuilder(
                     inputRecipeModel.getName(),
                     inputRecipeModel.getUploader(),
                     inputRecipeModel.getRecipeSummary())
+                    .withTags(inputRecipeModel.getTags())
                     .withIngredients(inputRecipeModel.getIngredients())
                     .withMethod(inputRecipeModel.getMethod())
                     .withSpecifiedKey(specifiedKey)
@@ -254,13 +288,26 @@ public interface RecipeMockFactory {
 
             RecipeEntity recipeEntity = null;
             //The recipe to be mapped must not be null and the recipe must have a name.
-            if (null != currentRecipeModel && StringUtils.isNotEmpty(currentRecipeModel.getName().trim())) {
+            if (null != currentRecipeModel
+                    && StringUtils.isNotEmpty(currentRecipeModel.getName().trim())
+                    && StringUtils.isNotEmpty(currentRecipeModel.getUploader().trim())
+                    && StringUtils.isNotEmpty(currentRecipeModel.getRecipeSummary().trim())) {
 
                 recipeEntity = new RecipeEntity();
                 //Map key.
                 recipeEntity.setKey(currentRecipeModel.getKey());
                 //Map name.
                 recipeEntity.setName(currentRecipeModel.getName());
+                //Map uploader
+                recipeEntity.setUploader(currentRecipeModel.getUploader());
+                //Map recipe summary
+                recipeEntity.setRecipeSummary(currentRecipeModel.getRecipeSummary());
+                //Map thumbsUp count
+                recipeEntity.setThumbsUpCount(currentRecipeModel.getThumbsUpCount());
+                //Map thumbsDown count
+                recipeEntity.setThumbsDownCount(currentRecipeModel.getThumbsDownCount());
+                //Map tags
+                recipeEntity.setTags(currentRecipeModel.getTags());
                 //Map set of ingredients.
                 recipeEntity.setIngredientsMap(currentRecipeModel.getIngredients());
                 //Map method.
@@ -284,13 +331,26 @@ public interface RecipeMockFactory {
 
         RecipeEntity recipeEntity = null;
         //The recipe to be mapped must not be null and the recipe must have a name.
-        if (null != inputRecipeModel && StringUtils.isNotEmpty(inputRecipeModel.getName().trim())) {
+        if (null != inputRecipeModel
+                && StringUtils.isNotEmpty(inputRecipeModel.getName().trim())
+                && StringUtils.isNotEmpty(inputRecipeModel.getUploader().trim())
+                && StringUtils.isNotEmpty(inputRecipeModel.getRecipeSummary().trim())) {
 
             recipeEntity = new RecipeEntity();
             //Map key.
             recipeEntity.setKey(inputRecipeModel.getKey());
             //Map name.
             recipeEntity.setName(inputRecipeModel.getName());
+            //Map uploader
+            recipeEntity.setUploader(inputRecipeModel.getUploader());
+            //Map recipe summary
+            recipeEntity.setRecipeSummary(inputRecipeModel.getRecipeSummary());
+            //Map thumbsUp count
+            recipeEntity.setThumbsUpCount(inputRecipeModel.getThumbsUpCount());
+            //Map thumbsDown count
+            recipeEntity.setThumbsDownCount(inputRecipeModel.getThumbsDownCount());
+            //Map tags
+            recipeEntity.setTags(inputRecipeModel.getTags());
             //Map set of ingredients.
             recipeEntity.setIngredientsMap(inputRecipeModel.getIngredients());
             //Map method.
