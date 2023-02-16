@@ -233,6 +233,8 @@ public interface RecipeMockFactory {
                     inputRecipeModel.getUploader(),
                     inputRecipeModel.getRecipeSummary())
                     .withTags(inputRecipeModel.getTags())
+                    .withThumbsUpCount(inputRecipeModel.getThumbsUpCount()) //override newly generated 0 count to ensure no loss of data
+                    .withThumbsDownCount(inputRecipeModel.getThumbsDownCount()) //override newly generated 0 count to ensure no loss of data
                     .withIngredients(inputRecipeModel.getIngredients())
                     .withMethod(inputRecipeModel.getMethod())
                     .build();
@@ -264,6 +266,8 @@ public interface RecipeMockFactory {
                     inputRecipeModel.getUploader(),
                     inputRecipeModel.getRecipeSummary())
                     .withTags(inputRecipeModel.getTags())
+                    .withThumbsUpCount(inputRecipeModel.getThumbsUpCount()) //override newly generated 0 count to ensure no loss of data
+                    .withThumbsDownCount(inputRecipeModel.getThumbsDownCount()) //override newly generated 0 count to ensure no loss of data
                     .withIngredients(inputRecipeModel.getIngredients())
                     .withMethod(inputRecipeModel.getMethod())
                     .withSpecifiedKey(specifiedKey)

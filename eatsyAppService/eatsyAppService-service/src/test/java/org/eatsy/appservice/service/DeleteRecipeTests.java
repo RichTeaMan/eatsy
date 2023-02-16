@@ -72,6 +72,8 @@ public class DeleteRecipeTests {
         final List<RecipeModel> actualUpdatedRecipeModelList = recipeFactoryHandler.deleteRecipe(uniqueKeyOfRecipeToDelete);
 
         //3) Assert - check the recipe requested for deletion is no longer in the list of recipes, Check all the others are.
+        System.out.println(inputRecipeModelWithKeysList);
+        System.out.println(actualUpdatedRecipeModelList);
         Assertions.assertTrue(inputRecipeModelWithKeysList.containsAll(actualUpdatedRecipeModelList));
         Assertions.assertEquals((inputRecipeModelWithKeysList.size() - 1), actualUpdatedRecipeModelList.size());
         Assertions.assertFalse(actualUpdatedRecipeModelList.contains(recipeModelToBeDeleted));//check the recipe to be deleted is in-fact gone.
