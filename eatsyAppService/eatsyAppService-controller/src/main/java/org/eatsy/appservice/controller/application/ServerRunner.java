@@ -28,15 +28,15 @@ public class ServerRunner {
      * Configure Cross-Origin Resource Sharing (CORS) in the Spring Boot application
      * CORS needs to be enabled on the server side so that data can be fetched from the React UI
      * <p>
-     * .allowedOrigins("http://localhost:3000") means the application will only accept requests from
-     * "http://localhost:3000"
+     * .allowedOrigins("http://localhost:3000", "http://localhost:8080") means the application will only accept requests from
+     * "http://localhost:3000" and "http://localhost:8080"
      */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(final CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+                registry.addMapping("/**").allowedOrigins("http://localhost:3000", "http://localhost:8080");
             }
         };
     }

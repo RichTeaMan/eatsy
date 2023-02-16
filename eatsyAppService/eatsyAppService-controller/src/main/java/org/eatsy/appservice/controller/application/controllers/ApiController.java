@@ -21,8 +21,8 @@ import java.util.List;
  * API Controller for creating, editing, deleting and retrieving recipes.
  * All handling methods on this controller are relative to the /api path.
  */
-//enable so that we can fetch data from client side, only accepting requests from "http://localhost:3000/"
-@CrossOrigin(origins = "http://localhost:3000/")
+//enable so that we can fetch data from client side, only accepting requests from "localhost ports 3000 & 8080
+@CrossOrigin(origins = {"http://localhost:3000/", "http://localhost:8080/"})
 @RestController //Inform the DispatcherServlet that this class contains request mapping methods.
 @RequestMapping(EatsyRecipeEndpoints.API)
 @EnableAutoConfiguration
