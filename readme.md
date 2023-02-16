@@ -3,9 +3,9 @@
 A spring boot REST API that user-facing services can interface with for finding, creating and sharing your favourite
 recipes.
 
-[![CircleCI build](https://circleci.com/gh/DM1st/eatsy/tree/develop.svg?style=shield)](https://circleci.com/gh/DM1st/eatsy/tree/develop)
-[![Coverage Status](https://coveralls.io/repos/github/DM1st/eatsy/badge.svg?branch=develop)](https://coveralls.io/github/DM1st/eatsy?branch=develop)
-[![Create and publish a Docker image](https://github.com/DM1st/eatsy/actions/workflows/publish.yml/badge.svg)](https://github.com/DM1st/eatsy/actions/workflows/publish.yml)
+[![CircleCI build](https://circleci.com/gh/DM1st/eatsy-api/tree/develop.svg?style=shield)](https://circleci.com/gh/DM1st/eatsy/tree/develop)
+[![Coverage Status](https://coveralls.io/repos/github/DM1st/eatsy/badge.svg?branch=develop)](https://coveralls.io/github/DM1st/eatsy-api?branch=develop)
+[![Create and publish a Docker image](https://github.com/DM1st/eatsy-api/actions/workflows/publish.yml/badge.svg)](https://github.com/DM1st/eatsy/actions/workflows/publish.yml)
 
 * A live demo version of the Eatsy API is deployed and the Swagger UI Spec for the service can be
   found [here](https://eatsy-api.onrender.com/swagger-ui/index.html#/). Please note, the application uses free-tier
