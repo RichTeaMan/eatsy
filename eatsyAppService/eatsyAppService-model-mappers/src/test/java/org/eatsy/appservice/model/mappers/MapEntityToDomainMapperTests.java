@@ -44,6 +44,8 @@ public class MapEntityToDomainMapperTests {
         //Expectation
         final Recipe expectedRecipe = new Recipe.RecipeBuilder(recipeEntity.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary())
                 .withTags(recipeEntity.getTags())
+                .withThumbsUpCount(recipeEntity.getThumbsUpCount())
+                .withThumbsDownCount(recipeEntity.getThumbsDownCount())
                 .withIngredients(recipeEntity.getIngredientsMap())
                 .withMethod(recipeEntity.getMethodMap())
                 .build();
@@ -100,6 +102,8 @@ public class MapEntityToDomainMapperTests {
         final Recipe expectedDomainRecipe =
                 new Recipe.RecipeBuilder(recipeEntityWithEmptyIngredientSet.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary())
                         .withTags(recipeEntityWithEmptyIngredientSet.getTags())
+                        .withThumbsUpCount(recipeEntity.getThumbsUpCount())
+                        .withThumbsDownCount(recipeEntity.getThumbsDownCount())
                         .withIngredients(recipeEntityWithEmptyIngredientSet.getIngredientsMap())
                         .withMethod(recipeEntityWithEmptyIngredientSet.getMethodMap())
                         .build();
@@ -139,6 +143,8 @@ public class MapEntityToDomainMapperTests {
         final Recipe expectedDomainRecipe =
                 new Recipe.RecipeBuilder(recipeEntityWithEmptyMap.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary())
                         .withTags(recipeEntityWithEmptyMap.getTags())
+                        .withThumbsUpCount(recipeEntity.getThumbsUpCount())
+                        .withThumbsDownCount(recipeEntity.getThumbsDownCount())
                         .withIngredients(recipeEntityWithEmptyMap.getIngredientsMap())
                         .withMethod(recipeEntityWithEmptyMap.getMethodMap())
                         .build();
@@ -207,6 +213,8 @@ public class MapEntityToDomainMapperTests {
                 requiredFieldsOnlyRecipeEntity.getName(),
                 requiredFieldsOnlyRecipeEntity.getUploader(),
                 requiredFieldsOnlyRecipeEntity.getRecipeSummary())
+                .withThumbsUpCount(null) //As they are null in the entity being mapped
+                .withThumbsDownCount(null)//As they are null in the entity being mapped
                 .withTags(new HashSet<>())
                 .withIngredients(new HashMap<>())
                 .withMethod(new HashMap<>())
