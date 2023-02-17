@@ -105,11 +105,11 @@ public interface RecipeDataFactory {
 
         //Create the tag set and define the number of tags in the recipe.
         final Set<String> tagsSet = new HashSet<>();
-        final int numberOftags = generateNumber(maxTagsSetSize);
+        final int numberOfTags = generateNumber(maxTagsSetSize);
 
         //Populate the tags set with random tags.
         //Faker doesn't have food categories so using capital cities as dummy data
-        for (int i = 0; i < numberOftags; i++) {
+        for (int i = 0; i < numberOfTags; i++) {
             tagsSet.add(new Faker().nation().capitalCity());
         }
 

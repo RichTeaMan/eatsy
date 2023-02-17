@@ -14,7 +14,7 @@ import java.io.IOException;
 
 /**
  * Class to persist test data through the controller layer into the database.
- *
+ * <p>
  * Used to generate test data on demand and persist it for manual test/validation purposed.
  */
 public class PersistTestData {
@@ -29,7 +29,7 @@ public class PersistTestData {
         final RecipeModel recipeModel = RecipeModelDataFactory
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
-        final String postUrl = "http://localhost:8080/";
+        final String postUrl = "http://localhost:8080/api/add";
         final Gson gson = new Gson();
         final HttpClient httpClient = HttpClientBuilder.create().build();
         final HttpPost post = new HttpPost(postUrl);
