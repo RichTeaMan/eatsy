@@ -68,6 +68,7 @@ to:
 
 ##### Populating your local instance with random recipe test data
 
+Random recipe generation can be triggered externally and persisted for manual testing and verification purposes.
 With the server running, open a new bash terminal (at the project root) and run the following command:
 
 ```
