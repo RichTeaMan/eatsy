@@ -74,7 +74,7 @@ With the server running, open a new bash terminal (at the project root) and run 
 ./gradlew generateRandomRecipes
 ```
 
-This executes a custom gradle task that generates a random number (between 1 and 15) of recipes which then get posted to your local application's `addRecipe` endpoint. 
+This executes a custom gradle task that generates a random number of recipes (between 1 and 15) which then get posted to your local application's `addRecipe` endpoint. 
 
 ## Project Structure and configuration
 
@@ -180,7 +180,7 @@ With the server running, open a new bash terminal (at the project root) and run 
 ./gradlew generateRandomRecipes
 ```
 
-This executes a custom gradle task that generates a random number (between 1 and 15) of recipes which then get posted to your local application's `addRecipe` endpoint.
+This executes a custom gradle task that generates a random number of recipes (between 1 and 15) which then get posted to your local application's `addRecipe` endpoint.
 
 #### Mockito
 
