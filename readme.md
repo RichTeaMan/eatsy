@@ -66,7 +66,7 @@ to:
 
 ```C:\<location to repository root>\eatsyAppService\eatsyAppService-controller```
 
-##### Populating your local instance with random recipe test data
+#### Populating your local instance with random recipe test data
 
 Random recipe generation can be triggered externally and persisted for manual testing and verification purposes.
 With the server running, open a new bash terminal (at the project root) and run the following command:
@@ -75,7 +75,7 @@ With the server running, open a new bash terminal (at the project root) and run 
 ./gradlew generateRandomRecipes
 ```
 
-This executes a custom gradle task that generates a random number of recipes (between 1 and 15) which then get posted to your local application's `addRecipe` endpoint. 
+This executes a custom gradle task that generates a random number of recipes (between 1 and 15) which then get posted to your local application's `addRecipe` endpoint. This can be executed as many times as needed to reach the level of test data required. 
 
 ## Project Structure and configuration
 
@@ -181,7 +181,7 @@ With the server running, open a new bash terminal (at the project root) and run 
 ./gradlew generateRandomRecipes
 ```
 
-This executes a custom gradle task that generates a random number of recipes (between 1 and 15) which then get posted to your local application's `addRecipe` endpoint.
+This executes a custom gradle task that generates a random number of recipes (between 1 and 15) which then get posted to your local application's `addRecipe` endpoint. This can be executed as many times as needed to reach the level of test data required
 
 #### Mockito
 
