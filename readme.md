@@ -66,6 +66,16 @@ to:
 
 ```C:\<location to repository root>\eatsyAppService\eatsyAppService-controller```
 
+##### Populating your local instance with random recipe test data
+
+With the server running, open a new bash terminal (at the project root) and run the following command:
+
+```
+./gradlew generateRandomRecipes
+```
+
+This executes a custom gradle task that generates a random number (between 1 and 15) of recipes which then get posted to your local application's `addRecipe` endpoint. 
+
 ## Project Structure and configuration
 
 This application uses Gradle as the build tool and is structured as Gradle sub-projects. This helps separate the
@@ -161,6 +171,16 @@ frameworks are also used for testing:
 formats. The data generated is used in unit tests to validate the behavior of the application. By generating random test
 data, the tests will test edge cases that may not have been considered with hard-coded test data. This helps catch
 unexpected behavior and ensures that the code works as intended.
+
+As mentioned in the getting started section, random recipe generation can also be triggered externally and persisted for manual testing and verification purposes.
+
+With the server running, open a new bash terminal (at the project root) and run the following command:
+
+```
+./gradlew generateRandomRecipes
+```
+
+This executes a custom gradle task that generates a random number (between 1 and 15) of recipes which then get posted to your local application's `addRecipe` endpoint.
 
 #### Mockito
 
@@ -270,13 +290,16 @@ postgresSQL container being up and healthy.
 ```http://<your_host>:8080/swagger-ui.html```
 
 * You can also follow the above steps, but with the ```docker-compose.yml``` file located at the project root to build
-  an image from the project dockerfile, rather than pulling the built image hosted on dockerhub. If using this approach, you will need the codebase stored locally on your host (rather than just the docker-compose.yml file located in the alternativeDeploymentOptions folder).
+  an image from the project dockerfile, rather than pulling the built image hosted on dockerhub. If using this approach,
+  you will need the codebase stored locally on your host (rather than just the docker-compose.yml file located in the
+  alternativeDeploymentOptions folder).
 
 ### The live instance of this application on Render.com
 
 As mentioned above, the Eatsy API is deployed on Render by using the ```dockerfile``` in the project root. As this
-project uses the free-tier products on [Render.com](https://render.com), therefore only the most lightweight infrastructure is
-available. As a result, in order to make deployment possible, and reduce image spin-up times (when the service is cold)
+project uses the free-tier products on [Render.com](https://render.com), therefore only the most lightweight
+infrastructure is available. As a result, in order to make deployment possible, and reduce image spin-up times (when the
+service is cold)
 every effort has been made to reduce the docker image size. This includes:
 
 * Layering the Spring boot Jar file so that it is built into 4 layers. This is done in the Controller
