@@ -18,19 +18,28 @@ dependencies {
 
 }
 
+//The below configures a Gradle task named generateRandomRecipes which is used to execute the main method of the
+//GenerateAndPersistRandomRecipes class.
+
+// Configure the Gradle application plugin and create a Gradle task to run the main class of this Gradle sub-project
+//The Application plugin is a core Gradle plugin that defines a collection of ready-to-use tasks that help package and
+// distribute the application.
 apply plugin: 'application'
 
+// Set the main class of the application to the PersistTestData class
 ext {
-    javaMainClass = "org.eatsy.appservice.testdatageneration.PersistTestData"
+    javaMainClass = "org.eatsy.appservice.testdatageneration.GenerateAndPersistRandomRecipes"
 }
-
+// Define the main class
 application {
     mainClassName = javaMainClass
 }
-
-task runWithJavaExec(type: JavaExec) {
+// Create a custom Gradle task to run the main class using the JavaExec type
+task generateRandomRecipes(type: JavaExec) {
     group = "Execution"
     description = "Run the main class with JavaExecTask"
+    //Specify the classpath which is computed from the default properties of the build output and
+    //contains the correct path where the computed class is actually placed
     classpath = sourceSets.main.runtimeClasspath
     main = javaMainClass
 }

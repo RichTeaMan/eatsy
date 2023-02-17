@@ -14,29 +14,35 @@ import java.io.IOException;
 
 /**
  * Class to persist test data through the controller layer into the database.
- * <p>
- * Used to generate test data on demand and persist it for manual test/validation purposed.
+ *
+ * Used to generate test data on demand and persist it for manual test/validation purposes.
+ * This is executed via the gradle task "generateRandomRecipes"
  */
-public class PersistTestData {
+public class GenerateAndPersistRandomRecipes {
 
     // Main method acts as the entry point from the gradle task defined in the root gradle project
     public static void main(final String[] args) throws IOException {
-        generateTestData();
+        persistRandomRecipes();
     }
 
-    //Generate test data and post it to the addRecipe endpoint in the controller
-    public static void generateTestData() throws IOException {
+
+    public static void persistRandomRecipes() throws IOException {
         final RecipeModel recipeModel = RecipeModelDataFactory
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
-        final String postUrl = "http://localhost:8080/api/add";
+        // Create a Gson instance to convert the RecipeModel instance to JSON format
         final Gson gson = new Gson();
+        // Create a HttpClient instance to send an HTTP POST request to the addRecipe endpoint
         final HttpClient httpClient = HttpClientBuilder.create().build();
-        final HttpPost post = new HttpPost(postUrl);
-        //Convert POJO to JSON
+        // Create an HttpPost instance to send an HTTP POST request to the addRecipe endpoint
+        final HttpPost post = new HttpPost(EatsyRecipeTestParameters.ADD_RECIPE_TO_LOCAL_INSTANCE);
+        // Convert the RecipeModel instance to JSON format
         final StringEntity postingString = new StringEntity(gson.toJson(recipeModel));
+        // Set the JSON content as the content of the HTTP POST request
         post.setEntity(postingString);
+        // Set the content type of the HTTP POST request as JSON
         post.setHeader("Content-type", "application/json");
+        // Send the HTTP POST request to the addRecipe endpoint and receive the HTTP response
         final HttpResponse response = httpClient.execute(post);
     }
 }

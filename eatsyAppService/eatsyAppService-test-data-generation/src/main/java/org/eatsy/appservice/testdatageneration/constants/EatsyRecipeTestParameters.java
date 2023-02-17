@@ -22,4 +22,9 @@ public class EatsyRecipeTestParameters {
     //Max value for the generated number of method steps in the recipe
     public final static int MAX_NUMBER_OF_RECIPES = 15;
 
+    //Constants for submitting requests outside the application but to the local instance.
+    private static final String LOCAL_INSTANCE = "http://localhost:8080";
+    public static final String ADD_RECIPE_TO_LOCAL_INSTANCE = LOCAL_INSTANCE + ADD_RECIPE;
+
+
 }
