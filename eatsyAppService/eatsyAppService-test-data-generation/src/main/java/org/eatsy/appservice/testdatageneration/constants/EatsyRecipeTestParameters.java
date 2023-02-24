@@ -1,8 +1,11 @@
 package org.eatsy.appservice.testdatageneration.constants;
 
+import org.eatsy.appservice.testdatageneration.annotations.Generated;
+
 /**
  * Constants for test class parameters
  */
+@Generated
 public class EatsyRecipeTestParameters {
 
     //Endpoints needed for tests to interact and test the REST API

@@ -1,8 +1,11 @@
 package org.eatsy.appservice.controller.application.constants;
 
+import org.eatsy.appservice.controller.application.annotations.Generated;
+
 /**
  * The endpoints for the Easty recipe API
  */
+@Generated
 public class EatsyRecipeEndpoints {
 
     public static final String API = "/api";
