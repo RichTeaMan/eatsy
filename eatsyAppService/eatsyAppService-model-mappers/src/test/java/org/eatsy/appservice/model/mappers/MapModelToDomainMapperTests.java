@@ -44,6 +44,8 @@ public class MapModelToDomainMapperTests {
         final Recipe expectedRecipe =
                 new Recipe.RecipeBuilder(recipeModel.getName(), recipeModel.getUploader(), recipeModel.getRecipeSummary())
                         .withTags(recipeModel.getTags())
+                        .withThumbsUpCount(recipeModel.getThumbsUpCount())
+                        .withThumbsDownCount(recipeModel.getThumbsDownCount())
                         .withIngredients(recipeModel.getIngredients())
                         .withMethod(recipeModel.getMethod())
                         .build();
@@ -126,6 +128,8 @@ public class MapModelToDomainMapperTests {
                         recipeModelWithEmptyIngredientSet.getName(),
                         recipeModelWithEmptyIngredientSet.getUploader(),
                         recipeModelWithEmptyIngredientSet.getRecipeSummary())
+                        .withThumbsUpCount(recipeModelWithEmptyIngredientSet.getThumbsUpCount())
+                        .withThumbsDownCount(recipeModelWithEmptyIngredientSet.getThumbsDownCount())
                         .withTags(recipeModelWithEmptyIngredientSet.getTags())
                         .withIngredients(recipeModelWithEmptyIngredientSet.getIngredients())
                         .withMethod(recipeModelWithEmptyIngredientSet.getMethod())
@@ -169,6 +173,8 @@ public class MapModelToDomainMapperTests {
                         recipeModelWithEmptyMap.getName(),
                         recipeModelWithEmptyMap.getUploader(),
                         recipeModelWithEmptyMap.getRecipeSummary())
+                        .withThumbsUpCount(recipeModelWithEmptyMap.getThumbsUpCount())
+                        .withThumbsDownCount(recipeModelWithEmptyMap.getThumbsDownCount())
                         .withTags(recipeModelWithEmptyMap.getTags())
                         .withIngredients(recipeModelWithEmptyMap.getIngredients())
                         .withMethod(recipeModelWithEmptyMap.getMethod())
@@ -236,6 +242,8 @@ public class MapModelToDomainMapperTests {
         //Expected
         final Recipe expectedDomainRecipe = new Recipe
                 .RecipeBuilder(requiredFieldsOnlyRecipeModel.getName(), recipeModel.getUploader(), recipeModel.getRecipeSummary())
+                .withThumbsUpCount(null)
+                .withThumbsDownCount(null)
                 .build();
 
         //Set this so that the assertion doesn't fail when comparing the unique key field.

@@ -90,6 +90,8 @@ public class RecipeMapperHandler implements RecipeMapper {
 
             final Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder(
                     recipeModel.getName(), recipeModel.getUploader(), recipeModel.getRecipeSummary())
+                    .withThumbsUpCount(recipeModel.getThumbsUpCount())
+                    .withThumbsDownCount(recipeModel.getThumbsDownCount())
                     .withIngredients(recipeModel.getIngredients())
                     .withMethod(recipeModel.getMethod())
                     .withTags(recipeModel.getTags());
