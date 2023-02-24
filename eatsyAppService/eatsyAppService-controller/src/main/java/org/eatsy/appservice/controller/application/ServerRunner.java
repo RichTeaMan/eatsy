@@ -1,5 +1,6 @@
 package org.eatsy.appservice.controller.application;
 
+import org.eatsy.appservice.controller.application.annotations.Generated;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +20,7 @@ public class ServerRunner {
     /**
      * Entry point of the Spring Boot application
      */
+    @Generated
     public static void main(final String[] args) {
 
         SpringApplication.run(ServerRunner.class, args);

@@ -8,6 +8,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.eatsy.appservice.model.RecipeModel;
+import org.eatsy.appservice.testdatageneration.annotations.Generated;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
 
 import java.io.IOException;
@@ -20,6 +21,7 @@ import static org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestP
  * Used to generate test data on demand and persist it for manual test/validation purposes.
  * This is executed via the gradle task "generateRandomRecipes"
  */
+@Generated
 public class GenerateAndPersistRandomRecipes {
 
     // Main method acts as the entry point from the gradle task defined in the root gradle project
@@ -30,6 +32,7 @@ public class GenerateAndPersistRandomRecipes {
     /**
      * Creates a list of random RecipeModel objects and persists them by using the local deployment of the Eatsy-API.
      * The number of recipes creates is a random number between 1 and 15
+     *
      * @throws IOException
      */
     public static void persistRandomRecipes() throws IOException {
