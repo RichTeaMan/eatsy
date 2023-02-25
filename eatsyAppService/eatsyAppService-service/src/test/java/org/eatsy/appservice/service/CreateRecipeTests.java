@@ -154,13 +154,58 @@ public class CreateRecipeTests {
     public void checkCreateRecipeWithEmptyName() {
 
         //Setup
-        //Create an input recipe model(with an empty method list)
-        //This will also be the expected output from the method under test.
+        //Create an input recipe model(with an empty name)
         final RecipeModel inputRecipeModel = RecipeModelDataFactory
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         inputRecipeModel.setName("         ");
 
         //Expectation - cannot create a recipe domain object without providing a recipe name.
+        final RecipeModel expectedRecipeModel = null;
+
+        //Test
+        final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
+
+        //Assert
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
+
+    }
+
+    /**
+     * Check the Recipe Factory cannot create a recipe with an empty uploader field.
+     */
+    @Test
+    public void checkCreateRecipeWithEmptyUploader() {
+
+        //Setup
+        //Create an input recipe model(with an empty uploader)
+        final RecipeModel inputRecipeModel = RecipeModelDataFactory
+                .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        inputRecipeModel.setUploader("         ");
+
+        //Expectation - cannot create a recipe domain object without providing a recipe uploader.
+        final RecipeModel expectedRecipeModel = null;
+
+        //Test
+        final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
+
+        //Assert
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
+
+    }
+
+    /**
+     * Check the Recipe Factory cannot create a recipe with an empty recipeSummary field.
+     */
+    @Test
+    public void checkCreateRecipeWithEmptySummary() {
+
+        //Setup
+        //Create an input recipe model(with an empty summary)
+        final RecipeModel inputRecipeModel = RecipeModelDataFactory
+                .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        inputRecipeModel.setRecipeSummary("         ");
+
+        //Expectation - cannot create a recipe domain object without providing a recipe summary.
         final RecipeModel expectedRecipeModel = null;
 
         //Test
