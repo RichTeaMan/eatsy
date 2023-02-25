@@ -52,7 +52,10 @@ public class RecipeFactoryHandler implements RecipeFactory {
         RecipeModel newRecipeModel = null;
 
         //The recipeModel to create a Recipe object must not be null and the recipeModel must have a recipeName.
-        if (null != recipeModel && StringUtils.isNotEmpty(recipeModel.getName().trim())) {
+        if (null != recipeModel
+                && StringUtils.isNotEmpty(recipeModel.getName().trim())
+                && StringUtils.isNotEmpty(recipeModel.getUploader().trim())
+                && StringUtils.isNotEmpty(recipeModel.getRecipeSummary().trim())) {
 
             logger.debug("Creating a new recipe domain object called " + recipeModel.getName());
 
