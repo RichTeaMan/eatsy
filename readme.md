@@ -68,14 +68,31 @@ to:
 
 #### Populating your local instance with random recipe test data
 
-Random recipe generation can be triggered externally and persisted for manual testing and verification purposes.
-With the server running, open a new bash terminal (at the project root) and run the following command:
+Random recipe generation can be triggered externally and persisted for manual testing and verification purposes. With
+the server running, open a new bash terminal (at the project root) and run the following command:
 
 ```
 ./gradlew generateRandomRecipes
 ```
 
-This executes a custom gradle task that generates a random number of recipes (between 1 and 15) which then get posted to your local application's `addRecipe` endpoint. This can be executed as many times as needed to reach the level of test data required. 
+This executes a custom gradle task that generates a random number of recipes (between 1 and 15) which then get posted to
+your local application's `addRecipe` endpoint. This can be executed as many times as needed to reach the level of test
+data required.
+
+If there is a need to remove all data in the database, the following commands can be used to drop all the tables:
+
+```
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+```
+
+This works because all the tables are in a single schema named public. If you are using PostgreSQL 9.3 or later, you may
+also need to restore the default grants.
+
+```
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO public;
+```
 
 ## Project Structure and configuration
 
@@ -173,7 +190,8 @@ formats. The data generated is used in unit tests to validate the behavior of th
 data, the tests will test edge cases that may not have been considered with hard-coded test data. This helps catch
 unexpected behavior and ensures that the code works as intended.
 
-As mentioned in the getting started section, random recipe generation can also be triggered externally and persisted for manual testing and verification purposes.
+As mentioned in the getting started section, random recipe generation can also be triggered externally and persisted for
+manual testing and verification purposes.
 
 With the server running, open a new bash terminal (at the project root) and run the following command:
 
@@ -181,7 +199,9 @@ With the server running, open a new bash terminal (at the project root) and run 
 ./gradlew generateRandomRecipes
 ```
 
-This executes a custom gradle task that generates a random number of recipes (between 1 and 15) which then get posted to your local application's `addRecipe` endpoint. This can be executed as many times as needed to reach the level of test data required
+This executes a custom gradle task that generates a random number of recipes (between 1 and 15) which then get posted to
+your local application's `addRecipe` endpoint. This can be executed as many times as needed to reach the level of test
+data required
 
 #### Mockito
 
