@@ -180,6 +180,58 @@ public class MapDomainToModelMapperTests {
 
     }
 
+    /**
+     * Check the Recipe Mapper cannot map a recipe with an empty recipeUploader.
+     */
+    @Test
+    public void checkCantMapModelWithEmptyUploader() {
+
+        //Setup - generate a recipe domain object to be mapped into a recipe model object.
+        final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe have an empty uploader.
+        final Recipe recipeWithEmptyUploader = new Recipe.RecipeBuilder(recipe.getName(), "          ", recipe.getRecipeSummary())
+                .withTags(recipe.getTags())
+                .withIngredients(recipe.getIngredients())
+                .withMethod(recipe.getMethod())
+                .build();
+
+        //Expectation - cannot map a recipe domain object with an empty recipeUploader
+        final RecipeModel expectedRecipeModel = null;
+
+        //Test
+        final RecipeModel actualRecipeModel = recipeMapper.mapDomainToModel(recipeWithEmptyUploader);
+
+        //Actual
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
+
+    }
+
+    /**
+     * Check the Recipe Mapper cannot map a recipe with an empty recipeSummary.
+     */
+    @Test
+    public void checkCantMapModelWithEmptySummary() {
+
+        //Setup - generate a recipe domain object to be mapped into a recipe model object.
+        final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe have an empty recipeSummary.
+        final Recipe recipeWithEmptySummary = new Recipe.RecipeBuilder(recipe.getName(), recipe.getUploader(), "          ")
+                .withTags(recipe.getTags())
+                .withIngredients(recipe.getIngredients())
+                .withMethod(recipe.getMethod())
+                .build();
+
+        //Expectation - cannot map a recipe domain object with an empty recipeUploader
+        final RecipeModel expectedRecipeModel = null;
+
+        //Test
+        final RecipeModel actualRecipeModel = recipeMapper.mapDomainToModel(recipeWithEmptySummary);
+
+        //Actual
+        Assertions.assertEquals(expectedRecipeModel, actualRecipeModel);
+
+    }
+
 
     /**
      * Test that the mappers can handle a situation when non-compulsory fields are not initialised.

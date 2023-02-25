@@ -192,6 +192,70 @@ public class MapEntityToDomainMapperTests {
     }
 
     /**
+     * Check the Recipe Mapper cannot map a recipe entity with an empty recipeUploader.
+     */
+    @Test
+    public void checkCantMapToDomainWithEmptyUploader() {
+
+        //Setup
+        //Generate a recipe entity object to be mapped into recipe domain object
+        final RecipeEntity recipeEntity = RecipeEntityDataFactory.generateRandomRecipeEntity(
+                EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe entity have an empty uploader
+        final RecipeEntity recipeEntityWithEmptyRecipeUploader = new RecipeEntity();
+        recipeEntityWithEmptyRecipeUploader.setName(recipeEntity.getName());
+        recipeEntityWithEmptyRecipeUploader.setUploader("         ");
+        recipeEntityWithEmptyRecipeUploader.setRecipeSummary(recipeEntity.getRecipeSummary());
+        recipeEntityWithEmptyRecipeUploader.setThumbsUpCount(recipeEntity.getThumbsUpCount());
+        recipeEntityWithEmptyRecipeUploader.setThumbsDownCount(recipeEntity.getThumbsDownCount());
+        recipeEntityWithEmptyRecipeUploader.setTags(recipeEntity.getTags());
+        recipeEntityWithEmptyRecipeUploader.setIngredientsMap(recipeEntity.getIngredientsMap());
+        recipeEntityWithEmptyRecipeUploader.setMethodMap(recipeEntity.getMethodMap());
+
+        //Expectation - cannot map a recipe model with an empty recipeUploader
+        final Recipe expectedDomainRecipe = null;
+
+        //Test
+        final Recipe actualDomainRecipe = recipeMapper.mapEntityToDomain(recipeEntityWithEmptyRecipeUploader);
+
+        //Actual
+        Assertions.assertEquals(expectedDomainRecipe, actualDomainRecipe);
+
+    }
+
+    /**
+     * Check the Recipe Mapper cannot map a recipe entity with an empty recipeSummary.
+     */
+    @Test
+    public void checkCantMapToDomainWithEmptySummary() {
+
+        //Setup
+        //Generate a recipe entity object to be mapped into recipe domain object
+        final RecipeEntity recipeEntity = RecipeEntityDataFactory.generateRandomRecipeEntity(
+                EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe entity have an empty summary
+        final RecipeEntity recipeEntityWithEmptyRecipeSummary = new RecipeEntity();
+        recipeEntityWithEmptyRecipeSummary.setName(recipeEntity.getName());
+        recipeEntityWithEmptyRecipeSummary.setUploader(recipeEntity.getUploader());
+        recipeEntityWithEmptyRecipeSummary.setRecipeSummary("         ");
+        recipeEntityWithEmptyRecipeSummary.setThumbsUpCount(recipeEntity.getThumbsUpCount());
+        recipeEntityWithEmptyRecipeSummary.setThumbsDownCount(recipeEntity.getThumbsDownCount());
+        recipeEntityWithEmptyRecipeSummary.setTags(recipeEntity.getTags());
+        recipeEntityWithEmptyRecipeSummary.setIngredientsMap(recipeEntity.getIngredientsMap());
+        recipeEntityWithEmptyRecipeSummary.setMethodMap(recipeEntity.getMethodMap());
+
+        //Expectation - cannot map a recipe model with an empty recipeSummary
+        final Recipe expectedDomainRecipe = null;
+
+        //Test
+        final Recipe actualDomainRecipe = recipeMapper.mapEntityToDomain(recipeEntityWithEmptyRecipeSummary);
+
+        //Actual
+        Assertions.assertEquals(expectedDomainRecipe, actualDomainRecipe);
+
+    }
+
+    /**
      * Test that the mappers can handle a situation when non-compulsory fields are not populated.
      */
     @Test

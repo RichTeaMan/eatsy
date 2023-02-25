@@ -181,6 +181,58 @@ public class MapDomainToEntityMapperTests {
     }
 
     /**
+     * Check the Recipe Mapper cannot map a recipe with an empty recipeUploader.
+     */
+    @Test
+    public void checkCantMapEntityWithEmptyUploader() {
+
+        //Setup - generate a recipe domain object to be mapped into a recipe model object.
+        final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe have an empty uploader.
+        final Recipe recipeWithEmptyUploader = new Recipe.RecipeBuilder(recipe.getName(), "          ", recipe.getRecipeSummary())
+                .withTags(recipe.getTags())
+                .withIngredients(recipe.getIngredients())
+                .withMethod(recipe.getMethod())
+                .build();
+
+        //Expectation - cannot map a recipe domain object with an empty recipeUploader
+        final RecipeEntity expectedRecipeEntity = null;
+
+        //Test
+        final RecipeEntity actualRecipeEntity = recipeMapper.mapDomainToEntity(recipeWithEmptyUploader);
+
+        //Actual
+        Assertions.assertEquals(expectedRecipeEntity, actualRecipeEntity);
+
+    }
+
+    /**
+     * Check the Recipe Mapper cannot map a recipe with an empty recipeSummary.
+     */
+    @Test
+    public void checkCantMapEntityWithEmptySummary() {
+
+        //Setup - generate a recipe domain object to be mapped into a recipe model object.
+        final Recipe recipe = RecipeDataFactory.generateRandomRecipe(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Make the recipe have an empty summary.
+        final Recipe recipeWithEmptySummary = new Recipe.RecipeBuilder(recipe.getName(), recipe.getUploader(), "          ")
+                .withTags(recipe.getTags())
+                .withIngredients(recipe.getIngredients())
+                .withMethod(recipe.getMethod())
+                .build();
+
+        //Expectation - cannot map a recipe domain object with an empty recipeSummary
+        final RecipeEntity expectedRecipeEntity = null;
+
+        //Test
+        final RecipeEntity actualRecipeEntity = recipeMapper.mapDomainToEntity(recipeWithEmptySummary);
+
+        //Actual
+        Assertions.assertEquals(expectedRecipeEntity, actualRecipeEntity);
+
+    }
+
+    /**
      * Test that the mappers can handle a situation when non-compulsory fields are not initialised.
      */
     @Test
