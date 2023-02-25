@@ -2,7 +2,7 @@
 # build the docker image (From the dockerfile) after establishing a required postgres image for successful build.
 # The workflow then pushes the built image to dockerhub.
 # Publish.yml and docker-compose.yml not used to deployment of live instance to Render.com (only dockerfile at project root)
-name: Docker Image
+name: Dockerhub Image
 on:
   push:
     branches: [ 'develop' ]
