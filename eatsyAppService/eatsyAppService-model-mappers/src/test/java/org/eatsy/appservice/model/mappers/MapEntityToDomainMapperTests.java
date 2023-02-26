@@ -11,6 +11,7 @@ import org.junit.jupiter.api.TestInstance;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -42,13 +43,7 @@ public class MapEntityToDomainMapperTests {
                 .generateRandomRecipeEntity(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
         //Expectation
-        final Recipe expectedRecipe = new Recipe.RecipeBuilder(recipeEntity.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary())
-                .withTags(recipeEntity.getTags())
-                .withThumbsUpCount(recipeEntity.getThumbsUpCount())
-                .withThumbsDownCount(recipeEntity.getThumbsDownCount())
-                .withIngredients(recipeEntity.getIngredientsMap())
-                .withMethod(recipeEntity.getMethodMap())
-                .build();
+        final Recipe expectedRecipe = createExpectedRecipe(recipeEntity, recipeEntity.getUploader(), recipeEntity.getRecipeSummary(), recipeEntity.getThumbsUpCount(), recipeEntity.getThumbsDownCount());
         //Set this so that the assertion doesn't fail when comparing the unique key field.
         recipeEntity.setKey(expectedRecipe.getKey());
 
@@ -84,29 +79,18 @@ public class MapEntityToDomainMapperTests {
     public void checkMapToDomainWithEmptyIngredientsList() {
 
         //Setup
+        final RecipeEntity recipeEntity;
         //Generate a recipe entity object to be mapped into a recipe domain object.
-        final RecipeEntity recipeEntity = RecipeEntityDataFactory.generateRandomRecipeEntity(
+        recipeEntity = RecipeEntityDataFactory.generateRandomRecipeEntity(
                 EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+
         //Make the recipe entity have an empty ingredient set.
-        final RecipeEntity recipeEntityWithEmptyIngredientSet = new RecipeEntity();
-        recipeEntityWithEmptyIngredientSet.setName(recipeEntity.getName());
-        recipeEntityWithEmptyIngredientSet.setUploader(recipeEntity.getUploader());
-        recipeEntityWithEmptyIngredientSet.setRecipeSummary(recipeEntity.getRecipeSummary());
-        recipeEntityWithEmptyIngredientSet.setThumbsUpCount(recipeEntity.getThumbsUpCount());
-        recipeEntityWithEmptyIngredientSet.setThumbsDownCount(recipeEntity.getThumbsDownCount());
-        recipeEntityWithEmptyIngredientSet.setTags(recipeEntity.getTags());
-        recipeEntityWithEmptyIngredientSet.setIngredientsMap(new HashMap<>());
-        recipeEntityWithEmptyIngredientSet.setMethodMap(recipeEntity.getMethodMap());
+        final RecipeEntity recipeEntityWithEmptyIngredientSet = createRecipeEntity(
+                recipeEntity, new HashMap<String, String>(), recipeEntity.getMethodMap(),
+                recipeEntity.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary());
 
         //Expectation
-        final Recipe expectedDomainRecipe =
-                new Recipe.RecipeBuilder(recipeEntityWithEmptyIngredientSet.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary())
-                        .withTags(recipeEntityWithEmptyIngredientSet.getTags())
-                        .withThumbsUpCount(recipeEntity.getThumbsUpCount())
-                        .withThumbsDownCount(recipeEntity.getThumbsDownCount())
-                        .withIngredients(recipeEntityWithEmptyIngredientSet.getIngredientsMap())
-                        .withMethod(recipeEntityWithEmptyIngredientSet.getMethodMap())
-                        .build();
+        final Recipe expectedDomainRecipe = createExpectedRecipe(recipeEntityWithEmptyIngredientSet, recipeEntity.getUploader(), recipeEntity.getRecipeSummary(), recipeEntity.getThumbsUpCount(), recipeEntity.getThumbsDownCount());
         //Set this so that the assertion doesn't fail when comparing the unique key field.
         recipeEntityWithEmptyIngredientSet.setKey(expectedDomainRecipe.getKey());
 
@@ -116,6 +100,27 @@ public class MapEntityToDomainMapperTests {
         //Assertion
         Assertions.assertEquals(expectedDomainRecipe, actualDomainRecipe);
 
+    }
+
+
+    //Make the recipe entity have an empty method.
+    //Make the recipe entity have an empty name
+    //name?
+    //Make the recipe entity have an empty uploader
+    //Make the recipe entity have an empty summary
+    private RecipeEntity createRecipeEntity(
+            final RecipeEntity recipeEntity, final Map ingredients, final Map method,
+            final String name, final String uploader, final String summary) {
+        final RecipeEntity recipeEntityWithEmptyIngredientSet = new RecipeEntity();
+        recipeEntityWithEmptyIngredientSet.setName(name);
+        recipeEntityWithEmptyIngredientSet.setUploader(uploader);
+        recipeEntityWithEmptyIngredientSet.setRecipeSummary(summary);
+        recipeEntityWithEmptyIngredientSet.setThumbsUpCount(recipeEntity.getThumbsUpCount());
+        recipeEntityWithEmptyIngredientSet.setThumbsDownCount(recipeEntity.getThumbsDownCount());
+        recipeEntityWithEmptyIngredientSet.setTags(recipeEntity.getTags());
+        recipeEntityWithEmptyIngredientSet.setIngredientsMap(ingredients);
+        recipeEntityWithEmptyIngredientSet.setMethodMap(method);
+        return recipeEntityWithEmptyIngredientSet;
     }
 
     /**
@@ -128,7 +133,7 @@ public class MapEntityToDomainMapperTests {
         //Generate a recipe entity object to be mapped into recipe domain object
         final RecipeEntity recipeEntity = RecipeEntityDataFactory.generateRandomRecipeEntity(
                 EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
-        //Make the recipe entity have an empty method.
+
         final RecipeEntity recipeEntityWithEmptyMap = new RecipeEntity();
         recipeEntityWithEmptyMap.setName(recipeEntity.getName());
         recipeEntityWithEmptyMap.setUploader(recipeEntity.getUploader());
@@ -140,14 +145,7 @@ public class MapEntityToDomainMapperTests {
         recipeEntityWithEmptyMap.setMethodMap(new TreeMap<>());
 
         //Exception
-        final Recipe expectedDomainRecipe =
-                new Recipe.RecipeBuilder(recipeEntityWithEmptyMap.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary())
-                        .withTags(recipeEntityWithEmptyMap.getTags())
-                        .withThumbsUpCount(recipeEntity.getThumbsUpCount())
-                        .withThumbsDownCount(recipeEntity.getThumbsDownCount())
-                        .withIngredients(recipeEntityWithEmptyMap.getIngredientsMap())
-                        .withMethod(recipeEntityWithEmptyMap.getMethodMap())
-                        .build();
+        final Recipe expectedDomainRecipe = createExpectedRecipe(recipeEntityWithEmptyMap, recipeEntity.getUploader(), recipeEntity.getRecipeSummary(), recipeEntity.getThumbsUpCount(), recipeEntity.getThumbsDownCount());
         //Set this so that the assertion doesn't fail when comparing the unique key field.
         recipeEntityWithEmptyMap.setKey(expectedDomainRecipe.getKey());
 
@@ -169,7 +167,7 @@ public class MapEntityToDomainMapperTests {
         //Generate a recipe entity object to be mapped into recipe domain object
         final RecipeEntity recipeEntity = RecipeEntityDataFactory.generateRandomRecipeEntity(
                 EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
-        //Make the recipe entity have an empty name
+
         final RecipeEntity recipeEntityWithEmptyRecipeName = new RecipeEntity();
         recipeEntityWithEmptyRecipeName.setName("         ");
         recipeEntityWithEmptyRecipeName.setUploader(recipeEntity.getUploader());
@@ -201,7 +199,7 @@ public class MapEntityToDomainMapperTests {
         //Generate a recipe entity object to be mapped into recipe domain object
         final RecipeEntity recipeEntity = RecipeEntityDataFactory.generateRandomRecipeEntity(
                 EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
-        //Make the recipe entity have an empty uploader
+
         final RecipeEntity recipeEntityWithEmptyRecipeUploader = new RecipeEntity();
         recipeEntityWithEmptyRecipeUploader.setName(recipeEntity.getName());
         recipeEntityWithEmptyRecipeUploader.setUploader("         ");
@@ -233,7 +231,7 @@ public class MapEntityToDomainMapperTests {
         //Generate a recipe entity object to be mapped into recipe domain object
         final RecipeEntity recipeEntity = RecipeEntityDataFactory.generateRandomRecipeEntity(
                 EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
-        //Make the recipe entity have an empty summary
+
         final RecipeEntity recipeEntityWithEmptyRecipeSummary = new RecipeEntity();
         recipeEntityWithEmptyRecipeSummary.setName(recipeEntity.getName());
         recipeEntityWithEmptyRecipeSummary.setUploader(recipeEntity.getUploader());
@@ -292,6 +290,29 @@ public class MapEntityToDomainMapperTests {
         //Assertion
         Assertions.assertEquals(expectedDomainRecipe, actualDomainRecipe);
 
+    }
+
+    /**
+     * Method to create the expected recipe object based on the recipeEntity object.
+     * This will be used in the tests so that the actual recipe generated by the mapper under test can
+     * be assessed against the expected result.
+     * specific properties of the recipyEntity are provided in addition to the recipeEntity to allow the method to be used for different scenarios
+     *
+     * @param recipeEntity    object to be mapped to domain object
+     * @param uploader        property of the recipeEntity
+     * @param recipeSummary   property of the recipeEntity
+     * @param thumbsUpCount   property of the recipeEntity
+     * @param thumbsDownCount property of the recipeEntity
+     * @return the expected Recipe object that has been created from the recipeEntity object
+     */
+    private Recipe createExpectedRecipe(final RecipeEntity recipeEntity, final String uploader, final String recipeSummary, final Integer thumbsUpCount, final Integer thumbsDownCount) {
+        return new Recipe.RecipeBuilder(recipeEntity.getName(), uploader, recipeSummary)
+                .withTags(recipeEntity.getTags())
+                .withThumbsUpCount(thumbsUpCount)
+                .withThumbsDownCount(thumbsDownCount)
+                .withIngredients(recipeEntity.getIngredientsMap())
+                .withMethod(recipeEntity.getMethodMap())
+                .build();
     }
 
 }
