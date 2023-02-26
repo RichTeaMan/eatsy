@@ -41,16 +41,7 @@ public class MapDomainToEntityMapperTests {
         final String uniqueID = recipe.getKey();
 
         //Expectation
-        final RecipeEntity expectedRecipeEntity = new RecipeEntity();
-        expectedRecipeEntity.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
-        expectedRecipeEntity.setName(recipe.getName());
-        expectedRecipeEntity.setUploader(recipe.getUploader());
-        expectedRecipeEntity.setRecipeSummary(recipe.getRecipeSummary());
-        expectedRecipeEntity.setThumbsUpCount(recipe.getThumbsUpCount());
-        expectedRecipeEntity.setThumbsDownCount(recipe.getThumbsDownCount());
-        expectedRecipeEntity.setTags(recipe.getTags());
-        expectedRecipeEntity.setIngredientsMap(recipe.getIngredients());
-        expectedRecipeEntity.setMethodMap(recipe.getMethod());
+        final RecipeEntity expectedRecipeEntity = createExpectedRecipeEntity(recipe, uniqueID);
 
         //Test
         final RecipeEntity actualRecipeEntity = recipeMapper.mapDomainToEntity(recipe);
@@ -97,16 +88,7 @@ public class MapDomainToEntityMapperTests {
         final String uniqueID = recipeWithEmptyIngredientsSet.getKey();
 
         //Expectation
-        final RecipeEntity expectedRecipeEntity = new RecipeEntity();
-        expectedRecipeEntity.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
-        expectedRecipeEntity.setName(recipeWithEmptyIngredientsSet.getName());
-        expectedRecipeEntity.setUploader(recipeWithEmptyIngredientsSet.getUploader());
-        expectedRecipeEntity.setRecipeSummary(recipeWithEmptyIngredientsSet.getRecipeSummary());
-        expectedRecipeEntity.setThumbsUpCount(recipeWithEmptyIngredientsSet.getThumbsUpCount());
-        expectedRecipeEntity.setThumbsDownCount(recipeWithEmptyIngredientsSet.getThumbsDownCount());
-        expectedRecipeEntity.setTags(recipeWithEmptyIngredientsSet.getTags());
-        expectedRecipeEntity.setIngredientsMap(recipeWithEmptyIngredientsSet.getIngredients());
-        expectedRecipeEntity.setMethodMap(recipeWithEmptyIngredientsSet.getMethod());
+        final RecipeEntity expectedRecipeEntity = createExpectedRecipeEntity(recipeWithEmptyIngredientsSet, uniqueID);
 
         //Test
         final RecipeEntity actualRecipeEntity = recipeMapper.mapDomainToEntity(recipeWithEmptyIngredientsSet);
@@ -135,16 +117,7 @@ public class MapDomainToEntityMapperTests {
         final String uniqueID = recipeWithEmptyMap.getKey();
 
         //Expectation
-        final RecipeEntity expectedRecipeEntity = new RecipeEntity();
-        expectedRecipeEntity.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
-        expectedRecipeEntity.setName(recipeWithEmptyMap.getName());
-        expectedRecipeEntity.setUploader(recipeWithEmptyMap.getUploader());
-        expectedRecipeEntity.setRecipeSummary(recipeWithEmptyMap.getRecipeSummary());
-        expectedRecipeEntity.setThumbsUpCount(recipeWithEmptyMap.getThumbsUpCount());
-        expectedRecipeEntity.setThumbsDownCount(recipeWithEmptyMap.getThumbsDownCount());
-        expectedRecipeEntity.setTags(recipeWithEmptyMap.getTags());
-        expectedRecipeEntity.setIngredientsMap(recipeWithEmptyMap.getIngredients());
-        expectedRecipeEntity.setMethodMap(recipeWithEmptyMap.getMethod());
+        final RecipeEntity expectedRecipeEntity = createExpectedRecipeEntity(recipeWithEmptyMap, uniqueID);
 
         //Test
         final RecipeEntity actualRecipeEntity = recipeMapper.mapDomainToEntity(recipeWithEmptyMap);
@@ -246,22 +219,35 @@ public class MapDomainToEntityMapperTests {
                 .build();
 
         //Expected
-        final RecipeEntity expectedRecipeEntity = new RecipeEntity();
-        expectedRecipeEntity.setKey(requiredFieldsOnlyRecipe.getKey());
-        expectedRecipeEntity.setName(requiredFieldsOnlyRecipe.getName());
-        expectedRecipeEntity.setUploader(requiredFieldsOnlyRecipe.getUploader());
-        expectedRecipeEntity.setRecipeSummary(requiredFieldsOnlyRecipe.getRecipeSummary());
-        expectedRecipeEntity.setThumbsUpCount(requiredFieldsOnlyRecipe.getThumbsUpCount());
-        expectedRecipeEntity.setThumbsDownCount(requiredFieldsOnlyRecipe.getThumbsDownCount());
-        expectedRecipeEntity.setTags(requiredFieldsOnlyRecipe.getTags());
-        expectedRecipeEntity.setIngredientsMap(requiredFieldsOnlyRecipe.getIngredients());
-        expectedRecipeEntity.setMethodMap(requiredFieldsOnlyRecipe.getMethod());
+        final RecipeEntity expectedRecipeEntity = createExpectedRecipeEntity(requiredFieldsOnlyRecipe, requiredFieldsOnlyRecipe.getKey());
 
         //Test
         final RecipeEntity actualRecipeEntity = recipeMapper.mapDomainToEntity(requiredFieldsOnlyRecipe);
 
         //Assertion
         Assertions.assertEquals(expectedRecipeEntity, actualRecipeEntity);
+    }
+
+    /**
+     * Method to create the expected recipeEntity object based on the recipe object.
+     * This will be used in the tests so that the actual recipeEntity generated by the mapper under test can
+     * be assed against the expected result.
+     * @param recipe recipe domain object
+     * @param uniqueID the UUID to be assigned to the expectedRecipeEntity so that the assertion doesn't fail on different UUIDs
+     * @return the expected RecipeEntity object that has been created from the recipe object
+     */
+    private RecipeEntity createExpectedRecipeEntity(final Recipe recipe, final String uniqueID) {
+        final RecipeEntity expectedRecipeEntity = new RecipeEntity();
+        expectedRecipeEntity.setKey(uniqueID); //So assertion doesn't fail on an ID difference.
+        expectedRecipeEntity.setName(recipe.getName());
+        expectedRecipeEntity.setUploader(recipe.getUploader());
+        expectedRecipeEntity.setRecipeSummary(recipe.getRecipeSummary());
+        expectedRecipeEntity.setThumbsUpCount(recipe.getThumbsUpCount());
+        expectedRecipeEntity.setThumbsDownCount(recipe.getThumbsDownCount());
+        expectedRecipeEntity.setTags(recipe.getTags());
+        expectedRecipeEntity.setIngredientsMap(recipe.getIngredients());
+        expectedRecipeEntity.setMethodMap(recipe.getMethod());
+        return expectedRecipeEntity;
     }
 
 }
