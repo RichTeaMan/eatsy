@@ -229,17 +229,7 @@ public class MapEntityToDomainMapperTests {
         requiredFieldsOnlyRecipeEntity.setRecipeSummary(recipeEntity.getRecipeSummary());
 
         //Expected
-        final Recipe expectedDomainRecipe = new Recipe
-                .RecipeBuilder(
-                requiredFieldsOnlyRecipeEntity.getName(),
-                requiredFieldsOnlyRecipeEntity.getUploader(),
-                requiredFieldsOnlyRecipeEntity.getRecipeSummary())
-                .withThumbsUpCount(null) //As they are null in the entity being mapped
-                .withThumbsDownCount(null)//As they are null in the entity being mapped
-                .withTags(new HashSet<>())
-                .withIngredients(new HashMap<>())
-                .withMethod(new HashMap<>())
-                .build();
+        final Recipe expectedDomainRecipe = createRequiredFieldsOnlyDomainRecipe(requiredFieldsOnlyRecipeEntity);
         //Set this so that the assertion doesn't fail when comparing the unique key field.
         requiredFieldsOnlyRecipeEntity.setKey(expectedDomainRecipe.getKey());
 
@@ -302,6 +292,25 @@ public class MapEntityToDomainMapperTests {
         recipeEntityWithEmptyIngredientSet.setMethodMap(method);
 
         return recipeEntityWithEmptyIngredientSet;
+    }
+
+    /**
+     * @param requiredFieldsOnlyRecipeEntity recipeEntityobject with only the required fields populated
+     * @return equivalent domain object with value only for required fields.
+     */
+    private Recipe createRequiredFieldsOnlyDomainRecipe(final RecipeEntity requiredFieldsOnlyRecipeEntity) {
+        final Recipe expectedDomainRecipe = new Recipe
+                .RecipeBuilder(
+                requiredFieldsOnlyRecipeEntity.getName(),
+                requiredFieldsOnlyRecipeEntity.getUploader(),
+                requiredFieldsOnlyRecipeEntity.getRecipeSummary())
+                .withThumbsUpCount(null) //As they are null in the entity being mapped
+                .withThumbsDownCount(null)//As they are null in the entity being mapped
+                .withTags(new HashSet<>())
+                .withIngredients(new HashMap<>())
+                .withMethod(new HashMap<>())
+                .build();
+        return expectedDomainRecipe;
     }
 
 }
