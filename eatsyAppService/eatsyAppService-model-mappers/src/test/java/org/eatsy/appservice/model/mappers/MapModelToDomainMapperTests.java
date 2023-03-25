@@ -283,11 +283,12 @@ public class MapModelToDomainMapperTests {
         requiredFieldsOnlyRecipeModel.setRecipeSummary(recipeModel.getRecipeSummary());
 
         //Expected
-        final Recipe expectedDomainRecipe = new Recipe
-                .RecipeBuilder(requiredFieldsOnlyRecipeModel.getName(), recipeModel.getUploader(), recipeModel.getRecipeSummary())
-                .withThumbsUpCount(null)
-                .withThumbsDownCount(null)
-                .build();
+        final Recipe expectedDomainRecipe =
+                new Recipe
+                        .RecipeBuilder(requiredFieldsOnlyRecipeModel.getName(), recipeModel.getUploader(), recipeModel.getRecipeSummary())
+                        .withThumbsUpCount(null)
+                        .withThumbsDownCount(null)
+                        .build();
 
         //Set this so that the assertion doesn't fail when comparing the unique key field.
         requiredFieldsOnlyRecipeModel.setKey(expectedDomainRecipe.getKey());
