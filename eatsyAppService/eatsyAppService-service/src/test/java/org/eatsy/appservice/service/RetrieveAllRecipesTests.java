@@ -17,7 +17,16 @@ import java.util.List;
 
 
 /**
- * Recipe Factory unit tests for the Create Recipe Method
+ * Recipe Factory unit tests for the RetrieveAllRecipes Method.
+ * This diagram shows which services have been mocked and what is being tested.
+ * <p>
+ * |  *Mocked*  |    *Mocked*    |             Layer under test          |    *Mocked*   |
+ * |   GET      |                |                                       |               |
+ * | ------>    |                |                                       |               |
+ * | [Model]    | [Controller]   |              [Service]                | [Persistence] |
+ * | <------    |                | {Map to model}       {Map to domain}  |               |
+ * |        <--Model-- <--- <--Model--      <---Update Cache<---    <--Entity--          |
+ * |            |                |                                       |               |
  */
 //Define lifecycle of tests to be per method rather than per class. Allows use of @BeforeEach
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
