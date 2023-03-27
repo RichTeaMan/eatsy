@@ -20,13 +20,14 @@ import java.util.List;
  * Recipe Factory unit tests for the RetrieveAllRecipes Method.
  * This diagram shows which services have been mocked and what is being tested.
  * <p>
- * |  *Mocked*  |    *Mocked*    |             Layer under test          |    *Mocked*   |
- * |   GET      |                |                                       |               |
- * | ------>    |                |                                       |               |
- * | [Model]    | [Controller]   |              [Service]                | [Persistence] |
- * | <------    |                | {Map to model}       {Map to domain}  |               |
- * |        <--Model-- <--- <--Model--      <---Update Cache<---    <--Entity--          |
- * |            |                |                                       |               |
+ * |  *Mocked*  |    *Mocked*    |                   |    Layer under test  |               |    *Mocked*   |
+ * |   GET      |                |                   |                      |               |               |
+ * | ------>    |                |                   |                      |               |               |
+ * | [Model]    | [Controller]   |                   |       [Service]      |               | [Persistence] |
+ * |                                   *Mocked*      |                      |   *Mocked*    |               |
+ * | <------    |                |  {Map to model}   |                      |{Map to domain}|               |
+ * |        <--Model-- <--- <--Model--               | <retrieveAllRecipes> |           <--Entity--         |
+ * |            |                |                   |                      |               |               |
  */
 //Define lifecycle of tests to be per method rather than per class. Allows use of @BeforeEach
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
@@ -62,7 +63,7 @@ public class RetrieveAllRecipesTests {
     public void checkRetrieveAllRecipes() {
 
         //Setup and mocking
-        //Add recipes to the cache as setup for the test (so editing can occur)
+        //Add recipes to the cache as setup for the test (so retrieving can occur)
         final List<RecipeModel> expectedRecipeModelList = RecipeMockFactory.createRecipesInCache(
                 recipeFactoryHandler, recipeMapperHandler, eatsyRepositoryHandler);
         //Mock eatsyRepositoryHandler interactions

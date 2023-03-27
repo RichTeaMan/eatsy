@@ -21,7 +21,7 @@ public interface RecipeMockFactory {
     /**
      * Only the Service module is under test. The Mapper and Persistence modules that the Recipe Factory interacts with
      * need to be mocked to ensure these tests are RecipeFactory unit tests.
-     * This method creates mocks for the EatsyRepository and RecipeMapper services for a give list of input recipe models.
+     * This method creates mocks for the EatsyRepository and RecipeMapper services for a given list of input recipe models.
      *
      * @param inputRecipeModelList   randomly generated recipe model test data.
      * @param recipeMapperHandler    mock implementation of the RecipeMapper
@@ -63,7 +63,7 @@ public interface RecipeMockFactory {
     }
 
     /**
-     * Creates a random list of recipes via the createRecipe service method.
+     * Creates a random list of recipes via the createRecipe service method to ensure it goes in the cache.
      * Whilst The RecipeMapper and EatsyRepository services are mocked during this method, the in-memory recipeCache is updated
      *
      * @return list of recipeModels that correspond to the domain recipes in the in-memory cache.
