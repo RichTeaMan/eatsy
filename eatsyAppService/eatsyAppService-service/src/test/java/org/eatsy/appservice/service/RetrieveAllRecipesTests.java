@@ -18,16 +18,20 @@ import java.util.List;
 
 /**
  * Recipe Factory unit tests for the RetrieveAllRecipes Method.
+ * This test class also calls the createRecipe service method as it is the only way to get recipes in the cache.
  * This diagram shows which services have been mocked and what is being tested.
  * <p>
- * |  *Mocked*  |    *Mocked*    |                   |    Layer under test  |               |    *Mocked*   |
- * |   GET      |                |                   |                      |               |               |
- * | ------>    |                |                   |                      |               |               |
- * | [Model]    | [Controller]   |                   |       [Service]      |               | [Persistence] |
- * |                                   *Mocked*      |                      |   *Mocked*    |               |
- * | <------    |                |  {Map to model}   |                      |{Map to domain}|               |
- * |        <--Model-- <--- <--Model--               | <retrieveAllRecipes> |           <--Entity--         |
- * |            |                |                   |                      |               |               |
+ * |            |    *Mocked*    |                        Layer under test                     |    *Mocked*    |
+ * |            |  [Controller]  |                          [Service]                          | [Persistence]  |
+ * | GET/POST   |                |     *Mocked*                                  *Mocked*      |                |
+ * |            |                |-{Map to domain}-> |                      |-{Map to Entity}->|                |
+ * |  ------>   |                |                   |                      |                  |(persist recipe)|
+ * | [Model]    |                |                   |                      |                  |                |
+ * | <------    |                |     *Mocked*      |                      |    *Mocked*      |                |
+ * |            |                | <-{Map to model}- |  (update the cache)  |<-{Map to domain}-|                |
+ * |        <--Model--      <--Model--               | <retrieveAllRecipes> |             <--Entity--           |
+ * |            |                |                   |                      |                  |                |
+ * |            |                |                                                             |                |
  */
 //Define lifecycle of tests to be per method rather than per class. Allows use of @BeforeEach
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
@@ -57,13 +61,15 @@ public class RetrieveAllRecipesTests {
     }
 
     /**
-     * Check the recipe factory correctly returns all recipes
+     * Check the recipe factory correctly returns all recipes.
+     * This test also calls the createRecipe service method as it is the only way to get recipes in the cache.
      */
     @Test
     public void checkRetrieveAllRecipes() {
 
         //Setup and mocking
-        //Add recipes to the cache as setup for the test (so retrieving can occur)
+        //Add recipes to the cache as setup for the test (so retrieving can occur).
+        // (The service createMethod has to be called to add recipes to the cache.)
         final List<RecipeModel> expectedRecipeModelList = RecipeMockFactory.createRecipesInCache(
                 recipeFactoryHandler, recipeMapperHandler, eatsyRepositoryHandler);
         //Mock eatsyRepositoryHandler interactions
