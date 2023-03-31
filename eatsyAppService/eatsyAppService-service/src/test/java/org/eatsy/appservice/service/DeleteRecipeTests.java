@@ -3,6 +3,8 @@ package org.eatsy.appservice.service;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
+import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
+import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Recipe Factory unit tests for the Delete Recipe Method
@@ -48,34 +51,34 @@ public class DeleteRecipeTests {
      * Check the recipe factory correctly deletes the specified recipe
      * and returns the updated list of all recipes
      * <p>
-     * In order to test deletion, recipes must be pre-existing in the recipe cache, therefore recipes will be created as part of the setup.
-     * Therefore, this test has a dependency on the CreateRecipe method in the service under test (RecipeFactoryHandler)
      */
     @Test
-    public void checkDeleteAllRecipes() {
+    public void checkDeleteForSpecifiedRecipe() {
 
         //Setup and Mocking (eatsyRepositoryHandler class mocked (and it's delete method is void return type)).
-        //In order to test deletion, recipes must be pre-existing in the recipe cache, therefore recipes will be created as part of the setup
 
-        //1) Add recipes to the cache as setup for the test (so deletion can occur)
-        final List<RecipeModel> inputRecipeModelWithKeysList = RecipeMockFactory.createRecipesInCache(
-                recipeFactoryHandler, recipeMapperHandler, eatsyRepositoryHandler);
+        //1) In order to test deletion, recipes must be pre-existing therefore recipes will be created and
+        //returned via the mocks as part of the setup
+        final List<RecipeModel> inputRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(
+                EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Add unique key to each recipeModel in the list
+        inputRecipeModelList.forEach(currentRecipeModel -> currentRecipeModel.setKey(UUID.randomUUID().toString()));
 
         //2) Test - Delete a recipe
 
         //Select a recipe in the list for deletion at random
-        final int randomListIndex = (int) ((Math.random() * inputRecipeModelWithKeysList.size()));
-        final String uniqueKeyOfRecipeToDelete = inputRecipeModelWithKeysList.get(randomListIndex).getKey();
-        final RecipeModel recipeModelToBeDeleted = inputRecipeModelWithKeysList.get(randomListIndex);
+        final int randomListIndex = (int) ((Math.random() * inputRecipeModelList.size()));
+        final String uniqueKeyOfRecipeToDelete = inputRecipeModelList.get(randomListIndex).getKey();
+        final RecipeModel recipeModelToBeDeleted = inputRecipeModelList.get(randomListIndex);
 
         //Delete the recipe
         final List<RecipeModel> actualUpdatedRecipeModelList = recipeFactoryHandler.deleteRecipeAndReturnUpdatedRecipeList(uniqueKeyOfRecipeToDelete);
 
         //3) Assert - check the recipe requested for deletion is no longer in the list of recipes, Check all the others are.
-        System.out.println(inputRecipeModelWithKeysList);
+        System.out.println(inputRecipeModelList);
         System.out.println(actualUpdatedRecipeModelList);
-        Assertions.assertTrue(inputRecipeModelWithKeysList.containsAll(actualUpdatedRecipeModelList));
-        Assertions.assertEquals((inputRecipeModelWithKeysList.size() - 1), actualUpdatedRecipeModelList.size());
+        Assertions.assertTrue(inputRecipeModelList.containsAll(actualUpdatedRecipeModelList));
+        Assertions.assertEquals((inputRecipeModelList.size() - 1), actualUpdatedRecipeModelList.size());
         Assertions.assertFalse(actualUpdatedRecipeModelList.contains(recipeModelToBeDeleted));//check the recipe to be deleted is in-fact gone.
     }
 

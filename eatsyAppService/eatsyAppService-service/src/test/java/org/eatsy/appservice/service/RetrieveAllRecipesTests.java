@@ -1,9 +1,12 @@
 package org.eatsy.appservice.service;
 
+import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.persistence.model.RecipeEntity;
 import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
+import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
+import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,25 +17,8 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
+import java.util.UUID;
 
-
-/**
- * Recipe Factory unit tests for the RetrieveAllRecipes Method.
- * This test class also calls the createRecipe service method as it is the only way to get recipes in the cache.
- * This diagram shows which services have been mocked and what is being tested.
- * <p>
- * |            |    *Mocked*    |                        Layer under test                     |    *Mocked*    |
- * |            |  [Controller]  |                          [Service]                          | [Persistence]  |
- * | GET/POST   |                |     *Mocked*                                  *Mocked*      |                |
- * |            |                |-{Map to domain}-> |                      |-{Map to Entity}->|                |
- * |  ------>   |                |                   |                      |                  |(persist recipe)|
- * | [Model]    |                |                   |                      |                  |                |
- * | <------    |                |     *Mocked*      |                      |    *Mocked*      |                |
- * |            |                | <-{Map to model}- |  (update the cache)  |<-{Map to domain}-|                |
- * |        <--Model--      <--Model--               | <retrieveAllRecipes> |             <--Entity--           |
- * |            |                |                   |                      |                  |                |
- * |            |                |                                                             |                |
- */
 //Define lifecycle of tests to be per method rather than per class. Allows use of @BeforeEach
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class RetrieveAllRecipesTests {
@@ -62,20 +48,32 @@ public class RetrieveAllRecipesTests {
 
     /**
      * Check the recipe factory correctly returns all recipes.
-     * This test also calls the createRecipe service method as it is the only way to get recipes in the cache.
      */
     @Test
     public void checkRetrieveAllRecipes() {
 
-        //Setup and mocking
-        //Add recipes to the cache as setup for the test (so retrieving can occur).
-        // (The service createMethod has to be called to add recipes to the cache.)
-        final List<RecipeModel> expectedRecipeModelList = RecipeMockFactory.createRecipesInCache(
-                recipeFactoryHandler, recipeMapperHandler, eatsyRepositoryHandler);
-        //Mock eatsyRepositoryHandler interactions
-        final List<RecipeEntity> expectedRecipeEntityList = RecipeMockFactory.createMockRecipeEntity(expectedRecipeModelList);
+        //1) Setup
+        //In order to test recipe retrieval, recipes must be pre-existing therefore recipes will be returned via the mocks as part of the setup
+        final List<RecipeModel> expectedRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(
+                EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+        //Add unique key to each recipeModel in the list
+        expectedRecipeModelList.forEach(currentRecipeModel -> currentRecipeModel.setKey(UUID.randomUUID().toString()));
+
+        //2) Mocking
+        //Mock the response for when the service under test calls the persistence layer eatsyRepositoryHandler.retrieveAllRecipes() method.
+        final List<RecipeEntity> expectedRecipeEntityList = RecipeMockFactory.createMockRecipeEntityList(expectedRecipeModelList);
         Mockito.when(eatsyRepositoryHandler.retrieveAllRecipes()).thenReturn(expectedRecipeEntityList);
-        RecipeMockFactory.createMockDomainRecipesFromEntityRecipes(recipeMapperHandler, expectedRecipeEntityList);
+        //Mock the response for each time the service under test calls the mapper layer recipeMapperHandler.mapEntityToDomain(testEntity) method for a given test entity.
+        final List<Recipe> expectedRecipeList = RecipeMockFactory.createMockDomainRecipesFromEntityRecipes(expectedRecipeEntityList);
+        for (final RecipeEntity currentEntity : expectedRecipeEntityList) {
+            final Recipe expectedUpdatedDomainRecipe = RecipeMockFactory.createMockRecipe(currentEntity);
+            Mockito.when(recipeMapperHandler.mapEntityToDomain(currentEntity)).thenReturn(expectedUpdatedDomainRecipe);
+        }
+        //Mock the response for each time the service under test calls the mapper layer recipeMapperHandler.mapDomainToModel(testRecipe) method for a given test entity.
+        for (final Recipe currentRecipe : expectedRecipeList) {
+            final RecipeModel expectedRecipeModel = RecipeMockFactory.createMockRecipeModelFromDomain(currentRecipe);
+            Mockito.when(recipeMapperHandler.mapDomainToModel(currentRecipe)).thenReturn(expectedRecipeModel);
+        }
 
         //Test
         final List<RecipeModel> actualRecipeModelsList = recipeFactoryHandler.retrieveAllRecipes();

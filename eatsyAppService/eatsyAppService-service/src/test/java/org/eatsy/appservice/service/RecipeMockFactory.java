@@ -93,14 +93,17 @@ public interface RecipeMockFactory {
     /**
      * Mocks the recipeMapper service interactions when a list of Recipe Entities would need to be mapped to a list of domain recipes.
      *
-     * @param recipeMapperHandler      mock implementation of the RecipeMapper
      * @param expectedRecipeEntityList randomly generated recipe entity list test data.
      */
-    static void createMockDomainRecipesFromEntityRecipes(final RecipeMapper recipeMapperHandler, final List<RecipeEntity> expectedRecipeEntityList) {
+    static List<Recipe> createMockDomainRecipesFromEntityRecipes(final List<RecipeEntity> expectedRecipeEntityList) {
+
+        final List<Recipe> expectedDomainRecipes = new ArrayList<>();
+
         for (final RecipeEntity currentEntity : expectedRecipeEntityList) {
             final Recipe expectedUpdateDomainRecipe = createMockRecipe(currentEntity);
-            Mockito.when(recipeMapperHandler.mapEntityToDomain(currentEntity)).thenReturn(expectedUpdateDomainRecipe);
+            expectedDomainRecipes.add(expectedUpdateDomainRecipe);
         }
+        return expectedDomainRecipes;
     }
 
     /**
@@ -284,7 +287,7 @@ public interface RecipeMockFactory {
      * @param inputRecipeModelList list recipe model object.
      * @return A list of Recipe Entity object.
      */
-    static List<RecipeEntity> createMockRecipeEntity(final List<RecipeModel> inputRecipeModelList) {
+    static List<RecipeEntity> createMockRecipeEntityList(final List<RecipeModel> inputRecipeModelList) {
 
         final List<RecipeEntity> recipeEntityList = new ArrayList<>();
 
