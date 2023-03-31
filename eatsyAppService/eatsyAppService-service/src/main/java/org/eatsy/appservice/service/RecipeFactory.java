@@ -26,12 +26,12 @@ public interface RecipeFactory {
     RecipeModel createRecipe(RecipeModel recipeModel);
 
     /**
-     * Deletes the requested recipeModel
+     * Deletes the requested recipeModel and returns the updated list of recipes
      *
      * @param recipeKey the ID for the recipe model that will be deleted from the recipe book
      * @return the list of existing recipe models that will have been updated to remove recipeKey
      */
-    List<RecipeModel> deleteRecipe(String recipeKey);
+    List<RecipeModel> deleteRecipeAndReturnUpdatedRecipeList(String recipeKey);
 
     /**
      * Replaces the existing recipe with the updated version supplied.

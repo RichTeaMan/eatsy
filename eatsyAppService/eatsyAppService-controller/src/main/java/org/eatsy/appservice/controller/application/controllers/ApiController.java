@@ -86,7 +86,7 @@ public class ApiController {
     public List<RecipeModel> deleteRecipe(final String recipeKey) {
 
         logger.debug("A new request has been made to delete recipe: " + recipeKey);
-        final List<RecipeModel> updatedRecipeList = recipeFactoryHandler.deleteRecipe(recipeKey);
+        final List<RecipeModel> updatedRecipeList = recipeFactoryHandler.deleteRecipeAndReturnUpdatedRecipeList(recipeKey);
         return updatedRecipeList;
 
     }

@@ -69,7 +69,7 @@ public class DeleteRecipeTests {
         final RecipeModel recipeModelToBeDeleted = inputRecipeModelWithKeysList.get(randomListIndex);
 
         //Delete the recipe
-        final List<RecipeModel> actualUpdatedRecipeModelList = recipeFactoryHandler.deleteRecipe(uniqueKeyOfRecipeToDelete);
+        final List<RecipeModel> actualUpdatedRecipeModelList = recipeFactoryHandler.deleteRecipeAndReturnUpdatedRecipeList(uniqueKeyOfRecipeToDelete);
 
         //3) Assert - check the recipe requested for deletion is no longer in the list of recipes, Check all the others are.
         System.out.println(inputRecipeModelWithKeysList);

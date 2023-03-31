@@ -159,7 +159,7 @@ public class ApiControllerTest {
         it would fail due to not finding a recipeModel with the corresponding key (this test case is covered in the service layer unit tests.
          */
         final String key = UUID.randomUUID().toString();
-        Mockito.when(recipeFactoryHandler.deleteRecipe(key)).thenReturn(allRecipes);
+        Mockito.when(recipeFactoryHandler.deleteRecipeAndReturnUpdatedRecipeList(key)).thenReturn(allRecipes);
 
         //Build the mock request that will hit the "/deleteRecipe" endpoint and trigger the above chain method.
         final MockHttpServletRequestBuilder mockRequest;
