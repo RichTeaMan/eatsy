@@ -1,7 +1,9 @@
 package org.eatsy.appservice.service;
 
+import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
+import org.eatsy.appservice.persistence.model.RecipeEntity;
 import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
@@ -11,8 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,33 +52,52 @@ public class DeleteRecipeTests {
     }
 
     /**
-     * Check the recipe factory correctly deletes the specified recipe
+     * Check the recipe factory correctly calls for the specified recipe to be deleted in the persistence service
      * and returns the updated list of all recipes
      * <p>
      */
     @Test
     public void checkDeleteForSpecifiedRecipe() {
 
-        //Setup and Mocking (eatsyRepositoryHandler class mocked (and it's delete method is void return type)).
-
-        //1) In order to test deletion, recipes must be pre-existing therefore recipes will be created and
-        //returned via the mocks as part of the setup
+        //Setup
+        //In order to test recipe deletion, recipes must be pre-existing therefore recipes will be returned via the mocks as part of the setup
         final List<RecipeModel> inputRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(
                 EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Add unique key to each recipeModel in the list
         inputRecipeModelList.forEach(currentRecipeModel -> currentRecipeModel.setKey(UUID.randomUUID().toString()));
 
-        //2) Test - Delete a recipe
-
         //Select a recipe in the list for deletion at random
         final int randomListIndex = (int) ((Math.random() * inputRecipeModelList.size()));
-        final String uniqueKeyOfRecipeToDelete = inputRecipeModelList.get(randomListIndex).getKey();
         final RecipeModel recipeModelToBeDeleted = inputRecipeModelList.get(randomListIndex);
+        final String uniqueKeyOfRecipeToDelete = recipeModelToBeDeleted.getKey();
 
-        //Delete the recipe
+        //Mock
+        final List<RecipeModel> updatedRecipeModelListAfterDeletion = new ArrayList<>(inputRecipeModelList);
+        updatedRecipeModelListAfterDeletion.remove(randomListIndex);
+        final List<RecipeEntity> expectedRecipeEntityList = RecipeMockFactory.createMockRecipeEntityList(updatedRecipeModelListAfterDeletion);
+        Mockito.when(eatsyRepositoryHandler.retrieveAllRecipes()).thenReturn(expectedRecipeEntityList);
+
+        //Mock the response for each time the service under test calls the mapper layer recipeMapperHandler.mapEntityToDomain(testEntity) method for a given test entity.
+        final List<Recipe> expectedRecipeList = RecipeMockFactory.createMockDomainRecipesFromEntityRecipes(expectedRecipeEntityList);
+        for (final RecipeEntity currentEntity : expectedRecipeEntityList) {
+            final Recipe expectedUpdatedDomainRecipe = RecipeMockFactory.createMockRecipe(currentEntity);
+            Mockito.when(recipeMapperHandler.mapEntityToDomain(currentEntity)).thenReturn(expectedUpdatedDomainRecipe);
+        }
+        //Mock the response for each time the service under test calls the mapper layer recipeMapperHandler.mapDomainToModel(testRecipe) method for a given test entity.
+        for (final Recipe currentRecipe : expectedRecipeList) {
+            final RecipeModel expectedRecipeModel = RecipeMockFactory.createMockRecipeModelFromDomain(currentRecipe);
+            Mockito.when(recipeMapperHandler.mapDomainToModel(currentRecipe)).thenReturn(expectedRecipeModel);
+        }
+
+        // Test
+        // Delete the recipe
         final List<RecipeModel> actualUpdatedRecipeModelList = recipeFactoryHandler.deleteRecipeAndReturnUpdatedRecipeList(uniqueKeyOfRecipeToDelete);
 
-        //3) Assert - check the recipe requested for deletion is no longer in the list of recipes, Check all the others are.
+        //Assert - check the recipe requested for deletion is no longer in the list of recipes, Check all the others are.
+        //Confirm that the eatsyRepositoryHandler.deleteRecipeById(mockRecipeKey) gets called by the Service method under test one time
+        Mockito.verify(eatsyRepositoryHandler, Mockito.times(1)).deleteRecipeById(uniqueKeyOfRecipeToDelete);
+        //Confirm the retrieveAllRecipes method is called once and also its response returned by the method under test (deleteRecipeAndReturnUpdatedRecipeList)
+        Mockito.verify(eatsyRepositoryHandler, Mockito.times(1)).retrieveAllRecipes();
         System.out.println(inputRecipeModelList);
         System.out.println(actualUpdatedRecipeModelList);
         Assertions.assertTrue(inputRecipeModelList.containsAll(actualUpdatedRecipeModelList));
