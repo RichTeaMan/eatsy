@@ -107,6 +107,32 @@ public interface RecipeMockFactory {
     }
 
     /**
+     * Only the Service module is under test. The Mapper and Persistence modules that the Recipe Factory interacts with
+     * need to be mocked to ensure these tests are RecipeFactory unit tests.
+     * This method creates mocks for the EatsyRepository and RecipeMapper services.
+     *
+     * @param expectedRecipeModelList randomly generated list of recipe model test data.
+     */
+    static void createMocksForMapperAndPersistenceServicesInRetrieveAllRecipeServiceMethod(
+            final List<RecipeModel> expectedRecipeModelList, final EatsyRepositoryService eatsyRepositoryHandler, final RecipeMapper recipeMapperHandler) {
+
+        //Mock the response for when the service under test calls the persistence layer eatsyRepositoryHandler.retrieveAllRecipes() method.
+        final List<RecipeEntity> expectedRecipeEntityList = RecipeMockFactory.createMockRecipeEntityList(expectedRecipeModelList);
+        Mockito.when(eatsyRepositoryHandler.retrieveAllRecipes()).thenReturn(expectedRecipeEntityList);
+        //Mock the response for each time the service under test calls the mapper layer recipeMapperHandler.mapEntityToDomain(testEntity) method for a given test entity.
+        final List<Recipe> expectedRecipeList = RecipeMockFactory.createMockDomainRecipesFromEntityRecipes(expectedRecipeEntityList);
+        for (final RecipeEntity currentEntity : expectedRecipeEntityList) {
+            final Recipe expectedUpdatedDomainRecipe = RecipeMockFactory.createMockRecipe(currentEntity);
+            Mockito.when(recipeMapperHandler.mapEntityToDomain(currentEntity)).thenReturn(expectedUpdatedDomainRecipe);
+        }
+        //Mock the response for each time the service under test calls the mapper layer recipeMapperHandler.mapDomainToModel(testRecipe) method for a given test entity.
+        for (final Recipe currentRecipe : expectedRecipeList) {
+            final RecipeModel expectedRecipeModel = RecipeMockFactory.createMockRecipeModelFromDomain(currentRecipe);
+            Mockito.when(recipeMapperHandler.mapDomainToModel(currentRecipe)).thenReturn(expectedRecipeModel);
+        }
+    }
+
+    /**
      * Creates a Recipe Model object from a Recipe Domain object that has been added to the recipeCache
      *
      * @param mockedDomainRecipe recipe domain object.

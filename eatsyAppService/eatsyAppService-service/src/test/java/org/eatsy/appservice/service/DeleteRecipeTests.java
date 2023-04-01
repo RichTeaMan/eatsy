@@ -1,9 +1,7 @@
 package org.eatsy.appservice.service;
 
-import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
-import org.eatsy.appservice.persistence.model.RecipeEntity;
 import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
@@ -71,38 +69,26 @@ public class DeleteRecipeTests {
         final RecipeModel recipeModelToBeDeleted = inputRecipeModelList.get(randomListIndex);
         final String uniqueKeyOfRecipeToDelete = recipeModelToBeDeleted.getKey();
 
-        //Mock
+        //Mocking
         final List<RecipeModel> updatedRecipeModelListAfterDeletion = new ArrayList<>(inputRecipeModelList);
         updatedRecipeModelListAfterDeletion.remove(randomListIndex);
-        final List<RecipeEntity> expectedRecipeEntityList = RecipeMockFactory.createMockRecipeEntityList(updatedRecipeModelListAfterDeletion);
-        Mockito.when(eatsyRepositoryHandler.retrieveAllRecipes()).thenReturn(expectedRecipeEntityList);
-
-        //Mock the response for each time the service under test calls the mapper layer recipeMapperHandler.mapEntityToDomain(testEntity) method for a given test entity.
-        final List<Recipe> expectedRecipeList = RecipeMockFactory.createMockDomainRecipesFromEntityRecipes(expectedRecipeEntityList);
-        for (final RecipeEntity currentEntity : expectedRecipeEntityList) {
-            final Recipe expectedUpdatedDomainRecipe = RecipeMockFactory.createMockRecipe(currentEntity);
-            Mockito.when(recipeMapperHandler.mapEntityToDomain(currentEntity)).thenReturn(expectedUpdatedDomainRecipe);
-        }
-        //Mock the response for each time the service under test calls the mapper layer recipeMapperHandler.mapDomainToModel(testRecipe) method for a given test entity.
-        for (final Recipe currentRecipe : expectedRecipeList) {
-            final RecipeModel expectedRecipeModel = RecipeMockFactory.createMockRecipeModelFromDomain(currentRecipe);
-            Mockito.when(recipeMapperHandler.mapDomainToModel(currentRecipe)).thenReturn(expectedRecipeModel);
-        }
+        RecipeMockFactory.createMocksForMapperAndPersistenceServicesInRetrieveAllRecipeServiceMethod(
+                updatedRecipeModelListAfterDeletion, eatsyRepositoryHandler, recipeMapperHandler);
 
         // Test
-        // Delete the recipe
+        // Call delete recipe method in the service under test
         final List<RecipeModel> actualUpdatedRecipeModelList = recipeFactoryHandler.deleteRecipeAndReturnUpdatedRecipeList(uniqueKeyOfRecipeToDelete);
 
-        //Assert - check the recipe requested for deletion is no longer in the list of recipes, Check all the others are.
+        //Assert
         //Confirm that the eatsyRepositoryHandler.deleteRecipeById(mockRecipeKey) gets called by the Service method under test one time
         Mockito.verify(eatsyRepositoryHandler, Mockito.times(1)).deleteRecipeById(uniqueKeyOfRecipeToDelete);
         //Confirm the retrieveAllRecipes method is called once and also its response returned by the method under test (deleteRecipeAndReturnUpdatedRecipeList)
         Mockito.verify(eatsyRepositoryHandler, Mockito.times(1)).retrieveAllRecipes();
-        System.out.println(inputRecipeModelList);
-        System.out.println(actualUpdatedRecipeModelList);
+        //Check the recipe requested for deletion is no longer in the list of recipes, Check all the others are.
         Assertions.assertTrue(inputRecipeModelList.containsAll(actualUpdatedRecipeModelList));
         Assertions.assertEquals((inputRecipeModelList.size() - 1), actualUpdatedRecipeModelList.size());
-        Assertions.assertFalse(actualUpdatedRecipeModelList.contains(recipeModelToBeDeleted));//check the recipe to be deleted is in-fact gone.
+        //check the recipe to be deleted is in-fact gone.
+        Assertions.assertFalse(actualUpdatedRecipeModelList.contains(recipeModelToBeDeleted));
     }
 
 }
