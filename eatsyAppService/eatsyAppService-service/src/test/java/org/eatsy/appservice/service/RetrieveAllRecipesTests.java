@@ -52,14 +52,32 @@ public class RetrieveAllRecipesTests {
     @Test
     public void checkRetrieveAllRecipes() {
 
-        //1) Setup
+        //Setup
         //In order to test recipe retrieval, recipes must be pre-existing therefore recipes will be returned via the mocks as part of the setup
         final List<RecipeModel> expectedRecipeModelList = RecipeModelDataFactory.generateRecipeModelsList(
                 EatsyRecipeTestParameters.MAX_NUMBER_OF_RECIPES, EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Add unique key to each recipeModel in the list
         expectedRecipeModelList.forEach(currentRecipeModel -> currentRecipeModel.setKey(UUID.randomUUID().toString()));
 
-        //2) Mocking
+        //Mocking
+        createMocksForMapperAndPersistenceServicesInRetrieveAllRecipeTests(expectedRecipeModelList);
+
+        //Test
+        final List<RecipeModel> actualRecipeModelsList = recipeFactoryHandler.retrieveAllRecipes();
+
+        //Assert
+        Assertions.assertEquals(expectedRecipeModelList, actualRecipeModelsList);
+
+    }
+
+    /**
+     * Only the Service module is under test. The Mapper and Persistence modules that the Recipe Factory interacts with
+     * need to be mocked to ensure these tests are RecipeFactory unit tests.
+     * This method creates mocks for the EatsyRepository and RecipeMapper services.
+     *
+     * @param expectedRecipeModelList randomly generated list of recipe model test data.
+     */
+    private void createMocksForMapperAndPersistenceServicesInRetrieveAllRecipeTests(final List<RecipeModel> expectedRecipeModelList) {
         //Mock the response for when the service under test calls the persistence layer eatsyRepositoryHandler.retrieveAllRecipes() method.
         final List<RecipeEntity> expectedRecipeEntityList = RecipeMockFactory.createMockRecipeEntityList(expectedRecipeModelList);
         Mockito.when(eatsyRepositoryHandler.retrieveAllRecipes()).thenReturn(expectedRecipeEntityList);
@@ -74,13 +92,6 @@ public class RetrieveAllRecipesTests {
             final RecipeModel expectedRecipeModel = RecipeMockFactory.createMockRecipeModelFromDomain(currentRecipe);
             Mockito.when(recipeMapperHandler.mapDomainToModel(currentRecipe)).thenReturn(expectedRecipeModel);
         }
-
-        //Test
-        final List<RecipeModel> actualRecipeModelsList = recipeFactoryHandler.retrieveAllRecipes();
-
-        //Assert
-        Assertions.assertEquals(expectedRecipeModelList, actualRecipeModelsList);
-
     }
 
 
