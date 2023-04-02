@@ -56,10 +56,15 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
             final Recipe recipe = recipeMapperHandler.mapModelToDomain(recipeModel);
 
-            //Persist the recipe to the database.
-            mapToEntityAndPersist(recipe);
+            logger.debug("Creating a new recipe entity object for persistence called " + recipe.getName());
+            final RecipeEntity recipeEntity = recipeMapperHandler.mapDomainToEntity(recipe);
 
-            newRecipeModel = recipeMapperHandler.mapDomainToModel(recipe);
+            //Persist the recipe to the database.
+            final RecipeEntity persistedRecipeEntity = eatsyRepositoryHandler.persistRecipe(recipeEntity);
+
+            final Recipe persistedRecipeDomain = recipeMapperHandler.mapEntityToDomain(persistedRecipeEntity);
+
+            newRecipeModel = recipeMapperHandler.mapDomainToModel(persistedRecipeDomain);
 
         }
         return newRecipeModel;
@@ -126,26 +131,13 @@ public class RecipeFactoryHandler implements RecipeFactory {
         //Persist the updated recipe
         logger.debug("Creating a corresponding recipe entity object for persistence called " + updatedRecipe.getName());
         final RecipeEntity recipeEntityWithUpdates = recipeMapperHandler.mapDomainToEntity(updatedRecipe);
-        eatsyRepositoryHandler.persistRecipe(recipeEntityWithUpdates);
+
+        final RecipeEntity persistedEntity = eatsyRepositoryHandler.persistRecipe(recipeEntityWithUpdates);
 
         //Map the updated recipe to a RecipeModel and return.
-        final RecipeModel updatedRecipeModel = recipeMapperHandler.mapDomainToModel(updatedRecipe);
+        final Recipe PersistedRecipeDomain = recipeMapperHandler.mapEntityToDomain(persistedEntity);
+        final RecipeModel updatedRecipeModel = recipeMapperHandler.mapDomainToModel(PersistedRecipeDomain);
         return updatedRecipeModel;
-    }
-
-    /**
-     * Persist the recipe object to the database.
-     *
-     * @param recipe the recipe domain object to be persisted.
-     */
-    private void mapToEntityAndPersist(final Recipe recipe) {
-
-        logger.debug("Creating a new recipe entity object for persistence called " + recipe.getName());
-        final RecipeEntity recipeEntity = recipeMapperHandler.mapDomainToEntity(recipe);
-
-        //Persist the recipe to the database.
-        final RecipeEntity persistedRecipeEntity = eatsyRepositoryHandler.persistRecipe(recipeEntity);
-
     }
 
     /**

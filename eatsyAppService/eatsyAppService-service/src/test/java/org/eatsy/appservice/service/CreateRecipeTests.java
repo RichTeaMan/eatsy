@@ -1,9 +1,7 @@
 package org.eatsy.appservice.service;
 
-import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
-import org.eatsy.appservice.persistence.model.RecipeEntity;
 import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
@@ -13,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
@@ -65,7 +62,7 @@ public class CreateRecipeTests {
         final RecipeModel inputRecipeModel = RecipeModelDataFactory
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         //Mock the services that are not being tested through these unit tests
-        createMocksForMapperAndPersistenceServicesInCreateRecipeTests(inputRecipeModel);
+        RecipeMockFactory.createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(inputRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
@@ -108,7 +105,7 @@ public class CreateRecipeTests {
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         inputRecipeModel.setIngredients(new HashMap<>());
         //Mock the services that are not being tested through these unit tests
-        createMocksForMapperAndPersistenceServicesInCreateRecipeTests(inputRecipeModel);
+        RecipeMockFactory.createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(inputRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
@@ -134,7 +131,7 @@ public class CreateRecipeTests {
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         inputRecipeModel.setMethod(new TreeMap<>());
         //Mock the services that are not being tested through these unit tests
-        createMocksForMapperAndPersistenceServicesInCreateRecipeTests(inputRecipeModel);
+        RecipeMockFactory.createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(inputRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
@@ -231,7 +228,7 @@ public class CreateRecipeTests {
         inputRecipeModel.setUploader(recipeModel.getUploader());
         inputRecipeModel.setRecipeSummary(recipeModel.getRecipeSummary());
         //Mock the services that are not being tested through these unit tests
-        createMocksForMapperAndPersistenceServicesInCreateRecipeTests(inputRecipeModel);
+        RecipeMockFactory.createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(inputRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
@@ -243,24 +240,5 @@ public class CreateRecipeTests {
         Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
     }
 
-    /**
-     * Only the Service module is under test. The Mapper and Persistence modules that the Recipe Factory interacts with
-     * need to be mocked to ensure these tests are RecipeFactory unit tests.
-     * This method creates mocks for the EatsyRepository and RecipeMapper services.
-     *
-     * @param inputRecipeModel randomly generated recipe model test data.
-     */
-    private void createMocksForMapperAndPersistenceServicesInCreateRecipeTests(final RecipeModel inputRecipeModel) {
-
-        //Configure the eatsyRepository Mock to return the mocked data (Recipe Entity) when the eatsyRepository is called.
-        final RecipeEntity mockedPersistedRecipeEntity = RecipeMockFactory.createMockRecipeEntity(inputRecipeModel);
-        Mockito.when(eatsyRepositoryHandler.persistRecipe(mockedPersistedRecipeEntity)).thenReturn(mockedPersistedRecipeEntity);
-
-        //Configure the RecipeMapper mock to return mocked data when it's mapper methods are called from the RecipeFactory.
-        final Recipe mockedDomainRecipe = RecipeMockFactory.createMockDomainRecipe(inputRecipeModel);
-        Mockito.when(recipeMapperHandler.mapModelToDomain(inputRecipeModel)).thenReturn(mockedDomainRecipe);
-        Mockito.when(recipeMapperHandler.mapDomainToEntity(mockedDomainRecipe)).thenReturn(mockedPersistedRecipeEntity);
-        Mockito.when(recipeMapperHandler.mapDomainToModel(mockedDomainRecipe)).thenReturn(inputRecipeModel);
-    }
 
 }

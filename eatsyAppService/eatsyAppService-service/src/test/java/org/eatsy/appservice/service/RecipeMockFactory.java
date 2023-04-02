@@ -111,6 +111,28 @@ public interface RecipeMockFactory {
      * need to be mocked to ensure these tests are RecipeFactory unit tests.
      * This method creates mocks for the EatsyRepository and RecipeMapper services.
      *
+     * @param inputRecipeModel randomly generated recipe model test data.
+     */
+    static void createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(
+            final RecipeModel inputRecipeModel, final EatsyRepositoryService eatsyRepositoryHandler, final RecipeMapper recipeMapperHandler) {
+
+        //Configure the eatsyRepository Mock to return the mocked data (persisted Recipe Entity) when the eatsyRepository is called.
+        final RecipeEntity mockedPersistedRecipeEntity = RecipeMockFactory.createMockRecipeEntity(inputRecipeModel);
+        Mockito.when(eatsyRepositoryHandler.persistRecipe(mockedPersistedRecipeEntity)).thenReturn(mockedPersistedRecipeEntity);
+
+        //Configure the RecipeMapper mock to return mocked data when it's mapper methods are called from the RecipeFactory.
+        final Recipe mockedDomainRecipe = RecipeMockFactory.createMockDomainRecipe(inputRecipeModel);
+        Mockito.when(recipeMapperHandler.mapModelToDomain(inputRecipeModel)).thenReturn(mockedDomainRecipe);
+        Mockito.when(recipeMapperHandler.mapDomainToEntity(mockedDomainRecipe)).thenReturn(mockedPersistedRecipeEntity);
+        Mockito.when(recipeMapperHandler.mapEntityToDomain(mockedPersistedRecipeEntity)).thenReturn(mockedDomainRecipe);
+        Mockito.when(recipeMapperHandler.mapDomainToModel(mockedDomainRecipe)).thenReturn(inputRecipeModel);
+    }
+
+    /**
+     * Only the Service module is under test. The Mapper and Persistence modules that the Recipe Factory interacts with
+     * need to be mocked to ensure these tests are RecipeFactory unit tests.
+     * This method creates mocks for the EatsyRepository and RecipeMapper services.
+     *
      * @param expectedRecipeModelList randomly generated list of recipe model test data.
      */
     static void createMocksForMapperAndPersistenceServicesInRetrieveAllRecipeServiceMethod(
