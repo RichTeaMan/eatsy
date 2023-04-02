@@ -11,11 +11,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Recipe Factory unit tests for the Retrieve all Recipes Method
+ */
 //Define lifecycle of tests to be per method rather than per class. Allows use of @BeforeEach
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class RetrieveAllRecipesTests {
@@ -44,7 +48,8 @@ public class RetrieveAllRecipesTests {
     }
 
     /**
-     * Check the recipe factory correctly returns all recipes.
+     * Check the recipe factory correctly calls for all recipes to be returned by the persistence service
+     * and returns all recipes
      */
     @Test
     public void checkRetrieveAllRecipes() {
@@ -57,6 +62,7 @@ public class RetrieveAllRecipesTests {
         expectedRecipeModelList.forEach(currentRecipeModel -> currentRecipeModel.setKey(UUID.randomUUID().toString()));
 
         //Mocking
+        //Mock the services that are not being tested through these unit tests
         RecipeMockFactory.createMocksForMapperAndPersistenceServicesInRetrieveAllRecipeServiceMethod(
                 expectedRecipeModelList, eatsyRepositoryHandler, recipeMapperHandler);
 
@@ -64,6 +70,9 @@ public class RetrieveAllRecipesTests {
         final List<RecipeModel> actualRecipeModelsList = recipeFactoryHandler.retrieveAllRecipes();
 
         //Assert
+        //Confirm that the eatsyRepositoryHandler..retrieveAllRecipes() gets called by the Service method under test one time
+        Mockito.verify(eatsyRepositoryHandler, Mockito.times(1)).retrieveAllRecipes();
+        //check the returned recipeModel list matches the expected recipeModel list.
         Assertions.assertEquals(expectedRecipeModelList, actualRecipeModelsList);
 
     }
