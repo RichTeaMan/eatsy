@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * Recipe Factory implementation
- * Tagged with @Component for dependency injection
+ * Tagged with @Component for Spring dependency injection
  */
 @Component
 public class RecipeFactoryHandler implements RecipeFactory {
@@ -37,6 +37,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
     /**
      * Creates and persists a new Recipe.
+     * These will be persisted via the Recipe Domain to ensure the model recipes are of allowed composition.
      *
      * @param recipeModel the recipe model that has the data for the new Recipe
      * @return a recipe model object containing the data from the newly created and persisted recipe.
@@ -54,6 +55,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
             logger.debug("Creating a new recipe domain object called " + recipeModel.getName());
 
+            //Map to domain to ensure requested recipe object is of allowed composition
             final Recipe recipe = recipeMapperHandler.mapModelToDomain(recipeModel);
 
             logger.debug("Creating a new recipe entity object for persistence called " + recipe.getName());
@@ -62,8 +64,10 @@ public class RecipeFactoryHandler implements RecipeFactory {
             //Persist the recipe to the database.
             final RecipeEntity persistedRecipeEntity = eatsyRepositoryHandler.persistRecipe(recipeEntity);
 
+            //Map to domain to ensure entity recipe object is of allowed composition
             final Recipe persistedRecipeDomain = recipeMapperHandler.mapEntityToDomain(persistedRecipeEntity);
 
+            //Map to model for disseminating back to the API consumer
             newRecipeModel = recipeMapperHandler.mapDomainToModel(persistedRecipeDomain);
 
         }
@@ -72,6 +76,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
     /**
      * Retrieves all recipe model objects.
+     * These will be mapped via the Recipe Domain to ensure the model recipes are of allowed composition.
      *
      * @return The list of all recipe model objects that exist.
      */
@@ -83,8 +88,8 @@ public class RecipeFactoryHandler implements RecipeFactory {
         //Retrieve all RecipeEntity objects from the database.
         final List<RecipeEntity> allRecipeEntities = eatsyRepositoryHandler.retrieveAllRecipes();
 
-        //Create a recipeModel list of all existing recipes to be returned to the controller
-        //by mapping the recipeEntities to recipeModels via the domain model.
+        //Create a recipeModel list of all existing recipes to be disseminated back to the API consumer
+        //(via the controller) by mapping the recipeEntities to recipeModels via the domain model.
         final List<RecipeModel> allRecipesModel = createRecipeModelList(allRecipeEntities);
 
         return allRecipesModel;
@@ -114,6 +119,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
     /**
      * Replaces the existing recipe with the updated version supplied.
+     * These will be mapped via the Recipe Domain to ensure the model recipe is of allowed composition.
      *
      * @param recipeKey              the unique ID of the recipe. This will allow the recipe that needs to be
      *                               updated to be identified.
@@ -125,7 +131,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
         logger.debug("replacing recipe with key: " + recipeKey + " for the new updated version");
 
-        //Create the updated Recipe domain object
+        //Create the updated Recipe domain object to ensure the recipeModel object is of allowed composition
         final Recipe updatedRecipe = recipeMapperHandler.mapModelToDomain(recipeModelWithUpdates);
 
         //Persist the updated recipe
@@ -134,7 +140,8 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
         final RecipeEntity persistedEntity = eatsyRepositoryHandler.persistRecipe(recipeEntityWithUpdates);
 
-        //Map the updated recipe to a RecipeModel and return.
+        //Map the updated recipeEntity to a RecipeModel
+        //(via the domain model to ensure all recipe entity objects are of allowed composition) and return .
         final Recipe PersistedRecipeDomain = recipeMapperHandler.mapEntityToDomain(persistedEntity);
         final RecipeModel updatedRecipeModel = recipeMapperHandler.mapDomainToModel(PersistedRecipeDomain);
         return updatedRecipeModel;
@@ -142,6 +149,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
     /**
      * Creates a list of all Recipe Model objects to be returned to the controller from all RecipeEntites in the database.
+     * These will be mapped via the Recipe Domain to ensure the model recipes are of allowed composition.
      *
      * @param allRecipeEntities the list of all recipe entities that exist in the recipe database table.
      * @return a list of all recipe model objects created from all recipe entities in the database.
@@ -153,12 +161,12 @@ public class RecipeFactoryHandler implements RecipeFactory {
         //a recipeModel list to be returned to the controller when all existing recipes have been added to this list.
         final List<RecipeModel> allRecipesModel = new ArrayList<>();
 
-        //Map recipeEntities to the domain model.
+        //Map recipeEntities to the domain model to ensure all recipe entity objects are of allowed composition
         for (final RecipeEntity currentRecipeEntity : allRecipeEntities) {
 
             final Recipe currentDomainRecipe = recipeMapperHandler.mapEntityToDomain(currentRecipeEntity);
 
-            //map the domain model to a recipeModel list to be returned to the controller.
+            //map the domain model to a recipeModel list to be disseminated back to the API consumer (via the controller)
             final RecipeModel currentModelRecipe = recipeMapperHandler.mapDomainToModel(currentDomainRecipe);
             allRecipesModel.add(currentModelRecipe);
         }
