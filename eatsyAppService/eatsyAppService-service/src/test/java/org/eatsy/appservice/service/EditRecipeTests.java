@@ -2,6 +2,7 @@ package org.eatsy.appservice.service;
 
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
+import org.eatsy.appservice.persistence.model.RecipeEntity;
 import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.List;
@@ -48,7 +50,8 @@ public class EditRecipeTests {
     }
 
     /**
-     * Check the Recipe Factory can edit an existing recipe.
+     * Check the recipe factory correctly calls for the specified recipe to be updated by the persistence service
+     * and returns the newly updated recipeModel
      */
     @Test
     public void checkEditRecipeNameSuccess() {
@@ -74,12 +77,17 @@ public class EditRecipeTests {
 
         //Setup Mocks
         //Mock the services that are not being tested through these unit tests
-        RecipeMockFactory.createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(expectedUpdatedRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
+        final RecipeEntity mockedPersistedRecipeEntity = RecipeMockFactory
+                .createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(expectedUpdatedRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
 
-        //Test - edit one of the recipe names in the recipeCache (This returned recipeModel will have a new key)
+        //Test
+        //Edit one of the recipe names of the existing recipes.
         final RecipeModel actualUpdatedRecipeModel = recipeFactoryHandler.updateRecipe(uniqueKeyOfRecipeToEdit, expectedUpdatedRecipeModel);
 
         //Assert
+        //Confirm that the eatsyRepositoryHandler.persistRecipe(mockedPersistedRecipeEntity) gets called by the Service method under test one time
+        Mockito.verify(eatsyRepositoryHandler, Mockito.times(1)).persistRecipe(mockedPersistedRecipeEntity);
+        //check the returned model matches the request model used to create the recipe domain object.
         Assertions.assertEquals(expectedUpdatedRecipeModel, actualUpdatedRecipeModel);
 
     }
