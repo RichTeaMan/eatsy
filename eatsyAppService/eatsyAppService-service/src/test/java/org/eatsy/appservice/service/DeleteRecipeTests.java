@@ -50,9 +50,8 @@ public class DeleteRecipeTests {
     }
 
     /**
-     * Check the recipe factory correctly calls for the specified recipe to be deleted in the persistence service
+     * Check the recipe factory correctly calls for the specified recipe to be deleted by the persistence service
      * and returns the updated list of all recipes
-     * <p>
      */
     @Test
     public void checkDeleteForSpecifiedRecipe() {

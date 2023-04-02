@@ -2,6 +2,7 @@ package org.eatsy.appservice.service;
 
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
+import org.eatsy.appservice.persistence.model.RecipeEntity;
 import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.util.HashMap;
@@ -48,11 +50,8 @@ public class CreateRecipeTests {
     }
 
     /**
-     * The RecipeModel being returned from the recipeFactory is formed from
-     * the newly created recipe domain object.
-     * <p>
-     * This test checks the RecipeModel response has the same content as the
-     * recipeModel initially requested to the Eatsy App service.
+     * Check the recipe factory correctly calls for the specified recipe to be created by the persistence service
+     * and returns the newly created recipeModel
      */
     @Test
     public void checkCreateRecipe() {
@@ -61,8 +60,11 @@ public class CreateRecipeTests {
         //Create an input recipe model - this will also be the expected output from the method under test.
         final RecipeModel inputRecipeModel = RecipeModelDataFactory
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
+
+        //Mocking
         //Mock the services that are not being tested through these unit tests
-        RecipeMockFactory.createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(inputRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
+        final RecipeEntity mockedPersistedRecipeEntity = RecipeMockFactory
+                .createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(inputRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
@@ -70,7 +72,10 @@ public class CreateRecipeTests {
         //Recipe key randomly generated, so they will never match and one wasn't assigned to the inputRecipeModel
         inputRecipeModel.setKey(actualRecipeModel.getKey());
 
-        //Assert - check the returned model matches the request model used to create the recipe domain object.
+        //Assert
+        //Confirm that the eatsyRepositoryHandler.persistRecipe(mockedPersistedRecipeEntity) gets called by the Service method under test one time
+        Mockito.verify(eatsyRepositoryHandler, Mockito.times(1)).persistRecipe(mockedPersistedRecipeEntity);
+        //check the returned model matches the request model used to create the recipe domain object.
         Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
     }
 
@@ -93,7 +98,8 @@ public class CreateRecipeTests {
     }
 
     /**
-     * Check the Recipe Factory can create a recipe with an empty Ingredient List
+     * Check the recipe factory correctly calls for the specified recipe to be created by the persistence service
+     * and returns the newly created recipeModel whilst gracefully dealing with the fact this recipe has an empty ingredient list
      */
     @Test
     public void checkCreateRecipeWithEmptyIngredientList() {
@@ -104,8 +110,11 @@ public class CreateRecipeTests {
         final RecipeModel inputRecipeModel = RecipeModelDataFactory
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         inputRecipeModel.setIngredients(new HashMap<>());
+
+        //Mocking
         //Mock the services that are not being tested through these unit tests
-        RecipeMockFactory.createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(inputRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
+        final RecipeEntity mockedPersistedRecipeEntity = RecipeMockFactory
+                .createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(inputRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
@@ -114,12 +123,16 @@ public class CreateRecipeTests {
         inputRecipeModel.setKey(actualRecipeModel.getKey());
 
         //Assert
+        //Confirm that the eatsyRepositoryHandler.persistRecipe(mockedPersistedRecipeEntity) gets called by the Service method under test one time
+        Mockito.verify(eatsyRepositoryHandler, Mockito.times(1)).persistRecipe(mockedPersistedRecipeEntity);
+        //check the returned model matches the request model used to create the recipe domain object.
         Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
 
     }
 
     /**
-     * Check the Recipe Factory can create a recipe with an empty method
+     * Check the recipe factory correctly calls for the specified recipe to be created by the persistence service
+     * and returns the newly created recipeModel whilst gracefully dealing with the fact this recipe has an empty method
      */
     @Test
     public void checkCreateRecipeWithEmptyMethod() {
@@ -130,8 +143,11 @@ public class CreateRecipeTests {
         final RecipeModel inputRecipeModel = RecipeModelDataFactory
                 .generateRandomRecipeModel(EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
         inputRecipeModel.setMethod(new TreeMap<>());
+
+        //Mocking
         //Mock the services that are not being tested through these unit tests
-        RecipeMockFactory.createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(inputRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
+        final RecipeEntity mockedPersistedRecipeEntity = RecipeMockFactory
+                .createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(inputRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
@@ -140,6 +156,9 @@ public class CreateRecipeTests {
         inputRecipeModel.setKey(actualRecipeModel.getKey());
 
         //Assert
+        //Confirm that the eatsyRepositoryHandler.persistRecipe(mockedPersistedRecipeEntity) gets called by the Service method under test one time
+        Mockito.verify(eatsyRepositoryHandler, Mockito.times(1)).persistRecipe(mockedPersistedRecipeEntity);
+        //check the returned model matches the request model used to create the recipe domain object.
         Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
 
     }
@@ -227,8 +246,11 @@ public class CreateRecipeTests {
         inputRecipeModel.setName(recipeModel.getName());
         inputRecipeModel.setUploader(recipeModel.getUploader());
         inputRecipeModel.setRecipeSummary(recipeModel.getRecipeSummary());
+
+        //Mocking
         //Mock the services that are not being tested through these unit tests
-        RecipeMockFactory.createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(inputRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
+        final RecipeEntity mockedPersistedRecipeEntity = RecipeMockFactory.
+                createMocksForMapperAndPersistenceServicesInCreateOrUpdateRecipeTests(inputRecipeModel, eatsyRepositoryHandler, recipeMapperHandler);
 
         //Test
         final RecipeModel actualRecipeModel = recipeFactoryHandler.createRecipe(inputRecipeModel);
@@ -237,6 +259,9 @@ public class CreateRecipeTests {
         inputRecipeModel.setKey(actualRecipeModel.getKey());
 
         //Assert
+        //Confirm that the eatsyRepositoryHandler.persistRecipe(mockedPersistedRecipeEntity) gets called by the Service method under test one time
+        Mockito.verify(eatsyRepositoryHandler, Mockito.times(1)).persistRecipe(mockedPersistedRecipeEntity);
+        //check the returned model matches the request model used to create the recipe domain object.
         Assertions.assertEquals(inputRecipeModel, actualRecipeModel);
     }
 
