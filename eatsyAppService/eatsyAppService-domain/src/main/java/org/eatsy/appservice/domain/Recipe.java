@@ -10,6 +10,8 @@ import java.util.UUID;
 
 /**
  * The domain object for a Recipe to hold its information such as method, ingredients and name.
+ * A domain object is enforced to make sure the API controls which fields are required for a
+ * Recipe on creation and which are not.
  */
 
 //Lombok
