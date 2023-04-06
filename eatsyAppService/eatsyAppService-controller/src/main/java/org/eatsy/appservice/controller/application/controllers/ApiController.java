@@ -12,7 +12,6 @@ import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.service.RecipeFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -116,7 +115,7 @@ public class ApiController {
         return updatedRecipeModel;
     }
 
-    @GetMapping(value = "/get-image-with-media-type", produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(value = "/get-image-with-media-type")
     @ResponseBody
     public byte[] getImageWithMediaType() throws IOException {
         final InputStream in = getClass().getResourceAsStream("/images/image.jpg");
