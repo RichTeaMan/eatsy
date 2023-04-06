@@ -5,7 +5,7 @@ import org.eatsy.appservice.persistence.model.RecipeEntity;
 import java.util.List;
 
 /**
- * Interface for interacting with the JPA repository and persisting data
+ * Interface for interacting with the JPA repository and persisting RecipeEntities
  */
 public interface EatsyRecipeRepositoryService {
 
