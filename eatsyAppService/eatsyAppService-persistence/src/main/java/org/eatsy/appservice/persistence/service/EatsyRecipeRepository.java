@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
  * JPA Repository interface for CRUD operations in the Eatsy database
  */
 @Repository
-public interface EatsyRepository extends JpaRepository<RecipeEntity, String> {
+public interface EatsyRecipeRepository extends JpaRepository<RecipeEntity, String> {
 
 
 }

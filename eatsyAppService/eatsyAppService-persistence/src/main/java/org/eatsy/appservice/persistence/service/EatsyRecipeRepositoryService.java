@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Interface for interacting with the JPA repository and persisting data
  */
-public interface EatsyRepositoryService {
+public interface EatsyRecipeRepositoryService {
 
     /**
      * Persists the RecipeEntity object to the database.

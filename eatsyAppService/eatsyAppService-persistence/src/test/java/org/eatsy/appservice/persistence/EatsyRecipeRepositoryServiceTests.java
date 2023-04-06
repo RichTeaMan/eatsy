@@ -1,8 +1,8 @@
 package org.eatsy.appservice.persistence;
 
 import org.eatsy.appservice.persistence.model.RecipeEntity;
-import org.eatsy.appservice.persistence.service.EatsyRepository;
-import org.eatsy.appservice.persistence.service.EatsyRepositoryHandler;
+import org.eatsy.appservice.persistence.service.EatsyRecipeRepository;
+import org.eatsy.appservice.persistence.service.EatsyRecipeRepositoryHandler;
 import org.eatsy.appservice.testdatageneration.RecipeEntityDataFactory;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
 import org.junit.jupiter.api.Assertions;
@@ -23,17 +23,17 @@ import java.util.List;
 
 //Define lifecycle of tests to be per method rather than per class. Allows use of @BeforeEach
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
-public class EatsyRepositoryServiceTests {
+public class EatsyRecipeRepositoryServiceTests {
 
     //Tells Mockito to mock the eatsyRepository instance
     @Mock
-    private EatsyRepository eatsyRepository;
+    private EatsyRecipeRepository eatsyRecipeRepository;
 
     /**
      * Class under test
      */
     @InjectMocks
-    private EatsyRepositoryHandler eatsyRepositoryHandler;
+    private EatsyRecipeRepositoryHandler eatsyRepositoryHandler;
 
     @BeforeEach
     public void setup() {
@@ -55,7 +55,7 @@ public class EatsyRepositoryServiceTests {
                 EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
         //2) Mock the eatsyRepository JPA functionality
-        Mockito.when(eatsyRepository.save(recipeEntity)).thenReturn(recipeEntity);
+        Mockito.when(eatsyRecipeRepository.save(recipeEntity)).thenReturn(recipeEntity);
 
         //Test
         final RecipeEntity persistedRecipeEntity = eatsyRepositoryHandler.persistRecipe(recipeEntity);
@@ -78,7 +78,7 @@ public class EatsyRepositoryServiceTests {
                 EatsyRecipeTestParameters.MAX_INGREDIENT_SET_SIZE, EatsyRecipeTestParameters.MAX_METHOD_MAP_SIZE);
 
         //2) Mock the eatsyRepositiry JPA functionality
-        Mockito.when(eatsyRepository.findAll()).thenReturn(mockedRecipeEntityList);
+        Mockito.when(eatsyRecipeRepository.findAll()).thenReturn(mockedRecipeEntityList);
 
         //Test
         final List<RecipeEntity> actualRecipeEntity = eatsyRepositoryHandler.retrieveAllRecipes();
@@ -106,9 +106,9 @@ public class EatsyRepositoryServiceTests {
 
         //Mock the eatsyRepository JPA functionality
         //1) Mock the void response of the eatsyRepository deleteById method when the first entry in the list is deleted
-        Mockito.doNothing().when(eatsyRepository).deleteById(mockedRecipeEntityList.get(0).getKey());
+        Mockito.doNothing().when(eatsyRecipeRepository).deleteById(mockedRecipeEntityList.get(0).getKey());
         //2) Mock the eatsyRepository findAll() method for before calling the deleteById method
-        Mockito.when(eatsyRepository.findAll()).thenReturn(mockedRecipeEntityList);
+        Mockito.when(eatsyRecipeRepository.findAll()).thenReturn(mockedRecipeEntityList);
 
         //Test
         //Step 1 - Get all recipes before deletion
@@ -122,7 +122,7 @@ public class EatsyRepositoryServiceTests {
         //Step 3 - Get all recipes after deletion
 
         //Mock the eatsyRepository findAll() method for after calling the deleteById method
-        Mockito.when(eatsyRepository.findAll()).thenReturn(mockedRecipeEntityListAfterOneDeletion);
+        Mockito.when(eatsyRecipeRepository.findAll()).thenReturn(mockedRecipeEntityListAfterOneDeletion);
         final List<RecipeEntity> recipeEntityListAfterDeletion = eatsyRepositoryHandler.retrieveAllRecipes();
 
         //Assertion

@@ -7,7 +7,7 @@ import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.persistence.model.RecipeEntity;
-import org.eatsy.appservice.persistence.service.EatsyRepositoryService;
+import org.eatsy.appservice.persistence.service.EatsyRecipeRepositoryService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -27,10 +27,10 @@ public class RecipeFactoryHandler implements RecipeFactory {
     private final RecipeMapper recipeMapperHandler;
 
     //Repository handler for persistence
-    private final EatsyRepositoryService eatsyRepositoryHandler;
+    private final EatsyRecipeRepositoryService eatsyRepositoryHandler;
 
     //Inject the dependency of the recipeMapper and repositoryHandler implementations into the RecipeFactoryHandler during instantiation.
-    public RecipeFactoryHandler(final RecipeMapper recipeMapperHandler, final EatsyRepositoryService eatsyRepositoryHandler) {
+    public RecipeFactoryHandler(final RecipeMapper recipeMapperHandler, final EatsyRecipeRepositoryService eatsyRepositoryHandler) {
         this.recipeMapperHandler = recipeMapperHandler;
         this.eatsyRepositoryHandler = eatsyRepositoryHandler;
     }

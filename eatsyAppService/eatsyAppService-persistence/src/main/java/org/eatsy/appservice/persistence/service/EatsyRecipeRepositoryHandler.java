@@ -18,14 +18,14 @@ import java.util.List;
 @Configuration
 @EnableJpaRepositories
 @EntityScan(basePackageClasses = RecipeEntity.class)
-public class EatsyRepositoryHandler implements EatsyRepositoryService {
+public class EatsyRecipeRepositoryHandler implements EatsyRecipeRepositoryService {
 
     //logger
     private static final Logger logger = LogManager.getLogger();
 
     //The Eatsy Repository that extends the JPA interface
     @Autowired
-    private EatsyRepository eatsyRepository;
+    private EatsyRecipeRepository eatsyRecipeRepository;
 
     /**
      * Persists the RecipeEntity object to the database.
@@ -39,7 +39,7 @@ public class EatsyRepositoryHandler implements EatsyRepositoryService {
 
         logger.debug("Persisting a recipe entity object called" + recipeEntity.getName());
 
-        final RecipeEntity persistedRecipeEntity = eatsyRepository.save(recipeEntity);
+        final RecipeEntity persistedRecipeEntity = eatsyRecipeRepository.save(recipeEntity);
 
         return persistedRecipeEntity;
 
@@ -55,7 +55,7 @@ public class EatsyRepositoryHandler implements EatsyRepositoryService {
 
         logger.debug("Retrieving all Recipe Entity objects from the Recipe DB table");
 
-        final List<RecipeEntity> allRecipeEntities = eatsyRepository.findAll();
+        final List<RecipeEntity> allRecipeEntities = eatsyRecipeRepository.findAll();
 
         return allRecipeEntities;
 
@@ -69,7 +69,7 @@ public class EatsyRepositoryHandler implements EatsyRepositoryService {
 
         logger.debug("Deleting Recipe Entity object from the Recipe database with recipeKey: " + recipeKey);
 
-        eatsyRepository.deleteById(recipeKey);
+        eatsyRecipeRepository.deleteById(recipeKey);
 
     }
 
