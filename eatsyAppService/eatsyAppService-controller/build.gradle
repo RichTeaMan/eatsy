@@ -8,6 +8,7 @@ dependencies {
 
     implementation project(':eatsyAppService:eatsyAppService-model')
     implementation project(':eatsyAppService:eatsyAppService-service')
+    implementation project(':eatsyAppService:eatsyAppService-persistence') //TODO remove
     testImplementation project(':eatsyAppService:eatsyAppService-test-data-generation')
 
     //Java utilities/helper libraries

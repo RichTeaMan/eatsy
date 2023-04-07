@@ -6,7 +6,9 @@ import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
+import org.eatsy.appservice.persistence.image.service.EatsyRecipeImageRepositoryService;
 import org.eatsy.appservice.persistence.model.RecipeEntity;
+import org.eatsy.appservice.persistence.model.RecipeImageEntity;
 import org.eatsy.appservice.persistence.recipe.service.EatsyRecipeRepositoryService;
 import org.springframework.stereotype.Component;
 
@@ -26,13 +28,18 @@ public class RecipeFactoryHandler implements RecipeFactory {
     //Recipe Mapper implementation
     private final RecipeMapper recipeMapperHandler;
 
-    //Repository handler for persistence
-    private final EatsyRecipeRepositoryService eatsyRepositoryHandler;
+    //Repository handler for recipe persistence
+    private final EatsyRecipeRepositoryService eatsyRecipeRepositoryHandler;
+
+    //Repository handler for recipe image persistence
+    private final EatsyRecipeImageRepositoryService eatsyRecipeImageRepositoryHandler;
 
     //Inject the dependency of the recipeMapper and repositoryHandler implementations into the RecipeFactoryHandler during instantiation.
-    public RecipeFactoryHandler(final RecipeMapper recipeMapperHandler, final EatsyRecipeRepositoryService eatsyRepositoryHandler) {
+    public RecipeFactoryHandler(final RecipeMapper recipeMapperHandler, final EatsyRecipeRepositoryService eatsyRecipeRepositoryHandler,
+                                final EatsyRecipeImageRepositoryService eatsyRecipeImageRepositoryHandler) {
         this.recipeMapperHandler = recipeMapperHandler;
-        this.eatsyRepositoryHandler = eatsyRepositoryHandler;
+        this.eatsyRecipeRepositoryHandler = eatsyRecipeRepositoryHandler;
+        this.eatsyRecipeImageRepositoryHandler = eatsyRecipeImageRepositoryHandler;
     }
 
     /**
@@ -62,7 +69,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
             final RecipeEntity recipeEntity = recipeMapperHandler.mapDomainToEntity(recipe);
 
             //Persist the recipe to the database.
-            final RecipeEntity persistedRecipeEntity = eatsyRepositoryHandler.persistRecipe(recipeEntity);
+            final RecipeEntity persistedRecipeEntity = eatsyRecipeRepositoryHandler.persistRecipe(recipeEntity);
 
             //Map to domain to ensure entity recipe object is of allowed composition
             final Recipe persistedRecipeDomain = recipeMapperHandler.mapEntityToDomain(persistedRecipeEntity);
@@ -86,7 +93,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
         logger.debug("Retrieving all recipes to return to the controller");
 
         //Retrieve all RecipeEntity objects from the database.
-        final List<RecipeEntity> allRecipeEntities = eatsyRepositoryHandler.retrieveAllRecipes();
+        final List<RecipeEntity> allRecipeEntities = eatsyRecipeRepositoryHandler.retrieveAllRecipes();
 
         //Create a recipeModel list of all existing recipes to be disseminated back to the API consumer
         //(via the controller) by mapping the recipeEntities to recipeModels via the domain model.
@@ -94,6 +101,13 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
         return allRecipesModel;
 
+    }
+
+    @Override
+    public RecipeImageEntity retrieveRecipeImageEntity(final String imageKey) {
+
+        final RecipeImageEntity recipeImageEntity = eatsyRecipeImageRepositoryHandler.findImageByKey(imageKey);
+        return recipeImageEntity;
     }
 
     /**
@@ -108,7 +122,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
         logger.debug("deleting recipe with key : " + recipeKey);
 
         //Delete the recipe with the specified recipeKey from the database.
-        eatsyRepositoryHandler.deleteRecipeById(recipeKey);
+        eatsyRecipeRepositoryHandler.deleteRecipeById(recipeKey);
 
 
         logger.debug("returning the updated list of all recipes via the model");
@@ -138,7 +152,7 @@ public class RecipeFactoryHandler implements RecipeFactory {
         logger.debug("Creating a corresponding recipe entity object for persistence called " + updatedRecipe.getName());
         final RecipeEntity recipeEntityWithUpdates = recipeMapperHandler.mapDomainToEntity(updatedRecipe);
 
-        final RecipeEntity persistedEntity = eatsyRepositoryHandler.persistRecipe(recipeEntityWithUpdates);
+        final RecipeEntity persistedEntity = eatsyRecipeRepositoryHandler.persistRecipe(recipeEntityWithUpdates);
 
         //Map the updated recipeEntity to a RecipeModel
         //(via the domain model to ensure all recipe entity objects are of allowed composition) and return .

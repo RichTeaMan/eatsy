@@ -2,6 +2,7 @@ package org.eatsy.appservice.service;
 
 
 import org.eatsy.appservice.model.RecipeModel;
+import org.eatsy.appservice.persistence.model.RecipeImageEntity;
 
 import java.util.List;
 
@@ -42,4 +43,6 @@ public interface RecipeFactory {
      * @return the updated recipeModel with the new updates/changes applied.
      */
     RecipeModel updateRecipe(String recipeKey, RecipeModel recipeModelWithUpdates);
+
+    RecipeImageEntity retrieveRecipeImageEntity(final String imageKey);
 }
