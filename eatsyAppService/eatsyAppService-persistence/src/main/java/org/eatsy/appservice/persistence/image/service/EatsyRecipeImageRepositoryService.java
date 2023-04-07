@@ -1,4 +1,4 @@
-package org.eatsy.appservice.persistence.service;
+package org.eatsy.appservice.persistence.image.service;
 
 import org.eatsy.appservice.persistence.model.RecipeImageEntity;
 

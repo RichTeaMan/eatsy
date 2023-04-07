@@ -7,7 +7,7 @@ import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.persistence.model.RecipeEntity;
-import org.eatsy.appservice.persistence.service.EatsyRecipeRepositoryService;
+import org.eatsy.appservice.persistence.recipe.service.EatsyRecipeRepositoryService;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package org.eatsy.appservice.persistence.service;
+package org.eatsy.appservice.persistence.image.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

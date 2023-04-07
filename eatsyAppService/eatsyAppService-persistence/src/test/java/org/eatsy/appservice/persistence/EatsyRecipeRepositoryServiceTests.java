@@ -1,8 +1,8 @@
 package org.eatsy.appservice.persistence;
 
 import org.eatsy.appservice.persistence.model.RecipeEntity;
-import org.eatsy.appservice.persistence.service.EatsyRecipeRepository;
-import org.eatsy.appservice.persistence.service.EatsyRecipeRepositoryHandler;
+import org.eatsy.appservice.persistence.recipe.service.EatsyRecipeRepository;
+import org.eatsy.appservice.persistence.recipe.service.EatsyRecipeRepositoryHandler;
 import org.eatsy.appservice.testdatageneration.RecipeEntityDataFactory;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
 import org.junit.jupiter.api.Assertions;

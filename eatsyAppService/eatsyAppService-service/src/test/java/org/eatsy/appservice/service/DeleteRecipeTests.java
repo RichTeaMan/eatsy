@@ -2,7 +2,7 @@ package org.eatsy.appservice.service;
 
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
-import org.eatsy.appservice.persistence.service.EatsyRecipeRepositoryService;
+import org.eatsy.appservice.persistence.recipe.service.EatsyRecipeRepositoryService;
 import org.eatsy.appservice.testdatageneration.RecipeModelDataFactory;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
 import org.junit.jupiter.api.Assertions;
