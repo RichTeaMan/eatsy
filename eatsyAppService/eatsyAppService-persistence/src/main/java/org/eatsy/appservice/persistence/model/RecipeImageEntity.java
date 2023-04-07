@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @EqualsAndHashCode
 //persistence
 @Entity
-@Table(name = "recipeImage")
+@Table(name = "recipe_image")
 public class RecipeImageEntity {
 
     //Primary key
