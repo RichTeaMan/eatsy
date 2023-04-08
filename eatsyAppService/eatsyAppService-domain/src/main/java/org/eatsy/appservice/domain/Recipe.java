@@ -47,7 +47,7 @@ public final class Recipe {
     //The method for creating the recipe from the ingredients
     private final Map<Integer, String> method;
 
-
+    //Constructor
     private Recipe(final RecipeBuilder builder) {
         key = builder.key;
         name = builder.name;
