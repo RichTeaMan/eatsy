@@ -8,6 +8,9 @@ import lombok.ToString;
 
 /**
  * Model for the recipe image object
+ * The image itself (byte[]) is not included in the model.
+ * This is because it is returned separately via the /get/{imageKey} endpoint.
+ * This model is purely the metadata for the image.
  */
 //Lombok
 @Getter

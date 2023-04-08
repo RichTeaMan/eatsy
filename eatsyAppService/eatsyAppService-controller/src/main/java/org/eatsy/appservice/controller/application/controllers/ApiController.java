@@ -34,6 +34,7 @@ public class ApiController {
     //Interface for recipe operations
     private final RecipeFactory recipeFactoryHandler;
 
+    //Interface for recipeImage operations
     private final ImageDataFactory imageDataFactoryHandler;
 
     //Inject the dependency of the recipeFactory implementation into the api controller during instantiation.
@@ -117,6 +118,7 @@ public class ApiController {
         return updatedRecipeModel;
     }
 
+    //TODO update Docs
     @GetMapping(path = {"/get/{imageKey}"})
     //@ResponseBody
     public byte[] getImageWithMediaType(@PathVariable("imageKey") final String imageKey) throws IOException {

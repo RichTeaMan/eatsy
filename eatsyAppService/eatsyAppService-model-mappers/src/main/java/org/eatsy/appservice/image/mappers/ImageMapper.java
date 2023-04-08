@@ -9,8 +9,20 @@ import org.eatsy.appservice.persistence.model.RecipeImageEntity;
  */
 public interface ImageMapper {
 
+    /**
+     * Map the recipe image entity object to a recipe image domain object
+     *
+     * @param recipeImageEntity the entity object to be mapped
+     * @return the recipeImage domain object that has been created from the recipeImageEntity object
+     */
     RecipeImage mapEntityToDomain(final RecipeImageEntity recipeImageEntity);
 
+    /**
+     * Map the recipeImage domain object to a recipeImage model object.
+     *
+     * @param recipeImage the domain object to be mapped
+     * @return the recipeImageModel object that has been created from the recipeImage domain object.
+     */
     ImageModel mapDomanToModel(final RecipeImage recipeImage);
 
 }
