@@ -5,7 +5,7 @@ import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.persistence.model.RecipeEntity;
 
 /**
- * Recipe Mapper to map between recipe domain and model objects.
+ * Recipe Mapper to map between recipe domain, entity and model objects.
  */
 public interface RecipeMapper {
 

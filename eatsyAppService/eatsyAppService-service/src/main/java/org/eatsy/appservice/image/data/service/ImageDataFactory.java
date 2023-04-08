@@ -1,13 +1,12 @@
 package org.eatsy.appservice.image.data.service;
 
-import org.eatsy.appservice.persistence.model.RecipeImageEntity;
+import org.eatsy.appservice.model.ImageModel;
 
 public interface ImageDataFactory {
 
     byte[] retrieveImage(String key);
 
-    RecipeImageEntity getImageData(String key);
-
+    ImageModel getImageData(String key);
 
 
 }

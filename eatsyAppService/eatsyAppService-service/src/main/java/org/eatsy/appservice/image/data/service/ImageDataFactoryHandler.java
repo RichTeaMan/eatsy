@@ -2,6 +2,7 @@ package org.eatsy.appservice.image.data.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eatsy.appservice.model.ImageModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.persistence.image.service.EatsyRecipeImageRepositoryService;
 import org.eatsy.appservice.persistence.model.RecipeImageEntity;
@@ -33,8 +34,8 @@ public class ImageDataFactoryHandler implements ImageDataFactory {
     }
 
     @Override
-    public RecipeImageEntity getImageData(final String key) {
+    public ImageModel getImageData(final String key) {
         final RecipeImageEntity recipeImageEntity = eatsyRecipeImageRepositoryHandler.findImageByKey(key);
-        return recipeImageEntity;
+        return new ImageModel();
     }
 }
