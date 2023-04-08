@@ -6,9 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.Recipe;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
-import org.eatsy.appservice.persistence.image.service.EatsyRecipeImageRepositoryService;
 import org.eatsy.appservice.persistence.model.RecipeEntity;
-import org.eatsy.appservice.persistence.model.RecipeImageEntity;
 import org.eatsy.appservice.persistence.recipe.service.EatsyRecipeRepositoryService;
 import org.springframework.stereotype.Component;
 
@@ -31,15 +29,11 @@ public class RecipeFactoryHandler implements RecipeFactory {
     //Repository handler for recipe persistence
     private final EatsyRecipeRepositoryService eatsyRecipeRepositoryHandler;
 
-    //Repository handler for recipe image persistence
-    private final EatsyRecipeImageRepositoryService eatsyRecipeImageRepositoryHandler;
 
     //Inject the dependency of the recipeMapper and repositoryHandler implementations into the RecipeFactoryHandler during instantiation.
-    public RecipeFactoryHandler(final RecipeMapper recipeMapperHandler, final EatsyRecipeRepositoryService eatsyRecipeRepositoryHandler,
-                                final EatsyRecipeImageRepositoryService eatsyRecipeImageRepositoryHandler) {
+    public RecipeFactoryHandler(final RecipeMapper recipeMapperHandler, final EatsyRecipeRepositoryService eatsyRecipeRepositoryHandler) {
         this.recipeMapperHandler = recipeMapperHandler;
         this.eatsyRecipeRepositoryHandler = eatsyRecipeRepositoryHandler;
-        this.eatsyRecipeImageRepositoryHandler = eatsyRecipeImageRepositoryHandler;
     }
 
     /**
@@ -101,13 +95,6 @@ public class RecipeFactoryHandler implements RecipeFactory {
 
         return allRecipesModel;
 
-    }
-
-    @Override
-    public RecipeImageEntity retrieveRecipeImageEntity(final String imageKey) {
-
-        final RecipeImageEntity recipeImageEntity = eatsyRecipeImageRepositoryHandler.findImageByKey(imageKey);
-        return recipeImageEntity;
     }
 
     /**

@@ -44,5 +44,4 @@ public interface RecipeFactory {
      */
     RecipeModel updateRecipe(String recipeKey, RecipeModel recipeModelWithUpdates);
 
-    RecipeImageEntity retrieveRecipeImageEntity(final String imageKey);
 }

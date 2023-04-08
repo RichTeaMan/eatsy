@@ -4,11 +4,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.controller.application.constants.EatsyRecipeEndpoints;
 import org.eatsy.appservice.model.RecipeModel;
-import org.eatsy.appservice.persistence.model.RecipeImageEntity;
 import org.eatsy.appservice.service.RecipeFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 
@@ -116,10 +117,9 @@ public class ApiController {
 
     @GetMapping(path = {"/get/{imageKey}"})
     //@ResponseBody
-    public RecipeImageEntity getImageWithMediaType(@PathVariable("imageKey") final String imageKey) throws IOException {
-//        final InputStream in = getClass().getResourceAsStream("/images/image.jpg");
-//        return IOUtils.toByteArray(in);
-        return recipeFactoryHandler.retrieveRecipeImageEntity(imageKey);
+    public byte[] getImageWithMediaType(@PathVariable("imageKey") final String imageKey) throws IOException {
+        final InputStream in = getClass().getResourceAsStream("/images/image.jpg");
+        return IOUtils.toByteArray(in);
     }
 
 }
