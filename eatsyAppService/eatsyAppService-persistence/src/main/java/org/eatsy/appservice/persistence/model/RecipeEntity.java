@@ -52,6 +52,13 @@ public class RecipeEntity {
 
     //Defines a collection of instances.
     @ElementCollection
+    //Join column used to map Recipe entity id (primary key value) to the recipeImageEntity's collection table's ID column.
+    @CollectionTable(name = "recipe_image", joinColumns = @JoinColumn(name = "key"))
+    @Column(name = "recipeImageEntity")
+    private Set<RecipeImageEntity> recipeImageEntity;
+
+    //Defines a collection of instances.
+    @ElementCollection
     //Join column used to map Recipe entity id (primary key value) to the tags' collection table's ID column.
     @CollectionTable(name = "tags", joinColumns = @JoinColumn(name = "key"))
     @Column(name = "tags")
