@@ -2,6 +2,8 @@ package org.eatsy.appservice.image.data.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.eatsy.appservice.domain.RecipeImage;
+import org.eatsy.appservice.image.mappers.ImageMapper;
 import org.eatsy.appservice.model.ImageModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.persistence.image.service.EatsyRecipeImageRepositoryService;
@@ -15,14 +17,14 @@ public class ImageDataFactoryHandler implements ImageDataFactory {
     private static final Logger logger = LogManager.getLogger();
 
     //Recipe Mapper implementation
-    private final RecipeMapper recipeMapperHandler;
+    private final ImageMapper imageMapperHandler;
 
     //Repository handler for recipe image persistence
     private final EatsyRecipeImageRepositoryService eatsyRecipeImageRepositoryHandler;
 
     //Inject the dependency of the recipeMapper and repositoryHandler implementations into the RecipeFactoryHandler during instantiation.
-    public ImageDataFactoryHandler(final RecipeMapper recipeMapperHandler, final EatsyRecipeImageRepositoryService eatsyRecipeImageRepositoryHandler) {
-        this.recipeMapperHandler = recipeMapperHandler;
+    public ImageDataFactoryHandler(final ImageMapper imageMapperHandler, final EatsyRecipeImageRepositoryService eatsyRecipeImageRepositoryHandler) {
+        this.imageMapperHandler = imageMapperHandler;
         this.eatsyRecipeImageRepositoryHandler = eatsyRecipeImageRepositoryHandler;
     }
 
@@ -36,6 +38,8 @@ public class ImageDataFactoryHandler implements ImageDataFactory {
     @Override
     public ImageModel getImageData(final String key) {
         final RecipeImageEntity recipeImageEntity = eatsyRecipeImageRepositoryHandler.findImageByKey(key);
-        return new ImageModel();
+        final RecipeImage recipeImage = imageMapperHandler.mapEntityToDomain(recipeImageEntity);
+        final ImageModel imageModel = imageMapperHandler.mapDomanToModel(recipeImage);
+        return imageModel;
     }
 }

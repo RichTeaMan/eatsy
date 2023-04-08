@@ -44,7 +44,7 @@ public class RecipeImage {
      */
     public static class RecipeImageBuilder {
         //required fields
-        private final String key;
+        private String key; //may need to be overwritten (e.g. by mapper)
         private final String imageName;
         private final String imageType;
         private final byte[] picByte;
@@ -56,6 +56,12 @@ public class RecipeImage {
             this.imageName = imageName;
             this.imageType = imageType;
             this.picByte = picByte;
+        }
+
+        //If the key needs to be overwritten (e.g. by a mapper)
+        public RecipeImageBuilder withSpecifiedKey(final String specifiedKey) {
+            this.key = specifiedKey;
+            return this;
         }
 
         public RecipeImage build() {

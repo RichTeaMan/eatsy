@@ -1,5 +1,6 @@
 package org.eatsy.appservice.image.mappers;
 
+import org.eatsy.appservice.domain.RecipeImage;
 import org.eatsy.appservice.model.ImageModel;
 import org.eatsy.appservice.persistence.model.RecipeImageEntity;
 
@@ -8,6 +9,8 @@ import org.eatsy.appservice.persistence.model.RecipeImageEntity;
  */
 public interface ImageMapper {
 
-    ImageModel mapEntityToModel(final RecipeImageEntity recipeImageEntity);
+    RecipeImage mapEntityToDomain(final RecipeImageEntity recipeImageEntity);
+
+    ImageModel mapDomanToModel(final RecipeImage recipeImage);
 
 }

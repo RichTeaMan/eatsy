@@ -26,7 +26,7 @@ public class RecipeMapperHandler implements RecipeMapper {
     public RecipeModel mapDomainToModel(final Recipe recipe) {
 
         RecipeModel recipeModel = null;
-        //The recipe to be mapped must not be null and the recipe must have a name.
+        //The recipe to be mapped (and it's fields) must not be null.
         if (null != recipe
                 && StringUtils.isNotEmpty(recipe.getName().trim())
                 && StringUtils.isNotEmpty(recipe.getUploader().trim())
