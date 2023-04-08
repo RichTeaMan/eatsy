@@ -8,6 +8,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.controller.application.constants.EatsyRecipeEndpoints;
+import org.eatsy.appservice.image.data.service.ImageDataFactory;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.service.RecipeFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -35,9 +36,12 @@ public class ApiController {
     //Interface for recipe operations
     private final RecipeFactory recipeFactoryHandler;
 
+    private final ImageDataFactory imageDataFactoryHandler;
+
     //Inject the dependency of the recipeFactory implementation into the api controller during instantiation.
-    public ApiController(final RecipeFactory recipeFactoryHandler) {
+    public ApiController(final RecipeFactory recipeFactoryHandler, final ImageDataFactory imageDataFactoryHandler) {
         this.recipeFactoryHandler = recipeFactoryHandler;
+        this.imageDataFactoryHandler = imageDataFactoryHandler;
     }
 
 
@@ -118,8 +122,8 @@ public class ApiController {
     @GetMapping(path = {"/get/{imageKey}"})
     //@ResponseBody
     public byte[] getImageWithMediaType(@PathVariable("imageKey") final String imageKey) throws IOException {
-        final InputStream in = getClass().getResourceAsStream("/images/image.jpg");
-        return IOUtils.toByteArray(in);
+        final byte[] image = imageDataFactoryHandler.retrieveImage(imageKey);
+        return image;
     }
 
 }
