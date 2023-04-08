@@ -26,7 +26,4 @@ public class ImageModel {
     @Schema(description = "type of file e.g image/jpeg")
     private String imageType;
 
-    @Schema(description = "image in byte[] form")
-    private byte[] picByte;
-
 }

@@ -47,4 +47,7 @@ public class RecipeModel {
     @Schema(description = "The method for creating the recipe from the ingredients.")
     private Map<Integer, String> method;
 
+    @Schema(description = "Model for the recipe image object")
+    private Set<ImageModel> imageModel;
+
 }

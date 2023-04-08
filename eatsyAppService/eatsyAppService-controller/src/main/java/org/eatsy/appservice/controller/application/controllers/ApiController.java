@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.controller.application.constants.EatsyRecipeEndpoints;
 import org.eatsy.appservice.image.data.service.ImageDataFactory;
-import org.eatsy.appservice.model.ImageModel;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.service.RecipeFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -124,10 +123,5 @@ public class ApiController {
         final byte[] image = imageDataFactoryHandler.retrieveImage(imageKey);
         return image;
     }
-
-//    @GetMapping(path = {"/get/data/{imageKey}"})
-//    public ImageModel getImageData(@PathVariable("imageKey") final String imageKey) {
-//        ImageModel
-//    }
 
 }

@@ -80,8 +80,8 @@ public class ImageMapperHandler implements ImageMapper {
             //Map imageType
             imageModel.setImageType(recipeImage.getImageType());
 
-            //Map picByte
-            imageModel.setPicByte(recipeImage.getPicByte());
+            //Mapping the byte[] is not done as this is not included in the imageModel since it is
+            //returned separately via the /get/{imageKey} endpoint
 
         }
 
