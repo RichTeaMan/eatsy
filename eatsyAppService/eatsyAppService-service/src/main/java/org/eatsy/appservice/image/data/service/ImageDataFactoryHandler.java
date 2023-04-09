@@ -10,6 +10,8 @@ import org.eatsy.appservice.persistence.model.RecipeImageEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Set;
+
 /**
  * RecipeImageData Factory implementation
  * Tagged with @Component for Spring dependency injection
@@ -73,11 +75,11 @@ public class ImageDataFactoryHandler implements ImageDataFactory {
      * Uploads the image and associated image metadata
      *
      * @param recipeKey the unique ID of the parent Recipe object that the image corresponds to.
-     * @param file the image to be uploaded for a given recipe
+     * @param fileSet the images to be uploaded for a given recipe
      * @return The ImageModel of the successfully uploaded file.
      */
     @Override
-    public ImageModel uploadImage(final String recipeKey, final MultipartFile file) {
+    public Set<ImageModel> uploadImages(final String recipeKey, final Set<MultipartFile> fileSet) {
         return null;
     }
 }

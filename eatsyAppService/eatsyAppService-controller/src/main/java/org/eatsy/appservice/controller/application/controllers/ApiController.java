@@ -20,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -130,18 +131,18 @@ public class ApiController {
     }
 
     //TODO update Docs
-    @Operation(description = "Returns a new ImageModel with the information provided for the successful image upload")
-    @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully uploaded new image.")})
-    @RequestMapping(value = "/image/upload", method = {RequestMethod.POST})
+    @Operation(description = "Returns a set of new ImageModels with the information provided for the successful image(s) upload")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully uploaded new image(s).")})
+    @RequestMapping(value = "/images/upload", method = {RequestMethod.POST})
     @ResponseBody
-    public ResponseEntity<ImageModel> uploadImage(
-            @Parameter(description = "Unique ID of the parent Recipe object that this image belongs to") final String recipeKey,
-            @Parameter(description = "image to be uploaded with the recipe") final MultipartFile file) throws IOException {
+    public ResponseEntity<Set<ImageModel>> uploadImages(
+            @Parameter(description = "Unique ID of the parent Recipe object that these image belongs to") final String recipeKey,
+            @Parameter(description = "images to be uploaded with the recipe") final Set<MultipartFile> fileSet) throws IOException {
 
         logger.debug("A new request has been made to upload images for recipe: " + recipeKey);
-        final ImageModel newImageModel = imageDataFactoryHandler.uploadImage(recipeKey, file);
+        final Set<ImageModel> newImageModelSet = imageDataFactoryHandler.uploadImages(recipeKey,fileSet);
 
-        final ResponseEntity<ImageModel> response = new ResponseEntity<ImageModel>(newImageModel, HttpStatus.OK);
+        final ResponseEntity<Set<ImageModel>> response = new ResponseEntity<Set<ImageModel>>(newImageModelSet, HttpStatus.OK);
         return response;
     }
 
