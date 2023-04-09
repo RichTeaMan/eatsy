@@ -8,12 +8,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.controller.application.constants.EatsyRecipeEndpoints;
 import org.eatsy.appservice.image.data.service.ImageDataFactory;
+import org.eatsy.appservice.model.ImageModel;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.service.RecipeFactory;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -118,12 +121,29 @@ public class ApiController {
         return updatedRecipeModel;
     }
 
-    //TODO update Docs
-    @GetMapping(path = {"/get/{imageKey}"})
+    //TODO update Docs and logs
+    @GetMapping(path = {"/get/{imageKey}"}, produces = MediaType.IMAGE_JPEG_VALUE)
     //@ResponseBody
     public byte[] getImageWithMediaType(@PathVariable("imageKey") final String imageKey) throws IOException {
         final byte[] image = imageDataFactoryHandler.retrieveImage(imageKey);
         return image;
     }
+
+    //TODO update Docs
+    @Operation(description = "Returns a new ImageModel with the information provided for the successful image upload")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully uploaded new image.")})
+    @RequestMapping(value = "/image/upload", method = {RequestMethod.POST})
+    @ResponseBody
+    public ResponseEntity<ImageModel> uploadImage(
+            @Parameter(description = "Unique ID of the parent Recipe object that this image belongs to") final String recipeKey,
+            @Parameter(description = "image to be uploaded with the recipe") final MultipartFile file) throws IOException {
+
+        logger.debug("A new request has been made to upload images for recipe: " + recipeKey);
+        final ImageModel newImageModel = imageDataFactoryHandler.uploadImage(recipeKey, file);
+
+        final ResponseEntity<ImageModel> response = new ResponseEntity<ImageModel>(newImageModel, HttpStatus.OK);
+        return response;
+    }
+
 
 }

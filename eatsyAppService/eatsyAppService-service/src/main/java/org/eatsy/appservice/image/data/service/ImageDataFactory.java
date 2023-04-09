@@ -1,6 +1,8 @@
 package org.eatsy.appservice.image.data.service;
 
 import org.eatsy.appservice.model.ImageModel;
+import org.springframework.web.multipart.MultipartFile;
+
 
 /**
  * Interface for interacting with RecipeImageData
@@ -23,5 +25,12 @@ public interface ImageDataFactory {
      */
     ImageModel getImageData(String key);
 
-
+    /**
+     * Uploads the image and associated image metadata
+     *
+     * @param recipeKey the unique ID of the parent Recipe object that the image corresponds to.
+     * @param file the image to be uploaded for a given recipe
+     * @return The ImageModel of the successfully uploaded file.
+     */
+    ImageModel uploadImage(String recipeKey, MultipartFile file);
 }

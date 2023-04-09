@@ -8,6 +8,7 @@ import org.eatsy.appservice.model.ImageModel;
 import org.eatsy.appservice.persistence.image.service.EatsyRecipeImageRepositoryService;
 import org.eatsy.appservice.persistence.model.RecipeImageEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * RecipeImageData Factory implementation
@@ -66,5 +67,17 @@ public class ImageDataFactoryHandler implements ImageDataFactory {
         //This does not map the image byteArray as this is just method just returns the image metadata.
         final ImageModel imageModel = imageMapperHandler.mapDomanToModel(recipeImage);
         return imageModel;
+    }
+
+    /**
+     * Uploads the image and associated image metadata
+     *
+     * @param recipeKey the unique ID of the parent Recipe object that the image corresponds to.
+     * @param file the image to be uploaded for a given recipe
+     * @return The ImageModel of the successfully uploaded file.
+     */
+    @Override
+    public ImageModel uploadImage(final String recipeKey, final MultipartFile file) {
+        return null;
     }
 }
