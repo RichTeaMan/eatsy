@@ -51,15 +51,16 @@ public class ApiController {
     /**
      * "Returns a new recipe with the information provided in the request"
      *
-     * @param recipeModel The recipe the user is adding.
+     * @param recipeModelRequest The recipe the user is adding.
      * @return the recipe model object that has been created.
      */
     @Operation(description = "Returns a new recipe with the information provided in the request")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully created new recipe.")})
-    @RequestMapping(value = EatsyRecipeEndpoints.ADD_RECIPE, method = {RequestMethod.POST})
+    @RequestMapping(value = EatsyRecipeEndpoints.ADD_RECIPE, method = {RequestMethod.POST}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseBody
     public ResponseEntity<RecipeModel> addRecipe(
-            @Parameter(description = "The recipe to be created.") @RequestBody final RecipeModel recipeModel) {
+            @Parameter(description = "The recipe to be created.") @RequestPart final RecipeModel recipeModelRequest,
+            @Parameter(description = "The images associated with the image to be created") @RequestPart final Set<MultipartFile> recipeImageSet) {
 
         logger.debug("A new request has been made to create a recipe called " + recipeModel.getName());
         final RecipeModel newRecipeModel = recipeFactoryHandler.createRecipe(recipeModel);
@@ -140,7 +141,7 @@ public class ApiController {
             @Parameter(description = "images to be uploaded with the recipe") final Set<MultipartFile> fileSet) throws IOException {
 
         logger.debug("A new request has been made to upload images for recipe: " + recipeKey);
-        final Set<ImageModel> newImageModelSet = imageDataFactoryHandler.uploadImages(recipeKey,fileSet);
+        final Set<ImageModel> newImageModelSet = imageDataFactoryHandler.uploadImages(recipeKey, fileSet);
 
         final ResponseEntity<Set<ImageModel>> response = new ResponseEntity<Set<ImageModel>>(newImageModelSet, HttpStatus.OK);
         return response;

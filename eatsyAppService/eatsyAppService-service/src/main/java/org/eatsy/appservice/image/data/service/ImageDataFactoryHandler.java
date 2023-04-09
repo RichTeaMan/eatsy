@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.RecipeImage;
 import org.eatsy.appservice.image.mappers.ImageMapper;
 import org.eatsy.appservice.model.ImageModel;
+import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.persistence.image.service.EatsyRecipeImageRepositoryService;
 import org.eatsy.appservice.persistence.model.RecipeImageEntity;
 import org.springframework.stereotype.Component;
