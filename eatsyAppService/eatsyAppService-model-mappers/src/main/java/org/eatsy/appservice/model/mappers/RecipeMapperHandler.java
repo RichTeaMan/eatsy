@@ -8,6 +8,7 @@ import org.eatsy.appservice.domain.RecipeImage;
 import org.eatsy.appservice.model.RecipeMediaCardModel;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.persistence.model.RecipeEntity;
+import org.eatsy.appservice.persistence.model.RecipeImageEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -97,7 +98,7 @@ public class RecipeMapperHandler implements RecipeMapper {
 
             //TODO extract this into a mapper - MultipartFile -> RecipeImage
             final Set<RecipeImage> recipeImageSet = new HashSet<>();
-            for (final MultipartFile currentMultipartFile : recipeMediaCardModel.getRecipeCardImages()){
+            for (final MultipartFile currentMultipartFile : recipeMediaCardModel.getRecipeCardImages()) {
                 try {
                     final RecipeImage recipeImage = new RecipeImage.RecipeImageBuilder(
                             currentMultipartFile.getName(),
@@ -205,15 +206,28 @@ public class RecipeMapperHandler implements RecipeMapper {
 
             logger.debug("Mapping entity object " + recipeEntity.getName() + " to a recipedomain object");
 
-            recipe = new Recipe
-                    .RecipeBuilder(recipeEntity.getName(), recipeEntity.getUploader(), recipeEntity.getRecipeSummary())
-                    .withTags(recipeEntity.getTags())
-                    .withIngredients(recipeEntity.getIngredientsMap())
-                    .withMethod(recipeEntity.getMethodMap())
-                    .withThumbsUpCount(recipeEntity.getThumbsUpCount()) //override newly generated 0 count to ensure no loss of data
-                    .withThumbsDownCount(recipeEntity.getThumbsDownCount()) //override newly generated 0 count to ensure no loss of data
-                    .withSpecifiedKey(recipeEntity.getKey()) //override the newly generated key to ensure it is the same as the db entity key
-                    .build();
+            //TODO extract this as a mapper
+            final Set<RecipeImage> recipeImageSet = new HashSet<>();
+            for (final RecipeImageEntity currentRecipeImageEntity : recipeEntity.getRecipeImageEntity()){
+                final RecipeImage recipeImage = new RecipeImage.RecipeImageBuilder(
+                        currentRecipeImageEntity.getImageName(),
+                        currentRecipeImageEntity.getImageType(),
+                        currentRecipeImageEntity.getPicByte())
+                        .withSpecifiedKey(currentRecipeImageEntity.getKey())
+                        .build();
+                recipeImageSet.add(recipeImage);
+            }
+
+                recipe = new Recipe
+                        .RecipeBuilder(recipeEntity.getName(), recipeEntity.getUploader(),
+                        recipeEntity.getRecipeSummary(), recipeImageSet)
+                        .withTags(recipeEntity.getTags())
+                        .withIngredients(recipeEntity.getIngredientsMap())
+                        .withMethod(recipeEntity.getMethodMap())
+                        .withThumbsUpCount(recipeEntity.getThumbsUpCount()) //override newly generated 0 count to ensure no loss of data
+                        .withThumbsDownCount(recipeEntity.getThumbsDownCount()) //override newly generated 0 count to ensure no loss of data
+                        .withSpecifiedKey(recipeEntity.getKey()) //override the newly generated key to ensure it is the same as the db entity key
+                        .build();
 
         }
         return recipe;
