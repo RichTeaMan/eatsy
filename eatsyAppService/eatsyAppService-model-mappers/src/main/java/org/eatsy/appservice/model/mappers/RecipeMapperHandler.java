@@ -4,9 +4,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.Recipe;
+import org.eatsy.appservice.domain.RecipeImage;
+import org.eatsy.appservice.model.RecipeMediaCardModel;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.persistence.model.RecipeEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Recipe Mapper Handler to map between recipe domain and model objects.
@@ -69,36 +76,56 @@ public class RecipeMapperHandler implements RecipeMapper {
     }
 
     /**
-     * Map the recipeModel to a recipe domain object.
+     * Map the recipeMediaCardModel to a recipe domain object.
      * If the model has an existing key, the mapper ensures the existing key is kept.
      * If the model doesn't yet have a key, then a new key will be assigned.
      *
-     * @param recipeModel the model object to be mapped to domain object
+     * @param recipeMediaCardModel the model object to be mapped to domain object
      * @return the recipe domain object that has been created from the recipe model object
      */
     @Override
-    public Recipe mapModelToDomain(final RecipeModel recipeModel) {
+    public Recipe mapModelToDomain(final RecipeMediaCardModel recipeMediaCardModel) {
 
         Recipe recipe = null;
-        //The recipe model to be mapped must not be null, the recipeModel must have a name, an uploader and a recipe summary
-        if (null != recipeModel
-                && StringUtils.isNotEmpty(recipeModel.getName().trim())
-                && StringUtils.isNotEmpty(recipeModel.getUploader().trim())
-                && StringUtils.isNotEmpty(recipeModel.getRecipeSummary().trim())) {
+        //The recipe model to be mapped must not be null, the recipeMediaCardModel must have a name, an uploader and a recipe summary
+        if (null != recipeMediaCardModel
+                && StringUtils.isNotEmpty(recipeMediaCardModel.getRecipeModel().getName().trim())
+                && StringUtils.isNotEmpty(recipeMediaCardModel.getRecipeModel().getUploader().trim())
+                && StringUtils.isNotEmpty(recipeMediaCardModel.getRecipeModel().getRecipeSummary().trim())) {
 
-            logger.debug("Mapping model object " + recipeModel.getName() + " to a recipe domain object");
+            logger.debug("Mapping model object " + recipeMediaCardModel.getRecipeModel().getName() + " to a recipe domain object");
+
+            //TODO extract this into a mapper - MultipartFile -> RecipeImage
+            final Set<RecipeImage> recipeImageSet = new HashSet<>();
+            for (final MultipartFile currentMultipartFile : recipeMediaCardModel.getRecipeCardImages()){
+                try {
+                    final RecipeImage recipeImage = new RecipeImage.RecipeImageBuilder(
+                            currentMultipartFile.getName(),
+                            currentMultipartFile.getContentType(),
+                            currentMultipartFile.getBytes())
+                            .build();
+
+                    recipeImageSet.add(recipeImage);
+
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            }
 
             final Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder(
-                    recipeModel.getName(), recipeModel.getUploader(), recipeModel.getRecipeSummary())
-                    .withThumbsUpCount(recipeModel.getThumbsUpCount())
-                    .withThumbsDownCount(recipeModel.getThumbsDownCount())
-                    .withIngredients(recipeModel.getIngredients())
-                    .withMethod(recipeModel.getMethod())
-                    .withTags(recipeModel.getTags());
+                    recipeMediaCardModel.getRecipeModel().getName(),
+                    recipeMediaCardModel.getRecipeModel().getUploader(),
+                    recipeMediaCardModel.getRecipeModel().getRecipeSummary(),
+                    recipeImageSet)
+                    .withThumbsUpCount(recipeMediaCardModel.getRecipeModel().getThumbsUpCount())
+                    .withThumbsDownCount(recipeMediaCardModel.getRecipeModel().getThumbsDownCount())
+                    .withIngredients(recipeMediaCardModel.getRecipeModel().getIngredients())
+                    .withMethod(recipeMediaCardModel.getRecipeModel().getMethod())
+                    .withTags(recipeMediaCardModel.getRecipeModel().getTags());
             // The recipeBuilder automatically assigns a new key,
             // so if the model already has an existing key, then this will ensure the existing key is kept.
-            if (recipeModel.getKey() != null) {
-                recipeBuilder.withSpecifiedKey(recipeModel.getKey());
+            if (recipeMediaCardModel.getRecipeModel().getKey() != null) {
+                recipeBuilder.withSpecifiedKey(recipeMediaCardModel.getRecipeModel().getKey());
             }
 
             recipe = recipeBuilder.build();

@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.Recipe;
+import org.eatsy.appservice.model.RecipeMediaCardModel;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.model.mappers.RecipeMapper;
 import org.eatsy.appservice.persistence.model.RecipeEntity;
@@ -40,24 +41,24 @@ public class RecipeFactoryHandler implements RecipeFactory {
      * Creates and persists a new Recipe.
      * These will be persisted via the Recipe Domain to ensure the model recipes are of allowed composition.
      *
-     * @param recipeModel the recipe model that has the data for the new Recipe
-     * @return a recipe model object containing the data from the newly created and persisted recipe.
+     * @param recipeMediaCardModel the recipeMediaCard model that has the data (and media/image content) for the new Recipe
+     * @return a recipe model object containing the non-media/image data from the newly created and persisted recipe.
      */
     @Override
-    public RecipeModel createRecipe(final RecipeModel recipeModel) {
+    public RecipeModel createRecipe(final RecipeMediaCardModel recipeMediaCardModel) {
 
         RecipeModel newRecipeModel = null;
 
-        //The recipeModel to create a Recipe object must not be null and the recipeModel must have a recipeName.
-        if (null != recipeModel
-                && StringUtils.isNotEmpty(recipeModel.getName().trim())
-                && StringUtils.isNotEmpty(recipeModel.getUploader().trim())
-                && StringUtils.isNotEmpty(recipeModel.getRecipeSummary().trim())) {
+        //The recipeMediaCardModel to create a Recipe object must not be null and the recipeMediaCardModel must have a recipeName.
+        if (null != recipeMediaCardModel
+                && StringUtils.isNotEmpty(recipeMediaCardModel.getRecipeModel().getName().trim())
+                && StringUtils.isNotEmpty(recipeMediaCardModel.getRecipeModel().getUploader().trim())
+                && StringUtils.isNotEmpty(recipeMediaCardModel.getRecipeModel().getRecipeSummary().trim())) {
 
-            logger.debug("Creating a new recipe domain object called " + recipeModel.getName());
+            logger.debug("Creating a new recipe domain object called " + recipeMediaCardModel.getRecipeModel().getName());
 
             //Map to domain to ensure requested recipe object is of allowed composition
-            final Recipe recipe = recipeMapperHandler.mapModelToDomain(recipeModel);
+            final Recipe recipe = recipeMapperHandler.mapModelToDomain(recipeMediaCardModel);
 
             logger.debug("Creating a new recipe entity object for persistence called " + recipe.getName());
             final RecipeEntity recipeEntity = recipeMapperHandler.mapDomainToEntity(recipe);

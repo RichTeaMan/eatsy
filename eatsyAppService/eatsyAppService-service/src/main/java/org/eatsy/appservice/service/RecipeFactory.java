@@ -1,8 +1,8 @@
 package org.eatsy.appservice.service;
 
 
+import org.eatsy.appservice.model.RecipeMediaCardModel;
 import org.eatsy.appservice.model.RecipeModel;
-import org.eatsy.appservice.persistence.model.RecipeImageEntity;
 
 import java.util.List;
 
@@ -20,11 +20,12 @@ public interface RecipeFactory {
 
     /**
      * Creates and persists a new Recipe.
+     * These will be persisted via the Recipe Domain to ensure the model recipes are of allowed composition.
      *
-     * @param recipeModel the recipe model that has the data for the new Recipe
-     * @return a recipe model object containing the data from the newly created and persisted recipe.
+     * @param recipeMediaCardModel the recipeMediaCard model that has the data (and media/image content) for the new Recipe
+     * @return a recipe model object containing the non-media/image data from the newly created and persisted recipe.
      */
-    RecipeModel createRecipe(RecipeModel recipeModel);
+    RecipeModel createRecipe(RecipeMediaCardModel recipeMediaCardModel);
 
     /**
      * Deletes the requested recipeModel and returns the updated list of recipes
