@@ -38,11 +38,11 @@ public interface RecipeFactory {
     /**
      * Replaces the existing recipe with the updated version supplied.
      *
-     * @param recipeModelWithUpdates the recipe model with the updated changes to be persisted.
-     * @param recipeKey              the unique ID of the recipe. This will allow the recipe that needs to be
-     *                               updated to be identified.
+     * @param recipeMediaCardModelWithUpdated the recipeMediaCard model with the updated changes to be persisted.
+     * @param recipeKey                       the unique ID of the recipe. This will allow the recipe that needs to be
+     *                                        updated to be identified.
      * @return the updated recipeModel with the new updates/changes applied.
      */
-    RecipeModel updateRecipe(String recipeKey, RecipeModel recipeModelWithUpdates);
+    RecipeModel updateRecipe(String recipeKey, RecipeMediaCardModel recipeMediaCardModelWithUpdated);
 
 }

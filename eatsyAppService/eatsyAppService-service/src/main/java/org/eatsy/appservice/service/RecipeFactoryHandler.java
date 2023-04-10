@@ -125,16 +125,16 @@ public class RecipeFactoryHandler implements RecipeFactory {
      *
      * @param recipeKey              the unique ID of the recipe. This will allow the recipe that needs to be
      *                               updated to be identified.
-     * @param recipeModelWithUpdates the recipe model with the updated changes to be persisted.
+     * @param recipeMediaCardModelWithUpdates the recipeMediaCard model with the updated changes to be persisted.
      * @return the updated recipeModel with the new updates/changes applied.
      */
     @Override
-    public RecipeModel updateRecipe(final String recipeKey, final RecipeModel recipeModelWithUpdates) {
+    public RecipeModel updateRecipe(final String recipeKey, final RecipeMediaCardModel recipeMediaCardModelWithUpdates) {
 
         logger.debug("replacing recipe with key: " + recipeKey + " for the new updated version");
 
         //Create the updated Recipe domain object to ensure the recipeModel object is of allowed composition
-        final Recipe updatedRecipe = recipeMapperHandler.mapModelToDomain(recipeModelWithUpdates);
+        final Recipe updatedRecipe = recipeMapperHandler.mapModelToDomain(recipeMediaCardModelWithUpdates);
 
         //Persist the updated recipe
         logger.debug("Creating a corresponding recipe entity object for persistence called " + updatedRecipe.getName());

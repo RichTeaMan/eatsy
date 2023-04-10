@@ -50,7 +50,7 @@ public class ApiController {
 
 
     /**
-     * "Returns a new recipe with the non-media information provided in the request"
+     * "Returns a new recipe with the non-media/image information provided in the request"
      *
      * @param recipeMediaCardModel All content for the recipe media card the user is adding.
      * @return the recipe model object that has been created (excludes media/image content).
@@ -105,21 +105,21 @@ public class ApiController {
     /**
      * Replaces the existing recipe with the updated version supplied in the PUT request.
      *
-     * @param recipeModelWithUpdates the recipe model with the updated changes to be persisted.
+     * @param recipeMediaCardModelWithUpdates the recipeMediaCard model with the updated changes to be persisted.
      * @param recipeKey              the unique ID of the recipe. This will allow the recipe that needs to be
      *                               updated to be identified.
      * @return the updated recipeModel with the new updates/changes applied.
      */
     @Operation(description = "Replaces the existing recipe with the updated version supplied in the PUT request")
     @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully updated chosen recipe.")})
-    @RequestMapping(value = EatsyRecipeEndpoints.EDIT_RECIPE, method = {RequestMethod.PUT})
+    @RequestMapping(value = EatsyRecipeEndpoints.EDIT_RECIPE, method = {RequestMethod.PUT}, consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseBody
     public RecipeModel editRecipe(
-            @Parameter(description = "The recipe with the new information to update the existing recipe")
-            @RequestBody final RecipeModel recipeModelWithUpdates, @PathVariable final String recipeKey) {
+            @Parameter(description = "The recipeMediaCardModel with the new information to update the existing recipe")
+            @ModelAttribute final RecipeMediaCardModel recipeMediaCardModelWithUpdates, @PathVariable final String recipeKey) {
 
         logger.debug("A new request has been made to update recipe: " + recipeKey);
-        final RecipeModel updatedRecipeModel = recipeFactoryHandler.updateRecipe(recipeKey, recipeModelWithUpdates);
+        final RecipeModel updatedRecipeModel = recipeFactoryHandler.updateRecipe(recipeKey, recipeMediaCardModelWithUpdates);
         return updatedRecipeModel;
     }
 
