@@ -5,15 +5,9 @@ import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.domain.RecipeImage;
 import org.eatsy.appservice.image.mappers.ImageMapper;
 import org.eatsy.appservice.model.ImageModel;
-import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.persistence.image.service.EatsyRecipeImageRepositoryService;
 import org.eatsy.appservice.persistence.model.RecipeImageEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * RecipeImageData Factory implementation
@@ -74,31 +68,4 @@ public class ImageDataFactoryHandler implements ImageDataFactory {
         return imageModel;
     }
 
-    /**
-     * Uploads the image and associated image metadata
-     *
-     * @param recipeKey the unique ID of the parent Recipe object that the image corresponds to.
-     * @param fileSet   the images to be uploaded for a given recipe
-     * @return The ImageModel of the successfully uploaded file.
-     */
-    @Override
-    public Set<ImageModel> uploadImages(final String recipeKey, final Set<MultipartFile> fileSet) throws IOException {
-
-        logger.debug("");
-
-        final Set<RecipeImage> recipeImageSet = new HashSet<>();
-
-        for (final MultipartFile currentFile : fileSet) {
-            final RecipeImage recipeImage = new RecipeImage.RecipeImageBuilder(
-                    currentFile.getName(),
-                    currentFile.getContentType(),
-                    currentFile.getBytes()).build();
-
-            recipeImageSet.add(recipeImage);
-
-        }
-
-
-
-    }
 }

@@ -131,21 +131,5 @@ public class ApiController {
         return image;
     }
 
-    //TODO update Docs
-    @Operation(description = "Returns a set of new ImageModels with the information provided for the successful image(s) upload")
-    @ApiResponses({@ApiResponse(responseCode = "200", description = "Successfully uploaded new image(s).")})
-    @RequestMapping(value = "/images/upload", method = {RequestMethod.POST})
-    @ResponseBody
-    public ResponseEntity<Set<ImageModel>> uploadImages(
-            @Parameter(description = "Unique ID of the parent Recipe object that these image belongs to") final String recipeKey,
-            @Parameter(description = "images to be uploaded with the recipe") final Set<MultipartFile> fileSet) throws IOException {
-
-        logger.debug("A new request has been made to upload images for recipe: " + recipeKey);
-        final Set<ImageModel> newImageModelSet = imageDataFactoryHandler.uploadImages(recipeKey, fileSet);
-
-        final ResponseEntity<Set<ImageModel>> response = new ResponseEntity<Set<ImageModel>>(newImageModelSet, HttpStatus.OK);
-        return response;
-    }
-
 
 }

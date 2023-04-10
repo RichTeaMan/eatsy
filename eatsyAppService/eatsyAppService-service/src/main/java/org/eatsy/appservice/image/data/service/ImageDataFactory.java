@@ -28,12 +28,4 @@ public interface ImageDataFactory {
      */
     ImageModel getImageData(String key);
 
-    /**
-     * Uploads the image and associated image metadata
-     *
-     * @param recipeKey the unique ID of the parent Recipe object that the image corresponds to.
-     * @param fileSet   the images to be uploaded for a given recipe
-     * @return The ImageModel of the successfully uploaded file.
-     */
-    Set<ImageModel> uploadImages(String recipeKey, Set<MultipartFile> fileSet);
 }
