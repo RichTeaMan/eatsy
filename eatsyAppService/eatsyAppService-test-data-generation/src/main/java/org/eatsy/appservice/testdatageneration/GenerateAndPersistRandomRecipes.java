@@ -54,7 +54,7 @@ public class GenerateAndPersistRandomRecipes {
             // Set the JSON content as the content of the HTTP POST request
             post.setEntity(postingString);
             // Set the content type of the HTTP POST request as JSON
-            post.setHeader("Content-type", "application/json");
+            post.setHeader("Content-type", "multipart/form-data");
             // Send the HTTP POST request to the addRecipe endpoint and receive the HTTP response
             final HttpResponse response = httpClient.execute(post);
         }
