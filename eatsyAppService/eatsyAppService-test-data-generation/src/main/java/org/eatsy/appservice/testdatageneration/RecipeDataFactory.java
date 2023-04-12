@@ -69,8 +69,8 @@ public interface RecipeDataFactory {
 
         //Populate the recipe image set with random recipeImage objects
         for (int i = 0; i < numberOfRecipeImages; i++) {
-            final RecipeImage generateRecipeImage = generateRecipeImage();
-            recipeImageSet.add(generateRecipeImage);
+            final RecipeImage generatedRecipeImage = generateRecipeImage();
+            recipeImageSet.add(generatedRecipeImage);
         }
 
         return recipeImageSet;
