@@ -7,10 +7,10 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.eatsy.appservice.model.RecipeMediaCardModel;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.testdatageneration.annotations.Generated;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
@@ -41,10 +41,6 @@ public class GenerateAndPersistRandomRecipes {
      */
     public static void persistRandomRecipes() throws IOException {
 
-        //Create a list of RecipeMediaCardModels
-//        final List<RecipeMediaCardModel> recipeMediaCardModelList = RecipeModelDataFactory
-//                .generateRecipeModelsList(MAX_NUMBER_OF_RECIPES, MAX_INGREDIENT_SET_SIZE, MAX_METHOD_MAP_SIZE);
-
         //Create a list of Recipe Model objects
         final List<RecipeModel> recipeModelList = RecipeModelDataFactory
                 .generateRecipeModelsList(MAX_NUMBER_OF_RECIPES, MAX_INGREDIENT_SET_SIZE, MAX_METHOD_MAP_SIZE);
@@ -57,14 +53,33 @@ public class GenerateAndPersistRandomRecipes {
             final HttpClient httpClient = HttpClientBuilder.create().build();
             // Create an HttpPost instance to send an HTTP POST request to the addRecipe endpoint
             final HttpPost post = new HttpPost(EatsyRecipeTestParameters.ADD_RECIPE_TO_LOCAL_INSTANCE);
-            // Convert the RecipeModel instance to JSON format
-            final StringEntity postingString = new StringEntity(gson.toJson(currentRecipeModel));
-            // Set the JSON content as the content of the HTTP POST request
-            post.setEntity(postingString);
-            // Set the content type of the HTTP POST request as JSON
-            post.setHeader("Content-type", "multipart/form-data");
+
+            // Create a MultipartEntityBuilder to build the multipart request body
+            final MultipartEntityBuilder entityBuilder = MultipartEntityBuilder.create();
+            // Convert the RecipeModel instance to JSON format and add it as a part
+            entityBuilder.addTextBody("recipeModel", gson.toJson(currentRecipeModel), ContentType.APPLICATION_JSON);
+
+            // Add images to the multipart request
+            for (int i = 0; i < 3; i++) {
+                // Download the image from the URL
+                final byte[] imageData = downloadImage("https://source.unsplash.com/random/?food");
+                if (imageData != null) {
+                    // Add the image data as a binary body part
+                    entityBuilder.addBinaryBody("images", imageData, ContentType.DEFAULT_BINARY, "image"+i+".jpg");
+                }
+            }
+
+            // Build the multipart request entity
+            final HttpEntity multipartEntity = entityBuilder.build();
+            // Set the multipart request entity as the content of the HTTP POST request
+            post.setEntity(multipartEntity);
+
             // Send the HTTP POST request to the addRecipe endpoint and receive the HTTP response
             final HttpResponse response = httpClient.execute(post);
+
+            // Read the response
+            final String responseBody = EntityUtils.toString(response.getEntity());
+            System.out.println(responseBody);
         }
     }
 
@@ -81,7 +96,7 @@ public class GenerateAndPersistRandomRecipes {
         // Read the image content
         final HttpEntity imageEntity = response.getEntity();
         if (imageEntity != null) {
-            imageAsByteArray =  EntityUtils.toByteArray(imageEntity);
+            imageAsByteArray = EntityUtils.toByteArray(imageEntity);
         } //TODO throw exception?
 
         return imageAsByteArray;
