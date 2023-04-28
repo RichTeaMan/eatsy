@@ -2,11 +2,15 @@ package org.eatsy.appservice.testdatageneration;
 
 
 import com.google.gson.Gson;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+import org.eatsy.appservice.model.RecipeMediaCardModel;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.testdatageneration.annotations.Generated;
 import org.eatsy.appservice.testdatageneration.constants.EatsyRecipeTestParameters;
@@ -37,6 +41,10 @@ public class GenerateAndPersistRandomRecipes {
      */
     public static void persistRandomRecipes() throws IOException {
 
+        //Create a list of RecipeMediaCardModels
+//        final List<RecipeMediaCardModel> recipeMediaCardModelList = RecipeModelDataFactory
+//                .generateRecipeModelsList(MAX_NUMBER_OF_RECIPES, MAX_INGREDIENT_SET_SIZE, MAX_METHOD_MAP_SIZE);
+
         //Create a list of Recipe Model objects
         final List<RecipeModel> recipeModelList = RecipeModelDataFactory
                 .generateRecipeModelsList(MAX_NUMBER_OF_RECIPES, MAX_INGREDIENT_SET_SIZE, MAX_METHOD_MAP_SIZE);
@@ -58,5 +66,25 @@ public class GenerateAndPersistRandomRecipes {
             // Send the HTTP POST request to the addRecipe endpoint and receive the HTTP response
             final HttpResponse response = httpClient.execute(post);
         }
+    }
+
+    private static byte[] downloadImage(final String imageUrl) throws IOException {
+        // Create a HttpClient instance to send an HTTP GET request to download the image
+        final HttpClient httpClient = HttpClientBuilder.create().build();
+        final HttpGet get = new HttpGet(imageUrl);
+
+        // Send the HTTP GET request to download the image and receive the HTTP response
+        final HttpResponse response = httpClient.execute(get);
+
+        //Define byteArray to store the image
+        byte[] imageAsByteArray = null;
+        // Read the image content
+        final HttpEntity imageEntity = response.getEntity();
+        if (imageEntity != null) {
+            imageAsByteArray =  EntityUtils.toByteArray(imageEntity);
+        } //TODO throw exception?
+
+        return imageAsByteArray;
+
     }
 }

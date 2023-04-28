@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class EatsyRecipeRepositoryServiceTests {
      * whilst mocking the Eatsy Repository (JPARepository)
      */
     @Test
-    public void checkPersistRecipe() {
+    public void checkPersistRecipe() throws IOException {
 
         //Setup
 
