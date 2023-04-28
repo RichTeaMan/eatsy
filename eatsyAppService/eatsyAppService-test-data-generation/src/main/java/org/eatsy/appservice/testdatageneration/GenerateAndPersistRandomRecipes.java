@@ -60,12 +60,12 @@ public class GenerateAndPersistRandomRecipes {
             entityBuilder.addTextBody("recipeModel", gson.toJson(currentRecipeModel), ContentType.APPLICATION_JSON);
 
             // Add images to the multipart request
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 1; i++) {
                 // Download the image from the URL
                 final byte[] imageData = downloadImage("https://source.unsplash.com/random/?food");
                 if (imageData != null) {
                     // Add the image data as a binary body part
-                    entityBuilder.addBinaryBody("images", imageData, ContentType.DEFAULT_BINARY, "image"+i+".jpg");
+                    entityBuilder.addBinaryBody("images", imageData, ContentType.DEFAULT_BINARY, "image" + i + ".jpg");
                 }
             }
 
