@@ -22,6 +22,8 @@ dependencies {
     implementation "org.apache.logging.log4j:log4j-core:$log4jCoreVersion"
     implementation "org.apache.logging.log4j:log4j-api:$log4jApiVersion"
 
+    implementation 'org.springframework:spring-web:5.3.12'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.5'
 }
 
 //The below configures a Gradle task named generateRandomRecipes which is used to execute the main method of the

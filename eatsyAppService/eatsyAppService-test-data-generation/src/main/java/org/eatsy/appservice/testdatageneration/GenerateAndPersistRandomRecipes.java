@@ -1,11 +1,11 @@
 package org.eatsy.appservice.testdatageneration;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -66,21 +66,17 @@ public class GenerateAndPersistRandomRecipes {
         recipeMediaCardModel.setRecipeModel(recipeModelList.get(0));
 
         // Convert the RecipeMediaCardModel instance to JSON format
-        final String recipeMediaCardModelJson = gson.toJson(recipeMediaCardModel);
+        // Create an instance of ObjectMapper
+        final ObjectMapper objectMapper = new ObjectMapper();
+        final String recipeMediaCardModelJson = objectMapper.writeValueAsString(recipeMediaCardModel);
 
         // Add the RecipeMediaCardModel JSON string as a text body part with the appropriate content type
         entityBuilder.addTextBody("recipeMediaCardModel", recipeMediaCardModelJson, ContentType.APPLICATION_JSON);
 
+        final UrlMultipartFile urlMultipartFile = new UrlMultipartFile("https://source.unsplash.com/random/?food");
 
-        // Add images to the multipart request
-        for (int i = 0; i < 1; i++) {
-            // Download the image from the URL
-            final byte[] imageData = downloadImage("https://source.unsplash.com/random/?food");
-            if (imageData != null) {
-                // Add the image data as a binary body part
-                entityBuilder.addBinaryBody("recipeCardImages", imageData, ContentType.DEFAULT_BINARY, "image" + i + ".jpg");
-            }
-        }
+        entityBuilder.addBinaryBody("recipeCardImages", urlMultipartFile.getBytes(), ContentType.IMAGE_JPEG, urlMultipartFile.getOriginalFilename());
+
 
         // Build the multipart request entity
         final HttpEntity multipartEntity = entityBuilder.build();
@@ -97,24 +93,4 @@ public class GenerateAndPersistRandomRecipes {
         System.out.println(responseBody);
     }
 
-
-    private static byte[] downloadImage(final String imageUrl) throws IOException {
-        // Create a HttpClient instance to send an HTTP GET request to download the image
-        final HttpClient httpClient = HttpClientBuilder.create().build();
-        final HttpGet get = new HttpGet(imageUrl);
-
-        // Send the HTTP GET request to download the image and receive the HTTP response
-        final HttpResponse response = httpClient.execute(get);
-
-        //Define byteArray to store the image
-        byte[] imageAsByteArray = null;
-        // Read the image content
-        final HttpEntity imageEntity = response.getEntity();
-        if (imageEntity != null) {
-            imageAsByteArray = EntityUtils.toByteArray(imageEntity);
-        } //TODO throw exception?
-
-        return imageAsByteArray;
-
-    }
 }

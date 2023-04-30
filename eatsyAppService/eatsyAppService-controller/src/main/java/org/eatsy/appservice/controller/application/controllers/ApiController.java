@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eatsy.appservice.controller.application.constants.EatsyRecipeEndpoints;
 import org.eatsy.appservice.image.data.service.ImageDataFactory;
-import org.eatsy.appservice.model.ImageModel;
 import org.eatsy.appservice.model.RecipeMediaCardModel;
 import org.eatsy.appservice.model.RecipeModel;
 import org.eatsy.appservice.service.RecipeFactory;
@@ -17,11 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -106,8 +103,8 @@ public class ApiController {
      * Replaces the existing recipe with the updated version supplied in the PUT request.
      *
      * @param recipeMediaCardModelWithUpdates the recipeMediaCard model with the updated changes to be persisted.
-     * @param recipeKey              the unique ID of the recipe. This will allow the recipe that needs to be
-     *                               updated to be identified.
+     * @param recipeKey                       the unique ID of the recipe. This will allow the recipe that needs to be
+     *                                        updated to be identified.
      * @return the updated recipeModel with the new updates/changes applied.
      */
     @Operation(description = "Replaces the existing recipe with the updated version supplied in the PUT request")
