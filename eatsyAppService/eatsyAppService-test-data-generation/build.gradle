@@ -18,6 +18,10 @@ dependencies {
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
     implementation 'org.apache.httpcomponents:httpmime:4.5.13'
 
+    //logging
+    implementation "org.apache.logging.log4j:log4j-core:$log4jCoreVersion"
+    implementation "org.apache.logging.log4j:log4j-api:$log4jApiVersion"
+
 }
 
 //The below configures a Gradle task named generateRandomRecipes which is used to execute the main method of the
