@@ -14,7 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Recipe Mapper Handler to map between recipe domain and model objects.
@@ -57,19 +59,24 @@ public class RecipeMapperHandler implements RecipeMapper {
             recipeModel.setRecipeSummary(recipe.getRecipeSummary());
 
             //Map thumbsUpCount.
-            recipeModel.setThumbsUpCount(recipe.getThumbsUpCount());
+            recipeModel.setThumbsUpCount(recipe.getThumbsUpCount().toString());
 
             //Map thumbsDownCount.
-            recipeModel.setThumbsDownCount(recipe.getThumbsDownCount());
+            recipeModel.setThumbsDownCount(recipe.getThumbsDownCount().toString());
 
             //Map tags
             recipeModel.setTags(recipe.getTags());
 
-            //Map set of ingredients.
-            recipeModel.setIngredients(recipe.getIngredients());
+            final Map<String, String> updatedStringIngredientsMap = recipe.getIngredients()
+                    .entrySet().stream().collect(Collectors.toMap(e -> String.valueOf(e.getKey()), Map.Entry::getValue));
 
+            //Map set of ingredients.
+            recipeModel.setIngredients(updatedStringIngredientsMap);
+
+            final Map<String, String> updatedStringMethodMap = recipe.getMethod()
+                    .entrySet().stream().collect(Collectors.toMap(e -> String.valueOf(e.getKey()), Map.Entry::getValue));
             //Map method.
-            recipeModel.setMethod(recipe.getMethod());
+            recipeModel.setMethod(updatedStringMethodMap);
 
         }
         return recipeModel;
@@ -113,15 +120,21 @@ public class RecipeMapperHandler implements RecipeMapper {
                 }
             }
 
+            final Map<Integer, String> updatedIntegerIngredientsMap = recipeMediaCardModel.getRecipeModel().getIngredients()
+                    .entrySet().stream().collect(Collectors.toMap(e -> Integer.parseInt(e.getKey()), Map.Entry::getValue));
+
+            final Map<Integer, String> updatedMethodIngredientsMap = recipeMediaCardModel.getRecipeModel().getMethod()
+                    .entrySet().stream().collect(Collectors.toMap(e -> Integer.parseInt(e.getKey()), Map.Entry::getValue));
+
             final Recipe.RecipeBuilder recipeBuilder = new Recipe.RecipeBuilder(
                     recipeMediaCardModel.getRecipeModel().getName(),
                     recipeMediaCardModel.getRecipeModel().getUploader(),
                     recipeMediaCardModel.getRecipeModel().getRecipeSummary(),
                     recipeImageSet)
-                    .withThumbsUpCount(recipeMediaCardModel.getRecipeModel().getThumbsUpCount())
-                    .withThumbsDownCount(recipeMediaCardModel.getRecipeModel().getThumbsDownCount())
-                    .withIngredients(recipeMediaCardModel.getRecipeModel().getIngredients())
-                    .withMethod(recipeMediaCardModel.getRecipeModel().getMethod())
+                    .withThumbsUpCount(Integer.parseInt(recipeMediaCardModel.getRecipeModel().getThumbsUpCount()))
+                    .withThumbsDownCount(Integer.parseInt(recipeMediaCardModel.getRecipeModel().getThumbsDownCount()))
+                    .withIngredients(updatedIntegerIngredientsMap)
+                    .withMethod(updatedMethodIngredientsMap)
                     .withTags(recipeMediaCardModel.getRecipeModel().getTags());
             // The recipeBuilder automatically assigns a new key,
             // so if the model already has an existing key, then this will ensure the existing key is kept.
@@ -208,7 +221,7 @@ public class RecipeMapperHandler implements RecipeMapper {
 
             //TODO extract this as a mapper
             final Set<RecipeImage> recipeImageSet = new HashSet<>();
-            for (final RecipeImageEntity currentRecipeImageEntity : recipeEntity.getRecipeImageEntity()){
+            for (final RecipeImageEntity currentRecipeImageEntity : recipeEntity.getRecipeImageEntity()) {
                 final RecipeImage recipeImage = new RecipeImage.RecipeImageBuilder(
                         currentRecipeImageEntity.getImageName(),
                         currentRecipeImageEntity.getImageType(),
@@ -218,16 +231,16 @@ public class RecipeMapperHandler implements RecipeMapper {
                 recipeImageSet.add(recipeImage);
             }
 
-                recipe = new Recipe
-                        .RecipeBuilder(recipeEntity.getName(), recipeEntity.getUploader(),
-                        recipeEntity.getRecipeSummary(), recipeImageSet)
-                        .withTags(recipeEntity.getTags())
-                        .withIngredients(recipeEntity.getIngredientsMap())
-                        .withMethod(recipeEntity.getMethodMap())
-                        .withThumbsUpCount(recipeEntity.getThumbsUpCount()) //override newly generated 0 count to ensure no loss of data
-                        .withThumbsDownCount(recipeEntity.getThumbsDownCount()) //override newly generated 0 count to ensure no loss of data
-                        .withSpecifiedKey(recipeEntity.getKey()) //override the newly generated key to ensure it is the same as the db entity key
-                        .build();
+            recipe = new Recipe
+                    .RecipeBuilder(recipeEntity.getName(), recipeEntity.getUploader(),
+                    recipeEntity.getRecipeSummary(), recipeImageSet)
+                    .withTags(recipeEntity.getTags())
+                    .withIngredients(recipeEntity.getIngredientsMap())
+                    .withMethod(recipeEntity.getMethodMap())
+                    .withThumbsUpCount(recipeEntity.getThumbsUpCount()) //override newly generated 0 count to ensure no loss of data
+                    .withThumbsDownCount(recipeEntity.getThumbsDownCount()) //override newly generated 0 count to ensure no loss of data
+                    .withSpecifiedKey(recipeEntity.getKey()) //override the newly generated key to ensure it is the same as the db entity key
+                    .build();
 
         }
         return recipe;
