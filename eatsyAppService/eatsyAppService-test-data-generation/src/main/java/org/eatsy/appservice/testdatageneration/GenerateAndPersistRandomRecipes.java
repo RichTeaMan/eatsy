@@ -1,7 +1,6 @@
 package org.eatsy.appservice.testdatageneration;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -65,13 +64,8 @@ public class GenerateAndPersistRandomRecipes {
         final RecipeMediaCardModel recipeMediaCardModel = new RecipeMediaCardModel();
         recipeMediaCardModel.setRecipeModel(recipeModelList.get(0));
 
-        // Convert the RecipeMediaCardModel instance to JSON format
-        // Create an instance of ObjectMapper
-        final ObjectMapper objectMapper = new ObjectMapper();
-        final String recipeMediaCardModelJson = objectMapper.writeValueAsString(recipeMediaCardModel);
-
-        // Add the RecipeMediaCardModel JSON string as a text body part with the appropriate content type
-        entityBuilder.addTextBody("recipeMediaCardModel", recipeMediaCardModelJson, ContentType.APPLICATION_JSON);
+        // Add the RecipeMediaCardModel JSON  with the appropriate content type
+        entityBuilder.addTextBody("recipeMediaCardModel", gson.toJson(recipeMediaCardModel), ContentType.APPLICATION_JSON);
 
         final UrlMultipartFile urlMultipartFile = new UrlMultipartFile("https://source.unsplash.com/random/?food");
 
